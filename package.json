@@ -20,12 +20,12 @@
     "subscriptionId": null,
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
+        "command": "azure.selectsubscription",
+        "title": "azure subscriptions list"
       },
       {
         "command": "azure.logintoazure",
-        "title": "Login to Azure"
+        "title": "azure login"
       }
     ]
   },

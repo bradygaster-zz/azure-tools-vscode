@@ -24,3 +24,4 @@ This extension is *absolutely* in pre-release. So far it is just a pet project, 
 
 ## Features:
 - Login using interactive browser authentication
+- Shows all of your Azure subscriptions and allows you to select the one you want to use
