@@ -1,65 +1,26 @@
-# azuretoolsforvscode README
+# Azure Tools for Visual Studio Code
 
-This is the README for your extension "azuretoolsforvscode". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+This repository contains code for a prototype extension for [Visual Studio Code](http://code.visualstudio.com) that would enable Azure management features from directly within the editor. 
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+All dependencies are listed in [package.json](package.json)
 
 ## Extension Settings
 
 Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+None
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+This extension is *absolutely* in pre-release. So far it is just a pet project, but if you think the idea of having tools for Azure using [Visual Studio Code](http;//code.visualstudio.com), please submit an issue or a pull request if you have ideas or contributions. Both are welcome.
 
-### 1.0.0
+### 0.0.0 (Pre-release stage)
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## Features:
+- Login using interactive browser authentication
