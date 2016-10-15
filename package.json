@@ -1,0 +1,53 @@
+{
+  "name": "azuretoolsforvscode",
+  "displayName": "AzureToolsForVsCode",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "microsoft",
+  "engines": {
+    "vscode": "^1.4.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.sayHello",
+    "onCommand:azure.logintoazure"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "bearerToken": null,
+    "subscriptionId": null,
+    "commands": [
+      {
+        "command": "extension.sayHello",
+        "title": "Hello World"
+      },
+      {
+        "command": "azure.logintoazure",
+        "title": "Login to Azure"
+      }
+    ]
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "vscode": "^0.11.0"
+  },
+  "dependencies": {
+    "adal-node": "^0.1.17",
+    "async": "0.2.7",
+    "azure": "1.2.0-preview",
+    "azure-arm-authorization": "^3.1.1",
+    "azure-arm-resource": "^1.4.4-preview",
+    "azure-asm-subscription": "^0.10.2",
+    "copy-paste": "^1.3.0",
+    "get-urls": "^5.0.1",
+    "moment": "^2.14.1",
+    "ms-rest": "^1.15.0",
+    "ms-rest-azure": "~1.15.1",
+    "open": "0.0.5",
+    "uuid": "2.0.1"
+  }
+}
