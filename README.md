@@ -8,13 +8,11 @@ All dependencies are listed in [package.json](package.json)
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-None
+`azure.tenantId` : The GUID specifier for the tenant you intend on authenticating against. This is *required* if you're attempting to log in using a Microsoft Account like @outlook.com, @hotmail.com, or @live.com. 
 
 ## Known Issues
 
-None
+All feature ideas and issues should be reported using GitHub issues.
 
 ## Release Notes
 
@@ -25,3 +23,7 @@ This extension is *absolutely* in pre-release. So far it is just a pet project, 
 ## Features:
 - Login using interactive browser authentication
 - Shows all of your Azure subscriptions and allows you to select the one you want to use
+- Select a resource to browse in the Azure portal
+- Simple web app create (defaults to creating a new resource group and server farm)
+- Advanced web app create (allows creation/selection of new resource group and server farm)
+- Tenant ID configuration via workspace settings to enable MSA (@outlook.com, @live.com, @hotmail.com) login

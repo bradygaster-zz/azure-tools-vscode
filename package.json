@@ -4,6 +4,10 @@
   "description": "",
   "version": "0.0.1",
   "publisher": "microsoft",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bradygaster/azure-tools-vscode.git"
+  },
   "engines": {
     "vscode": "^1.4.0"
   },
@@ -11,13 +15,21 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello",
     "onCommand:azure.logintoazure"
   ],
   "main": "./extension",
   "contributes": {
-    "bearerToken": null,
-    "subscriptionId": null,
+    "configuration": {
+      "type": "object",
+      "title": "Azure Tools configuration",
+      "properties": {
+        "azure.tenantId": {
+          "type": "string",
+          "default": "guid",
+          "description": "Your AAD Tenant ID from the portal. You need to set this if you intend on logging in using an MSA (@outlook.com, @live.com, @hotmail.com, etc.)."
+        }
+      }
+    },
     "commands": [
       {
         "command": "azure.selectsubscription",
@@ -26,6 +38,18 @@
       {
         "command": "azure.logintoazure",
         "title": "azure login"
+      },
+      {
+        "command": "azure.createwebapp.advanced",
+        "title": "azure create webapp (advanced)"
+      },
+      {
+        "command": "azure.createwebapp.simple",
+        "title": "azure create webapp (simple)"
+      },
+      {
+        "command": "azure.browseInPortal",
+        "title": "azure browse resource in portal"
       }
     ]
   },
@@ -41,6 +65,7 @@
     "azure": "1.2.0-preview",
     "azure-arm-authorization": "^3.1.1",
     "azure-arm-resource": "^1.4.4-preview",
+    "azure-arm-website": "^0.11.4",
     "azure-asm-subscription": "^0.10.2",
     "copy-paste": "^1.3.0",
     "get-urls": "^5.0.1",

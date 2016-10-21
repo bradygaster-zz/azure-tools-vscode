@@ -1,0 +1,50 @@
+'option strict';
+
+const vscode = require('vscode');
+
+exports.getConstants = function getConstants() {
+    return {
+        loginButtonLabel: 'Sign In',
+        enterCodeString: 'Enter the code ',
+        authString: ' to authenticate.',
+        signInMessage: 'The code {0} has been copied to your clipboard. Click Sign In and paste in the code to authenticate.',
+        loggedInMessage: 'You have been logged in. Use the \'azure subscription list\' command to select your desired subscription.',
+        statusGettingSubscriptions: 'Logging into Azure and getting your list of subscriptions.',
+        statusLoggedInAndSubscriptionSelected: 'Logged into Azure and subscription "{0}" selected. Use "azure subscription list" to change subscription.',
+        statusSubscriptionSelected: 'You selected subscription "{0}".',
+        statusCreatingResourceGroup: 'Creating resource group "{0}"',
+        statusCreatedResourceGroup: 'Resource group "{0}" created successfully',
+        statusCreatingServerFarm: 'Creating server farm {0}',
+        statusCreatedServerFarm: 'Created server farm {0}',
+        promptNewWebAppName: 'Web App Name',
+        promptNewRgName: 'New Resource Group Name:',
+        promptWebSiteNameNotAvailable: 'That web app name is not available.',
+        promptNewServerFarm: 'Server Farm Name',
+        promptWebAppCreationInProcess: 'Creating Web App "{0}"...',
+        promptWebAppCreated: 'Created Web App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
+        promptWebAppCreationFailed: 'Failed to create web app. Reason: {0}',
+        btnLabelNewRg: 'New',
+        btnLabelExistingRg: 'Existing',
+        optionNewRg: 'Create new resource group',
+        optionExistingRg: 'Use existing resource group',
+        optionNewHostingPlan: 'Create a new server farm',
+        optionUseExistingHostingPlan: 'Use an existing server farm',
+        selectedRegion: 'West US'
+    };
+};
+
+exports.getTenantId = function getTenantId() {
+    var f = vscode.workspace.getConfiguration('azure');
+    if (f != null) {
+        if (f.tenantId != null)
+            return f.tenantId;
+    }
+    return null;
+};
+
+exports.somePromise = function getPromise() {
+    return new Promise(function (resolve, reject) {
+        console.log('starting promise');
+        resolve('passed from promise');
+    });
+}
