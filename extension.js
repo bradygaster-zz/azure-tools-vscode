@@ -1,20 +1,12 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 var vscode = require('vscode');
-
-// import the azure node.js sdk
 var msRestAzure = require('ms-rest-azure');
-var WebSiteManagement = require('azure-arm-website');
-var ResourceManagement = require('azure-arm-resource');
-
-// misc packages
 var open = require('open');
 var getUrls = require('get-urls');
 var cp = require('copy-paste');
-var async = require('async');
 
-// get the config and services
-var azure = require('./azureResourceManagement');
+// config and services
 var commandServices = require('./commandServices');
 var config = require('./config');
 var constants = config.getConstants();
@@ -42,14 +34,22 @@ function doNewOrExistingServerFarmWorkflow(callback) {
         constants.optionNewHostingPlan
     ]).then(selected => {
         if (selected == constants.optionUseExistingHostingPlan) {
-            state.serverFarmList = [];
-            commandServices.getServerFarms(state).then(function () {
-                vscode.window.showQuickPick(state.serverFarmList)
-                    .then(function (selectedServerFarm) {
-                        state.selectedServerFarm = selectedServerFarm;
-                        callback();
-                    });
-            });
+            commandServices
+                .getServerFarms(state)
+                .then(function () {
+                    if (state.serverFarmList.length == 0)
+                        vscode.window.showErrorMessage(constants.promptNoFarmInResourceGroup);
+                    else {
+                        vscode.window.showQuickPick(state.serverFarmList)
+                            .then(function (selectedServerFarm) {
+                                state.selectedServerFarm = selectedServerFarm;
+                                callback();
+                            })
+                            .catch(function (err) {
+                                vscode.window.showErrorMessage(err);
+                            });
+                    }
+                });
         }
         else if (selected == constants.optionNewHostingPlan) {
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
@@ -132,11 +132,8 @@ function activate(context) {
 
     // command to bounce a customer to a particular resource in their subscription
     var browseInPortal = vscode.commands.registerCommand('azure.browseInPortal', function () {
-        vscode.window.setStatusBarMessage(constants.statusGettingResources);
-        azure
-            .getFullResourceList(state)
+        commandServices.getAzureResources(state)
             .then(function (names) {
-                vscode.window.setStatusBarMessage('');
                 vscode.window.showQuickPick(names)
                     .then(function (selected) {
                         if (selected != null && selected.length > 0) {
@@ -177,58 +174,47 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
             state.newWebAppName = newWebSiteName;
-
-            azure
-                .checkSiteNameAvailability(state)
-                .then(function (result) {
-                    if (!result.nameAvailable) {
-                        // name isn't available so we bail out'
-                        vscode.window.showErrorMessage(constants.promptWebSiteNameNotAvailable);
-                    }
-                    else {
-                        // name is available so we need to know a resource group to use
-                        vscode.window.showQuickPick([
-                            constants.optionExistingRg,
-                            constants.optionNewRg
-                        ]).then(selected => {
-                            if (selected == constants.optionExistingRg) {
-                                azure
-                                    .getResourceGroups(state)
-                                    .then(function (result) {
-                                        result.forEach(function (rg) {
-                                            state.resourceGroupList.push(rg.name);
-                                        });
-
-                                        // show the list in a quickpick
-                                        vscode.window.showQuickPick(state.resourceGroupList)
-                                            .then(function (selectedRg) {
-                                                state.resourceGroupToUse = selectedRg;
-                                                doNewOrExistingServerFarmWorkflow(function () {
-                                                    commandServices.createWebApp(state);
-                                                });
+            commandServices
+                .ifNameIsAvailable(state)
+                .then(function () {
+                    // name is available so we need to know a resource group to use
+                    vscode.window.showQuickPick([
+                        constants.optionExistingRg,
+                        constants.optionNewRg
+                    ]).then(selected => {
+                        if (selected == constants.optionExistingRg) {
+                            commandServices
+                                .getResourceGroups(state)
+                                .then(function () {
+                                    // show the list in a quickpick
+                                    vscode.window.showQuickPick(state.resourceGroupList)
+                                        .then(function (selectedRg) {
+                                            state.resourceGroupToUse = selectedRg;
+                                            doNewOrExistingServerFarmWorkflow(function () {
+                                                commandServices.createWebApp(state);
                                             });
-                                    })
-                                    .catch(function (err) {
-                                        vscode.window.showErrorMessage(err);
-                                    });
-                            }
-                            else if (selected == constants.optionNewRg) {
-                                vscode.window.showInputBox({
-                                    prompt: constants.promptNewRgName
-                                }).then(function (newResourceGroupName) {
-                                    state.resourceGroupToUse = newResourceGroupName;
-                                    commandServices.createResourceGroup(state, function () {
-                                        doNewOrExistingServerFarmWorkflow(function () {
-                                            commandServices.createWebApp(state);
                                         });
+                                })
+                                .catch(function (err) {
+                                    vscode.window.showErrorMessage(err);
+                                });
+                        }
+                        else if (selected == constants.optionNewRg) {
+                            vscode.window.showInputBox({
+                                prompt: constants.promptNewRgName
+                            }).then(function (newResourceGroupName) {
+                                state.resourceGroupToUse = newResourceGroupName;
+                                commandServices.createResourceGroup(state, function () {
+                                    doNewOrExistingServerFarmWorkflow(function () {
+                                        commandServices.createWebApp(state);
                                     });
                                 });
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 })
-                .catch(function (err) {
-                    vscode.window.showErrorMessage(err);
+                .catch(function (message) {
+                    vscode.window.showErrorMessage(message);
                 });
         });
     });

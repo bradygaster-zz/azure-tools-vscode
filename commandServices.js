@@ -3,6 +3,57 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azureResourceManagement');
 
+// get the list of resource groups from the subscription
+exports.getResourceGroups = function getResourceGroups(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .getResourceGroups(state)
+            .then(function (result) {
+                result.forEach(function (rg) {
+                    state.resourceGroupList.push(rg.name);
+                });
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+};
+
+// check the site's name
+exports.ifNameIsAvailable = function ifNameIsAvailable(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .checkSiteNameAvailability(state)
+            .then(function (result) {
+                if (!result.nameAvailable) {
+                    // name isn't available so we bail out'
+                    reject(constants.promptWebSiteNameNotAvailable);
+                }
+                else {
+                    resolve();
+                }
+            });
+    });
+};
+
+// gets all of the resources
+exports.getAzureResources = function getAzureResources(state) {
+    return new Promise((function (resolve, reject) {
+        vscode.window.setStatusBarMessage(constants.statusGettingResources);
+
+        azure
+            .getFullResourceList(state)
+            .then(function (names) {
+                vscode.window.setStatusBarMessage('');
+                resolve(names);
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    }));
+};
+
 // method to create the resource group
 exports.createResourceGroup = function createResourceGroup(state, callback) {
     vscode.window.setStatusBarMessage(constants.statusCreatingResourceGroup.replace('{0}', state.resourceGroupToUse));
@@ -55,17 +106,22 @@ exports.createWebApp = function createWebApp(state, callback) {
 // gets all the hosting plans
 exports.getServerFarms = function getServerFarms(state) {
     return new Promise(function (resolve, reject) {
+        state.serverFarmList = [];
         vscode.window.setStatusBarMessage(constants.statusGettingFarms);
         azure
             .getServerFarms(state)
             .then(function (result) {
                 vscode.window.setStatusBarMessage('');
-                result.forEach(function (farm, index, arr) {
-                    state.serverFarmList.push(farm.name);
-                    if (index == arr.length - 1) {
-                        resolve();
-                    }
-                });
+                if (result.length == 0)
+                    resolve();
+                else {
+                    result.forEach(function (farm, index, arr) {
+                        state.serverFarmList.push(farm.name);
+                        if (index == arr.length - 1) {
+                            resolve();
+                        }
+                    });
+                }
             })
             .catch(function (err) {
                 reject(err);

@@ -26,6 +26,7 @@ exports.getConstants = function getConstants() {
         promptWebAppCreationInProcess: 'Creating Web App "{0}"...',
         promptWebAppCreated: 'Created Web App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
         promptWebAppCreationFailed: 'Failed to create web app. Reason: {0}',
+        promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
@@ -44,10 +45,3 @@ exports.getTenantId = function getTenantId() {
     }
     return null;
 };
-
-exports.somePromise = function getPromise() {
-    return new Promise(function (resolve, reject) {
-        console.log('starting promise');
-        resolve('passed from promise');
-    });
-}

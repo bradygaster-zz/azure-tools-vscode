@@ -71,7 +71,7 @@ exports.getServerFarms = function getServerFarms(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
         resourceClient.resources.list({
-            filter: "resourceType eq 'Microsoft.Web/serverfarms'"
+            filter: "resourceType eq 'Microsoft.Web/serverfarms' and resourceGroup eq '" + state.resourceGroupToUse + "'"
         }, function (err, result) {
             if (err != null)
                 reject(err);
