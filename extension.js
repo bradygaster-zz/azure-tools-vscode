@@ -237,6 +237,7 @@ function activate(context) {
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(createWebAppCommandSimple);
     context.subscriptions.push(createWebAppCommandAdvanced);
+    context.subscriptions.push(browseInPortal);
 }
 exports.activate = activate;
 
