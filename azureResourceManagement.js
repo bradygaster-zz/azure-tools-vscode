@@ -111,3 +111,20 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
         });
     });
 };
+
+exports.getFullResourceList = function getFullResourceList(state) {
+    return new Promise(function (resolve, reject) {
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        resourceClient.resources.list(function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                state.entireResourceList = result;
+                names = state.entireResourceList.map(function (resource) {
+                    return resource.id.replace('subscriptions/' + state.selectedSubscriptionId + '/resourceGroups/', '');
+                });
+                resolve(names);
+            }
+        });
+    });
+};

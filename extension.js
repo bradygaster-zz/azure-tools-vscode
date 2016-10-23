@@ -15,6 +15,7 @@ var async = require('async');
 
 // get the config and services
 var azure = require('./azureResourceManagement');
+var commandServices = require('./commandServices');
 var config = require('./config');
 var constants = config.getConstants();
 
@@ -34,92 +35,32 @@ var state = {
     newWebAppName: null
 };
 
-// method to create the resource group
-function createResourceGroup(callback) {
-    vscode.window.setStatusBarMessage(constants.statusCreatingResourceGroup.replace('{0}', state.resourceGroupToUse));
-
-    azure
-        .createNewResourceGroup(state)
-        .then(function (result) {
-            vscode.window.setStatusBarMessage(constants.statusCreatedResourceGroup.replace('{0}', state.resourceGroupToUse));
-            if (callback != null)
-                callback();
-        })
-        .catch(function (err) {
-            vscode.window.showErrorMessage(err);
-        });
-}
-
-// create the server farm
-function createServerFarm(callback) {
-    vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
-    
-    azure
-        .createNewServerFarm(state)
-        .then(function (result) {
-            vscode.window.setStatusBarMessage(constants.statusCreatedResourceGroup.replace('{0}', state.selectedServerFarm));
-            if (callback != null)
-                callback();
-        })
-        .catch(function (err) {
-            vscode.window.showErrorMessage(err);
-        });
-}
-
-// creates the web app based on the state persisted up to this point
-function createWebApp(callback) {
-    vscode.window.setStatusBarMessage(constants.promptWebAppCreationInProcess.replace('{0}', state.newWebAppName));
-
-    azure
-        .createWebApp(state)
-        .then(function (result) {
-            console.log(result);
-            vscode.window.setStatusBarMessage(constants.promptWebAppCreated.replace('{0}', state.newWebAppName));
-            if (callback != null)
-                callback();
-        })
-        .catch(function (err) {
-            vscode.window.showErrorMessage(err);
-        });
-}
-
-// gets all the hosting plans
-function getServerFarms(callback) {
+function doNewOrExistingServerFarmWorkflow(callback) {
+    // decide if we should use an existing farm or make a new one
     vscode.window.showQuickPick([
         constants.optionUseExistingHostingPlan,
         constants.optionNewHostingPlan
     ]).then(selected => {
         if (selected == constants.optionUseExistingHostingPlan) {
             state.serverFarmList = [];
-
-            // get the list of server farms
-            azure
-                .getServerFarms(state)
-                .then(function (result) {
-                    result.forEach(function (farm, index, arr) {
-                        state.serverFarmList.push(farm.name);
-                        if (index == arr.length - 1) {
-                            vscode.window.showQuickPick(state.serverFarmList)
-                                .then(function (selectedServerFarm) {
-                                    state.selectedServerFarm = selectedServerFarm;
-                                    if (callback != null)
-                                        callback();
-                                });
-                        }
+            commandServices.getServerFarms(state).then(function () {
+                vscode.window.showQuickPick(state.serverFarmList)
+                    .then(function (selectedServerFarm) {
+                        state.selectedServerFarm = selectedServerFarm;
+                        callback();
                     });
-                })
-                .catch(function (err) {
-                    vscode.window.showErrorMessage(err);
-                });
+            });
         }
-        else {
+        else if (selected == constants.optionNewHostingPlan) {
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
                 .then(function (newServerFarmName) {
                     if (newServerFarmName == '')
                         return;
                     state.selectedServerFarm = newServerFarmName;
                     vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
-                    createServerFarm(createWebApp);
+                    commandServices.createServerFarm(state, function () {
+                        callback();
+                    });
                 });
         }
     });
@@ -191,20 +132,25 @@ function activate(context) {
 
     // command to bounce a customer to a particular resource in their subscription
     var browseInPortal = vscode.commands.registerCommand('azure.browseInPortal', function () {
-        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        resourceClient.resources.list(function (err, result) {
-            state.entireResourceList = result;
-            names = state.entireResourceList.map(function (resource) {
-                return resource.id.replace('subscriptions/' + state.selectedSubscriptionId + '/resourceGroups/', '');
-            });
-            vscode.window.showQuickPick(names)
-                .then(function (selected) {
-                    filtered = state.entireResourceList.filter(function (value) {
-                        return value.id.endsWith(selected);
+        vscode.window.setStatusBarMessage(constants.statusGettingResources);
+        azure
+            .getFullResourceList(state)
+            .then(function (names) {
+                vscode.window.setStatusBarMessage('');
+                vscode.window.showQuickPick(names)
+                    .then(function (selected) {
+                        if (selected != null && selected.length > 0) {
+                            filtered = state.entireResourceList.filter(function (value) {
+                                return value.id.endsWith(selected);
+                            });
+                            if (filtered != null)
+                                open("https://portal.azure.com/#resource" + filtered[0].id);
+                        }
                     });
-                    open("https://portal.azure.com/#resource" + filtered[0].id);
-                });
-        });
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
     });
 
     // starts simple the web app creation process
@@ -216,12 +162,12 @@ function activate(context) {
             state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
             state.resourceGroupToUse = state.newWebAppName + 'Resources';
 
-            createResourceGroup(function () {
-                createServerFarm(function () {
-                    createWebApp();
-                })
-            });
-
+            commandServices.createResourceGroup(state,
+                function () {
+                    commandServices.createServerFarm(state, function () {
+                        commandServices.createWebApp(state)
+                    })
+                });
         });
     });
 
@@ -257,7 +203,9 @@ function activate(context) {
                                         vscode.window.showQuickPick(state.resourceGroupList)
                                             .then(function (selectedRg) {
                                                 state.resourceGroupToUse = selectedRg;
-                                                getServerFarms(createWebApp);
+                                                doNewOrExistingServerFarmWorkflow(function () {
+                                                    commandServices.createWebApp(state);
+                                                });
                                             });
                                     })
                                     .catch(function (err) {
@@ -269,7 +217,11 @@ function activate(context) {
                                     prompt: constants.promptNewRgName
                                 }).then(function (newResourceGroupName) {
                                     state.resourceGroupToUse = newResourceGroupName;
-                                    createResourceGroup(getServerFarms(createWebApp));
+                                    commandServices.createResourceGroup(state, function () {
+                                        doNewOrExistingServerFarmWorkflow(function () {
+                                            commandServices.createWebApp(state);
+                                        });
+                                    });
                                 });
                             }
                         });
