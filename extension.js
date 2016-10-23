@@ -36,8 +36,8 @@ var state = {
 
 // method to create the resource group
 function createResourceGroup(callback) {
-    console.log('creating the resource group');
     vscode.window.setStatusBarMessage(constants.statusCreatingResourceGroup.replace('{0}', state.resourceGroupToUse));
+
     azure
         .createNewResourceGroup(state)
         .then(function (result) {
@@ -50,8 +50,10 @@ function createResourceGroup(callback) {
         });
 }
 
+// create the server farm
 function createServerFarm(callback) {
-    console.log('creating the server farm');
+    vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
+    
     azure
         .createNewServerFarm(state)
         .then(function (result) {
@@ -66,8 +68,8 @@ function createServerFarm(callback) {
 
 // creates the web app based on the state persisted up to this point
 function createWebApp(callback) {
-    console.log('creating the web app');
     vscode.window.setStatusBarMessage(constants.promptWebAppCreationInProcess.replace('{0}', state.newWebAppName));
+
     azure
         .createWebApp(state)
         .then(function (result) {
@@ -82,38 +84,35 @@ function createWebApp(callback) {
 }
 
 // gets all the hosting plans
-function getHostingPlans() {
+function getServerFarms(callback) {
     vscode.window.showQuickPick([
         constants.optionUseExistingHostingPlan,
         constants.optionNewHostingPlan
     ]).then(selected => {
-        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
         if (selected == constants.optionUseExistingHostingPlan) {
             state.serverFarmList = [];
 
-            var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-
             // get the list of server farms
-            resourceClient.resources.list({
-                filter: "resourceType eq 'Microsoft.Web/serverfarms'"
-            }, function (err, result) {
-                result.forEach(function (farm, index, arr) {
-                    console.log('adding farm ' + farm.name + ' to the list');
-                    state.serverFarmList.push(farm.name);
-                    if (index == arr.length - 1) {
-                        console.log('got the server farms');
-                        vscode.window.showQuickPick(state.serverFarmList)
-                            .then(function (selectedServerFarm) {
-                                state.selectedServerFarm = selectedServerFarm;
-                                console.log('server farm selected: ' + state.selectedServerFarm);
-                                createWebApp();
-                            });
-                    }
+            azure
+                .getServerFarms(state)
+                .then(function (result) {
+                    result.forEach(function (farm, index, arr) {
+                        state.serverFarmList.push(farm.name);
+                        if (index == arr.length - 1) {
+                            vscode.window.showQuickPick(state.serverFarmList)
+                                .then(function (selectedServerFarm) {
+                                    state.selectedServerFarm = selectedServerFarm;
+                                    if (callback != null)
+                                        callback();
+                                });
+                        }
+                    });
+                })
+                .catch(function (err) {
+                    vscode.window.showErrorMessage(err);
                 });
-            });
         }
         else {
-            console.log('allow user to create a new server farm');
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
                 .then(function (newServerFarmName) {
                     if (newServerFarmName == '')
@@ -222,7 +221,7 @@ function activate(context) {
                     createWebApp();
                 })
             });
-            
+
         });
     });
 
@@ -233,59 +232,52 @@ function activate(context) {
         }).then(function (newWebSiteName) {
             state.newWebAppName = newWebSiteName;
 
-            // create the management client
-            var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+            azure
+                .checkSiteNameAvailability(state)
+                .then(function (result) {
+                    if (!result.nameAvailable) {
+                        // name isn't available so we bail out'
+                        vscode.window.showErrorMessage(constants.promptWebSiteNameNotAvailable);
+                    }
+                    else {
+                        // name is available so we need to know a resource group to use
+                        vscode.window.showQuickPick([
+                            constants.optionExistingRg,
+                            constants.optionNewRg
+                        ]).then(selected => {
+                            if (selected == constants.optionExistingRg) {
+                                azure
+                                    .getResourceGroups(state)
+                                    .then(function (result) {
+                                        result.forEach(function (rg) {
+                                            state.resourceGroupList.push(rg.name);
+                                        });
 
-            // check the name availability
-            console.log('check web app name: ' + state.newWebAppName);
-            webSiteManagement.global.checkNameAvailability({
-                name: state.newWebAppName,
-                type: 'Microsoft.Web/sites'
-            }, function (err, result) {
-                if (!result.nameAvailable) {
-                    // name isn't available so we bail out'
-                    vscode.window.showErrorMessage(constants.promptWebSiteNameNotAvailable);
-                }
-                else {
-                    // name is available so we need to know a resource group to use
-                    console.log('ask user which resource group to use');
-                    vscode.window.showQuickPick([
-                        constants.optionExistingRg,
-                        constants.optionNewRg
-                    ]).then(selected => {
-                        if (selected == constants.optionExistingRg) {
-
-                            // retrieve list of resource groups using sdk
-                            console.log('get resource groups');
-                            var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-                            state.resourceGroupList = [];
-                            resourceClient.resourceGroups.list(function (err, rgListResult) {
-                                rgListResult.forEach(function (rg) {
-                                    state.resourceGroupList.push(rg.name);
-                                }, this);
-
-                                // show the list in a quickpick
-                                console.log('show pick list of resource groups');
-                                vscode.window.showQuickPick(state.resourceGroupList)
-                                    .then(function (selectedRg) {
-                                        state.resourceGroupToUse = selectedRg;
-                                        getHostingPlans();
+                                        // show the list in a quickpick
+                                        vscode.window.showQuickPick(state.resourceGroupList)
+                                            .then(function (selectedRg) {
+                                                state.resourceGroupToUse = selectedRg;
+                                                getServerFarms(createWebApp);
+                                            });
+                                    })
+                                    .catch(function (err) {
+                                        vscode.window.showErrorMessage(err);
                                     });
-                            });
-                        }
-                        else if (selected == constants.optionNewRg) {
-                            console.log('show input text box for new resource group');
-                            vscode.window.showInputBox({
-                                prompt: constants.promptNewRgName
-                            }).then(function (newResourceGroupName) {
-                                console.log('create resource group ' + newResourceGroupName);
-                                state.resourceGroupToUse = newResourceGroupName;
-                                createResourceGroup(getHostingPlans());
-                            });
-                        }
-                    });
-                }
-            });
+                            }
+                            else if (selected == constants.optionNewRg) {
+                                vscode.window.showInputBox({
+                                    prompt: constants.promptNewRgName
+                                }).then(function (newResourceGroupName) {
+                                    state.resourceGroupToUse = newResourceGroupName;
+                                    createResourceGroup(getServerFarms(createWebApp));
+                                });
+                            }
+                        });
+                    }
+                })
+                .catch(function (err) {
+                    vscode.window.showErrorMessage(err);
+                });
         });
     });
 

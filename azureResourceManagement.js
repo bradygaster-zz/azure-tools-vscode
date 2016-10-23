@@ -42,7 +42,6 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
 
 exports.createNewServerFarm = function createNewServerFarm(state) {
     return new Promise(function (resolve, reject) {
-        console.log('create new server farm ' + state.selectedServerFarm);
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
         var planParameters = {
             serverFarmWithRichSkuName: state.selectedServerFarm,
@@ -65,5 +64,50 @@ exports.createNewServerFarm = function createNewServerFarm(state) {
                 }
             }
         );
+    });
+};
+
+exports.getServerFarms = function getServerFarms(state) {
+    return new Promise(function (resolve, reject) {
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        resourceClient.resources.list({
+            filter: "resourceType eq 'Microsoft.Web/serverfarms'"
+        }, function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+exports.getResourceGroups = function getResourceGroups(state) {
+    return new Promise(function (resolve, reject) {
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        state.resourceGroupList = [];
+        resourceClient.resourceGroups.list(function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                resolve(result);
+            }
+        })
+    });
+};
+
+exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
+    return new Promise(function (resolve, reject) {
+        var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+        webSiteManagement.global.checkNameAvailability({
+            name: state.newWebAppName,
+            type: 'Microsoft.Web/sites'
+        }, function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                resolve(result);
+            }
+        });
     });
 };
