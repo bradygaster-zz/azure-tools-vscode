@@ -12,7 +12,7 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
     ![Sign in using a Microsoft account](./docs/media/sign-in-msa.gif) 
 
-- Browse extensions in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
+- Browse resources in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
 
     ![Browse to portal feature](./docs/media/browse-to-resource-in-portal.gif)
 
