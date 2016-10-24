@@ -50,7 +50,7 @@ You can find notes for each release below.
 - Initial release
 
 ### Issues:
-- West US is only supported region
+- West US is only supported region for new creates
 
 ## Features:
 - Login using interactive browser authentication
