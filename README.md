@@ -1,24 +1,56 @@
 # Azure Tools for Visual Studio Code
 
-This repository contains code for a prototype extension for [Visual Studio Code](http://code.visualstudio.com) that would enable Azure management features from directly within the editor. 
+This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-## Requirements
+## Features
 
-All dependencies are listed in [package.json](package.json)
+- Interactive Login, with support for Azure Active Directory accounts right out of the box.
+
+    ![Sign in using an Azure Active Directory account](./docs/media/sign-in-org-account.gif) 
+
+    Microsoft accounts are also supported, so you can log in using @outlook.com, @live.com, or @hotmail.com services. To enable MSA login, add the GUID of your AAD tenant to your workspace configuration using the `azure.tenantId` setting this extension contributes.
+
+    ![Sign in using a Microsoft account](./docs/media/sign-in-msa.gif) 
+
+- Browse extensions in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
+
+    ![Browse to portal feature](./docs/media/browse-to-resource-in-portal.gif)
+
+- Multiple subscription support, so if you have multiple Azure subscriptions associated with your login you'll be able to switch between them easily.
+
+    ![Select subscription](./docs/media/select-subscription.gif)
+
+- Web App creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
+
+    Advanced mode allows you to create or select new or existing resource groups and server farms.
+
+    ![Advanced web app creation mode](./docs/media/create-web-app-advanced-scenario.gif)
+
+    Simple mode creates a new resource group, server farm, and Web App after typing in the name of the Web App.
+
+    ![Simple web app creation mode](./docs/media/create-web-app-simple-scenario.gif)
 
 ## Extension Settings
 
 `azure.tenantId` : The GUID specifier for the tenant you intend on authenticating against. This is *required* if you're attempting to log in using a Microsoft Account like @outlook.com, @hotmail.com, or @live.com. 
 
+## Requirements
+
+All dependencies are listed in [package.json](package.json). You will need an Azure subscription. If you don't yet have an Azure subscription [sign up for a free account](https://azure.microsoft.com/en-us/free/) and then you can make use of the features in this extension, not to mention all the great features Azure offers. 
+
 ## Known Issues
 
-All feature ideas and issues should be reported using GitHub issues.
+All feature ideas and issues should be reported using [GitHub issues](https://github.com/bradygaster/azure-tools-vscode/issues).
 
 ## Release Notes
 
-This extension is *absolutely* in pre-release. So far it is just a pet project, but if you think the idea of having tools for Azure using [Visual Studio Code](http;//code.visualstudio.com), please submit an issue or a pull request if you have ideas or contributions. Both are welcome.
+You can find notes for each release below. 
 
-### 0.0.0 (Pre-release stage)
+## 0.0.1
+- Initial release
+
+### Issues:
+- West US is only supported region
 
 ## Features:
 - Login using interactive browser authentication

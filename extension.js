@@ -79,9 +79,15 @@ function activate(context) {
         vscode.window.setStatusBarMessage(state.statusGettingSubscriptions);
 
         // handle the interactive user login message result
-        var options = {
-            domain: config.getTenantId()
-        };
+        var options = {};
+        var tenantId = config.getTenantId();
+
+        // see if the user is intending on logging in with an msa
+        if (tenantId != null && tenantId.length > 0) {
+            options = {
+                domain: config.getTenantId()
+            };
+        }
 
         options.userCodeResponseLogger = function (message) {
             // extract the code to be copied to the clipboard from the message

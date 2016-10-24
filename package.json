@@ -1,7 +1,7 @@
 {
   "name": "azuretoolsforvscode",
   "displayName": "AzureToolsForVsCode",
-  "description": "",
+  "description": "Adds convenient features for Microsoft Azure developers",
   "version": "0.0.1",
   "publisher": "microsoft",
   "repository": {
@@ -25,7 +25,7 @@
       "properties": {
         "azure.tenantId": {
           "type": "string",
-          "default": "guid",
+          "default": null,
           "description": "Your AAD Tenant ID from the portal. You need to set this if you intend on logging in using an MSA (@outlook.com, @live.com, @hotmail.com, etc.)."
         }
       }
