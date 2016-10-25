@@ -48,10 +48,8 @@ All feature ideas and issues should be reported using [GitHub issues](https://gi
 
 You can find notes for each release below. 
 
-## 0.0.4 - 2016-10-25
+## 0.0.5 - 2016-10-25
 - Fixed NPM-related bug during installation.
-
-## 0.0.2 - 2016-10-25
 - Minor optimizations for marketplace appearance. 
 
 ## 0.0.1 - 2016-10-23
