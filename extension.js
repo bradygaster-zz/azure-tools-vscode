@@ -111,7 +111,7 @@ function activate(context) {
             state.subscriptions = subscriptions;
 
             if (state.subscriptions.length > 0) {
-                vscodeservices.createSubscriptionStatusBarButton();
+                vscodeservices.showSubscriptionStatusBarButton();
 
                 for (var i = 0; i < state.subscriptions.length; i++) {
                     state.subscriptionIds.push(state.subscriptions[i].id);

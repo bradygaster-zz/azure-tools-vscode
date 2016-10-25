@@ -1,6 +1,6 @@
 var vscode = require('vscode');
 
-exports.createSubscriptionStatusBarButton = function createSubscriptionStatusBarButton() {
+exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
     var customStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
     customStatusBarItem.color = 'white';
     customStatusBarItem.command = 'selectsubscription';

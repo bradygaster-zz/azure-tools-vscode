@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/bradygaster/azure-tools-vscode/issues"
   },
-  "icon": "docs/media/azure-icon.png",
+  "icon": "media/azure-icon.png",
   "galleryBanner": {
     "color": "#0072c6",
     "theme": "light"
