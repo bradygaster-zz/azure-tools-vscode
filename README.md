@@ -42,17 +42,19 @@ All dependencies are listed in [package.json](package.json). You will need an Az
 
 All feature ideas and issues should be reported using [GitHub issues](https://github.com/bradygaster/azure-tools-vscode/issues).
 
+- West US is only supported region for new creates
+
 ## Release Notes
 
 You can find notes for each release below. 
 
-## 0.0.1
-- Initial release
+## 0.0.4 - 2016-10-25
+- Fixed NPM-related bug during installation.
 
-### Issues:
-- West US is only supported region for new creates
+## 0.0.2 - 2016-10-25
+- Minor optimizations for marketplace appearance. 
 
-## Features:
+## 0.0.1 - 2016-10-23
 - Login using interactive browser authentication
 - Shows all of your Azure subscriptions and allows you to select the one you want to use
 - Select a resource to browse in the Azure portal
