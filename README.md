@@ -6,29 +6,29 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
 - Interactive Login, with support for Azure Active Directory accounts right out of the box.
 
-    ![Sign in using an Azure Active Directory account](./docs/media/sign-in-org-account.gif) 
+    ![Sign in using an Azure Active Directory account](./media/docs/sign-in-org-account.gif) 
 
     Microsoft accounts are also supported, so you can log in using @outlook.com, @live.com, or @hotmail.com services. To enable MSA login, add the GUID of your AAD tenant to your workspace configuration using the `azure.tenantId` setting this extension contributes.
 
-    ![Sign in using a Microsoft account](./docs/media/sign-in-msa.gif) 
+    ![Sign in using a Microsoft account](./media/docs/sign-in-msa.gif) 
 
 - Browse resources in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
 
-    ![Browse to portal feature](./docs/media/browse-to-resource-in-portal.gif)
+    ![Browse to portal feature](./media/docs/browse-to-resource-in-portal.gif)
 
 - Multiple subscription support, so if you have multiple Azure subscriptions associated with your login you'll be able to switch between them easily.
 
-    ![Select subscription](./docs/media/select-subscription.gif)
+    ![Select subscription](./media/docs/select-subscription.gif)
 
 - Web App creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
 
     Advanced mode allows you to create or select new or existing resource groups and server farms.
 
-    ![Advanced web app creation mode](./docs/media/create-web-app-advanced-scenario.gif)
+    ![Advanced web app creation mode](./media/docs/create-web-app-advanced-scenario.gif)
 
     Simple mode creates a new resource group, server farm, and Web App after typing in the name of the Web App.
 
-    ![Simple web app creation mode](./docs/media/create-web-app-simple-scenario.gif)
+    ![Simple web app creation mode](./media/docs/create-web-app-simple-scenario.gif)
 
 ## Extension Settings
 

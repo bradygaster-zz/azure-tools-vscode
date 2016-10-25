@@ -5,4 +5,4 @@ test/**
 jsconfig.json
 vsc-extension-quickstart.md
 node_modules/**
-docs/**
+media/docs/**
