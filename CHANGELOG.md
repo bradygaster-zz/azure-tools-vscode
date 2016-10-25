@@ -1,3 +1,5 @@
+Suggestions:
+
 ## 0.0.1 - 2016-10-23
 - Login using interactive browser authentication
 - Shows all of your Azure subscriptions and allows you to select the one you want to use

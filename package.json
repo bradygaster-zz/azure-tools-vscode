@@ -20,7 +20,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:azure.logintoazure"
+    "onCommand:logintoazure"
   ],
   "main": "./extension",
   "contributes": {
@@ -37,24 +37,29 @@
     },
     "commands": [
       {
-        "command": "azure.selectsubscription",
-        "title": "azure subscriptions list"
+        "command": "selectsubscription",
+        "title": "subscriptions list",
+        "category": "Azure"
       },
       {
-        "command": "azure.logintoazure",
-        "title": "azure login"
+        "command": "logintoazure",
+        "title": "login",
+        "category": "Azure"
       },
       {
-        "command": "azure.createwebapp.advanced",
-        "title": "azure create webapp (advanced)"
+        "command": "createwebapp.advanced",
+        "title": "create webapp (advanced)",
+        "category": "Azure"
       },
       {
-        "command": "azure.createwebapp.simple",
-        "title": "azure create webapp (simple)"
+        "command": "createwebapp.simple",
+        "title": "create webapp (simple)",
+        "category": "Azure"
       },
       {
-        "command": "azure.browseInPortal",
-        "title": "azure browse resource in portal"
+        "command": "browseInPortal",
+        "title": "browse resource in portal",
+        "category": "Azure"
       }
     ]
   },

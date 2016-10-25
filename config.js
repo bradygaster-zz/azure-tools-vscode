@@ -27,6 +27,7 @@ exports.getConstants = function getConstants() {
         promptWebAppCreated: 'Created Web App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
         promptWebAppCreationFailed: 'Failed to create web app. Reason: {0}',
         promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
+        promptNoSubscriptionsOrMisconfigured: 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',

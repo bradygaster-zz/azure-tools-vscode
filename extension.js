@@ -10,6 +10,7 @@ var cp = require('copy-paste');
 var commandServices = require('./commandServices');
 var config = require('./config');
 var constants = config.getConstants();
+var vscodeservices = require('./vscodeservices');
 
 // state used in the extension
 var state = {
@@ -75,7 +76,7 @@ function activate(context) {
     console.log('ACTIVATION: "azuretoolsforvscode"');
 
     // the command to login to azure 
-    var loginToAzureCommand = vscode.commands.registerCommand('azure.logintoazure', function () {
+    var loginToAzureCommand = vscode.commands.registerCommand('logintoazure', function () {
         vscode.window.setStatusBarMessage(state.statusGettingSubscriptions);
 
         // handle the interactive user login message result
@@ -105,26 +106,33 @@ function activate(context) {
                 });
         }
 
-        msRestAzure.interactiveLogin(options, function (err, credentials, subsciptions) {
+        msRestAzure.interactiveLogin(options, function (err, credentials, subscriptions) {
             state.credentials = credentials;
-            // remember the subscriptions
-            state.subscriptions = subsciptions;
-            for (var i = 0; i < state.subscriptions.length; i++) {
-                state.subscriptionIds.push(state.subscriptions[i].id);
-                state.subscriptionNames.push(state.subscriptions[i].name);
-            }
+            state.subscriptions = subscriptions;
 
-            credentials.retrieveTokenFromCache(function (notUsed, tokenType, accessToken) {
-                state.selectedSubscriptionId = state.subscriptions[0].id;
-                state.accessToken = accessToken;
-                vscode.window.showInformationMessage(constants.loggedInMessage);
-                vscode.window.setStatusBarMessage(constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
-            });
+            if (state.subscriptions.length > 0) {
+                vscodeservices.createSubscriptionStatusBarButton();
+
+                for (var i = 0; i < state.subscriptions.length; i++) {
+                    state.subscriptionIds.push(state.subscriptions[i].id);
+                    state.subscriptionNames.push(state.subscriptions[i].name);
+                }
+
+                credentials.retrieveTokenFromCache(function (notUsed, tokenType, accessToken) {
+                    state.selectedSubscriptionId = state.subscriptions[0].id;
+                    state.accessToken = accessToken;
+                    vscode.window.showInformationMessage(constants.loggedInMessage);
+                    vscode.window.setStatusBarMessage(constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
+                });
+            }
+            else {
+                vscode.window.showErrorMessage(constants.promptNoSubscriptionsOrMisconfigured);
+            }
         });
     });
 
     // shows the user a list of subscriptions
-    var selectSubscriptionCommand = vscode.commands.registerCommand('azure.selectsubscription', function () {
+    var selectSubscriptionCommand = vscode.commands.registerCommand('selectsubscription', function () {
         // when the user selects a subscription remember the selected subscription id
         vscode.window.showQuickPick(state.subscriptionNames).then(selected => {
             state.subscriptions.forEach(function (element, index, array) {
@@ -137,7 +145,7 @@ function activate(context) {
     });
 
     // command to bounce a customer to a particular resource in their subscription
-    var browseInPortal = vscode.commands.registerCommand('azure.browseInPortal', function () {
+    var browseInPortal = vscode.commands.registerCommand('browseInPortal', function () {
         commandServices.getAzureResources(state)
             .then(function (names) {
                 vscode.window.showQuickPick(names)
@@ -157,7 +165,7 @@ function activate(context) {
     });
 
     // starts simple the web app creation process
-    var createWebAppCommandSimple = vscode.commands.registerCommand('azure.createwebapp.simple', function () {
+    var createWebAppCommandSimple = vscode.commands.registerCommand('createwebapp.simple', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
@@ -175,7 +183,7 @@ function activate(context) {
     });
 
     // starts advanced the web app creation process
-    var createWebAppCommandAdvanced = vscode.commands.registerCommand('azure.createwebapp.advanced', function () {
+    var createWebAppCommandAdvanced = vscode.commands.registerCommand('createwebapp.advanced', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
