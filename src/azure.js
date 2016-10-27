@@ -1,6 +1,7 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
+var azure = require('azure');
 var config = require('./config');
 var constants = config.getConstants();
 
@@ -10,7 +11,7 @@ exports.createWebApp = function createWebApp(state) {
         webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
             state.newWebAppName,
             {
-                location: constants.selectedRegion,
+                location: state.selectedRegion,
                 serverFarmId: state.selectedServerFarm
             },
             function (err, result) {
@@ -28,7 +29,7 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
         resourceClient.resourceGroups.createOrUpdate(state.resourceGroupToUse, {
-            location: constants.selectedRegion // todo: enable user selection
+            location: state.selectedRegion // todo: enable user selection
         }, function (err, result) {
             if (err != null) {
                 reject(err);
@@ -45,7 +46,7 @@ exports.createNewServerFarm = function createNewServerFarm(state) {
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
         var planParameters = {
             serverFarmWithRichSkuName: state.selectedServerFarm,
-            location: constants.selectedRegion,
+            location: state.selectedRegion,
             sku: {
                 name: 'F1',
                 capacity: 1,
@@ -132,7 +133,13 @@ exports.getFullResourceList = function getFullResourceList(state) {
 exports.getRegions = function getRegions(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        resourceClient.SubscriptionClient.listLocations(state.selectedSubscriptionId, function (err, result) {
+        var subscriptionClient = azure.createARMSubscriptionManagementClient(state.credentials);
+        subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                resolve(result);
+            }
         });
     });
 };

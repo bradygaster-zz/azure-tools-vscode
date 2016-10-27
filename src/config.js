@@ -4,6 +4,7 @@ const vscode = require('vscode');
 
 exports.getConstants = function getConstants() {
     return {
+        btnRegionSelectionLabel: 'Select your desired Azure region. ',
         loginButtonLabel: 'Sign In',
         enterCodeString: 'Enter the code ',
         authString: ' to authenticate.',
@@ -19,6 +20,7 @@ exports.getConstants = function getConstants() {
         statusCreatedResourceGroup: 'Resource group "{0}" created successfully',
         statusCreatingServerFarm: 'Creating server farm {0}',
         statusCreatedServerFarm: 'Created server farm {0}',
+        statusRegionSelected: '{0} region selected',
         promptNewWebAppName: 'Web App Name',
         promptNewRgName: 'New Resource Group Name:',
         promptWebSiteNameNotAvailable: 'That web app name is not available.',
@@ -33,8 +35,7 @@ exports.getConstants = function getConstants() {
         optionNewRg: 'Create new resource group',
         optionExistingRg: 'Use existing resource group',
         optionNewHostingPlan: 'Create a new server farm',
-        optionUseExistingHostingPlan: 'Use an existing server farm',
-        selectedRegion: 'West US'
+        optionUseExistingHostingPlan: 'Use an existing server farm'
     };
 };
 

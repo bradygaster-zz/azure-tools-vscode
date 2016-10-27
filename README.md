@@ -4,6 +4,8 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
 ## Features
 
+- All Azure regions supported
+
 - Interactive Login, with support for Azure Active Directory accounts right out of the box.
 
     ![Sign in using an Azure Active Directory account](./media/docs/sign-in-org-account.gif) 
@@ -42,20 +44,6 @@ All dependencies are listed in [package.json](package.json). You will need an Az
 
 All feature ideas and issues should be reported using [GitHub issues](https://github.com/bradygaster/azure-tools-vscode/issues).
 
-- West US is only supported region for new creates
-
 ## Release Notes
 
-You can find notes for each release below. 
-
-## 0.0.5 - 2016-10-25
-- Fixed NPM-related bug during installation.
-- Minor optimizations for marketplace appearance. 
-
-## 0.0.1 - 2016-10-23
-- Login using interactive browser authentication
-- Shows all of your Azure subscriptions and allows you to select the one you want to use
-- Select a resource to browse in the Azure portal
-- Simple web app create (defaults to creating a new resource group and server farm)
-- Advanced web app create (allows creation/selection of new resource group and server farm)
-- Tenant ID configuration via workspace settings to enable MSA (@outlook.com, @live.com, @hotmail.com) login
+You can find notes for each release in the [Changelog](changelog.md).

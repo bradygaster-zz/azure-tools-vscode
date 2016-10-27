@@ -24,7 +24,9 @@ var state = {
     serverFarmList: [],
     selectedServerFarm: null,
     entireResourceList: [],
-    newWebAppName: null
+    newWebAppName: null,
+    regions: [],
+    selectedRegion: 'West US'
 };
 
 function doNewOrExistingServerFarmWorkflow(callback) {
@@ -91,7 +93,7 @@ function activate(context) {
 
         options.userCodeResponseLogger = function (message) {
             // extract the code to be copied to the clipboard from the message
-            var codeCopied = message.substring(message.indexOf(constants.enterCodeString) 
+            var codeCopied = message.substring(message.indexOf(constants.enterCodeString)
                 + constants.enterCodeString.length).replace(constants.authString, '');
             cp.copy(codeCopied);
 
@@ -123,8 +125,11 @@ function activate(context) {
                     state.selectedSubscriptionId = state.subscriptions[0].id;
                     state.accessToken = accessToken;
                     vscode.window.showInformationMessage(constants.loggedInMessage);
-                    vscode.window.setStatusBarMessage(constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
+                    vscode.window.setStatusBarMessage(
+                        constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
                 });
+
+                ux.getRegions(state);
             }
             else {
                 vscode.window.showErrorMessage(constants.promptNoSubscriptionsOrMisconfigured);
@@ -139,6 +144,9 @@ function activate(context) {
             state.subscriptions.forEach(function (element, index, array) {
                 if (element.name == selected) {
                     state.selectedSubscriptionId = element.id;
+                    ux.getRegions(state).then(function () {
+
+                    });
                     vscode.window.setStatusBarMessage(constants.statusSubscriptionSelected.replace('{0}', element.name));
                 }
             });
@@ -235,6 +243,9 @@ function activate(context) {
     });
 
     var selectRegionCommand = vscode.commands.registerCommand('selectRegion', function () {
+        ux.getRegions(state).then(function () {
+            ux.showRegionMenu(state);
+        });
     });
 
     context.subscriptions.push(loginToAzureCommand);

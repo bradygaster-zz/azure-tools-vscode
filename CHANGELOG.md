@@ -1,3 +1,11 @@
+## 0.0.7 - 2016-10-26
+- **Added support for all Azure regions**
+- Changed publisher and moved within Marketplace.
+- Refactored code to move source into sub-folder.  
+
+## 0.0.6 - 2016-10-26
+- Changed publisher and moved within Marketplace. 
+
 ## 0.0.5 - 2016-10-25
 - Fixed NPM-related bug during installation.
 - Minor optimizations for marketplace appearance. 

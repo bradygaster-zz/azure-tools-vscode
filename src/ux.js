@@ -129,12 +129,39 @@ exports.getServerFarms = function getServerFarms(state) {
     });
 }
 
+var buttons = [];
+
 exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
     showButton('selectsubscription', '$(cloud-upload)', 'Select the active Azure subscription');
 };
 
 exports.showSelectRegionStatusBarButton = function showSelectRegionStatusBarButton() {
     showButton('selectRegion', '$(globe)', 'Select your desired Azure region');
+};
+
+exports.getRegions = function getRegions(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .getRegions(state)
+            .then(function (result) {
+                state.regions = result;
+                state.selectedRegion = state.regions[0].displayName;
+                resolve();
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+};
+
+exports.showRegionMenu = function showRegionMenu(state) {
+    var regionNames = state.regions.map(function (x) { return x.displayName; });
+    vscode.window.showQuickPick(regionNames).then(function (selected) {
+        state.selectedRegion = selected;
+        vscode.window.setStatusBarMessage(constants.statusRegionSelected.replace('{0}', state.selectedRegion));
+        updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
+            + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
+    });
 };
 
 function showButton(command, text, tooltip) {
@@ -144,4 +171,13 @@ function showButton(command, text, tooltip) {
     customStatusBarItem.text = text;
     customStatusBarItem.tooltip = tooltip;
     customStatusBarItem.show();
-}
+    buttons.push(customStatusBarItem);
+};
+
+function updateButtonTooltip(command, tooltip) {
+    var x = buttons.filter(function (f) {
+        return f.command == command;
+    });
+    if (x != null && x.length > 0)
+        x[0].tooltip = tooltip;
+};
