@@ -4,8 +4,6 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
 ## Features
 
-- All Azure regions supported
-
 - Interactive Login, with support for Azure Active Directory accounts right out of the box.
 
     ![Sign in using an Azure Active Directory account](./media/docs/sign-in-org-account.gif) 
@@ -14,13 +12,17 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
     ![Sign in using a Microsoft account](./media/docs/sign-in-msa.gif) 
 
-- Browse resources in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
+- **New Feature** - All Azure regions supported! Simply click on the region-selection status bar button and select your region. 
 
-    ![Browse to portal feature](./media/docs/browse-to-resource-in-portal.gif)
+    ![Select region](./media/docs/select-region.gif)
 
 - Multiple subscription support, so if you have multiple Azure subscriptions associated with your login you'll be able to switch between them easily.
 
     ![Select subscription](./media/docs/select-subscription.gif)
+
+- Browse resources in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
+
+    ![Browse to portal feature](./media/docs/browse-to-resource-in-portal.gif)
 
 - Web App creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
 
