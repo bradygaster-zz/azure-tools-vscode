@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "0.0.6",  
+  "version": "0.0.7",  
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./extension",
+  "main": "./src/extension",
   "contributes": {
     "configuration": {
       "type": "object",
@@ -65,6 +65,11 @@
       {
         "command": "browseInPortal",
         "title": "browse resource in portal",
+        "category": "Azure"
+      },
+      {
+        "command": "selectRegion",
+        "title": "select your active region",
         "category": "Azure"
       }
     ]

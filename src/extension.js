@@ -7,10 +7,9 @@ var getUrls = require('get-urls');
 var cp = require('copy-paste');
 
 // config and services
-var commandServices = require('./commandServices');
+var ux = require('./ux');
 var config = require('./config');
 var constants = config.getConstants();
-var vscodeservices = require('./vscodeservices');
 
 // state used in the extension
 var state = {
@@ -35,7 +34,7 @@ function doNewOrExistingServerFarmWorkflow(callback) {
         constants.optionNewHostingPlan
     ]).then(selected => {
         if (selected == constants.optionUseExistingHostingPlan) {
-            commandServices
+            ux
                 .getServerFarms(state)
                 .then(function () {
                     if (state.serverFarmList.length == 0)
@@ -59,7 +58,7 @@ function doNewOrExistingServerFarmWorkflow(callback) {
                         return;
                     state.selectedServerFarm = newServerFarmName;
                     vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
-                    commandServices.createServerFarm(state, function () {
+                    ux.createServerFarm(state, function () {
                         callback();
                     });
                 });
@@ -92,7 +91,8 @@ function activate(context) {
 
         options.userCodeResponseLogger = function (message) {
             // extract the code to be copied to the clipboard from the message
-            var codeCopied = message.substring(message.indexOf(constants.enterCodeString) + constants.enterCodeString.length).replace(constants.authString, '');
+            var codeCopied = message.substring(message.indexOf(constants.enterCodeString) 
+                + constants.enterCodeString.length).replace(constants.authString, '');
             cp.copy(codeCopied);
 
             // show the user the friendly message
@@ -111,7 +111,8 @@ function activate(context) {
             state.subscriptions = subscriptions;
 
             if (state.subscriptions.length > 0) {
-                vscodeservices.showSubscriptionStatusBarButton();
+                ux.showSubscriptionStatusBarButton();
+                ux.showSelectRegionStatusBarButton();
 
                 for (var i = 0; i < state.subscriptions.length; i++) {
                     state.subscriptionIds.push(state.subscriptions[i].id);
@@ -146,7 +147,7 @@ function activate(context) {
 
     // command to bounce a customer to a particular resource in their subscription
     var browseInPortal = vscode.commands.registerCommand('browseInPortal', function () {
-        commandServices.getAzureResources(state)
+        ux.getAzureResources(state)
             .then(function (names) {
                 vscode.window.showQuickPick(names)
                     .then(function (selected) {
@@ -173,10 +174,10 @@ function activate(context) {
             state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
             state.resourceGroupToUse = state.newWebAppName + 'Resources';
 
-            commandServices.createResourceGroup(state,
+            ux.createResourceGroup(state,
                 function () {
-                    commandServices.createServerFarm(state, function () {
-                        commandServices.createWebApp(state)
+                    ux.createServerFarm(state, function () {
+                        ux.createWebApp(state)
                     })
                 });
         });
@@ -188,7 +189,7 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
             state.newWebAppName = newWebSiteName;
-            commandServices
+            ux
                 .ifNameIsAvailable(state)
                 .then(function () {
                     // name is available so we need to know a resource group to use
@@ -197,7 +198,7 @@ function activate(context) {
                         constants.optionNewRg
                     ]).then(selected => {
                         if (selected == constants.optionExistingRg) {
-                            commandServices
+                            ux
                                 .getResourceGroups(state)
                                 .then(function () {
                                     // show the list in a quickpick
@@ -205,7 +206,7 @@ function activate(context) {
                                         .then(function (selectedRg) {
                                             state.resourceGroupToUse = selectedRg;
                                             doNewOrExistingServerFarmWorkflow(function () {
-                                                commandServices.createWebApp(state);
+                                                ux.createWebApp(state);
                                             });
                                         });
                                 })
@@ -218,9 +219,9 @@ function activate(context) {
                                 prompt: constants.promptNewRgName
                             }).then(function (newResourceGroupName) {
                                 state.resourceGroupToUse = newResourceGroupName;
-                                commandServices.createResourceGroup(state, function () {
+                                ux.createResourceGroup(state, function () {
                                     doNewOrExistingServerFarmWorkflow(function () {
-                                        commandServices.createWebApp(state);
+                                        ux.createWebApp(state);
                                     });
                                 });
                             });
@@ -233,11 +234,15 @@ function activate(context) {
         });
     });
 
+    var selectRegionCommand = vscode.commands.registerCommand('selectRegion', function () {
+    });
+
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(createWebAppCommandSimple);
     context.subscriptions.push(createWebAppCommandAdvanced);
     context.subscriptions.push(browseInPortal);
+    context.subscriptions.push(selectRegionCommand);
 }
 exports.activate = activate;
 

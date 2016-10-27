@@ -128,3 +128,11 @@ exports.getFullResourceList = function getFullResourceList(state) {
         });
     });
 };
+
+exports.getRegions = function getRegions(state) {
+    return new Promise(function (resolve, reject) {
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        resourceClient.SubscriptionClient.listLocations(state.selectedSubscriptionId, function (err, result) {
+        });
+    });
+};

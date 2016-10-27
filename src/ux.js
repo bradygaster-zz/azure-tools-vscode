@@ -1,7 +1,7 @@
 var vscode = require('vscode');
 var config = require('./config');
 var constants = config.getConstants();
-var azure = require('./azureResourceManagement');
+var azure = require('./azure');
 
 // get the list of resource groups from the subscription
 exports.getResourceGroups = function getResourceGroups(state) {
@@ -127,4 +127,21 @@ exports.getServerFarms = function getServerFarms(state) {
                 reject(err);
             });
     });
+}
+
+exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
+    showButton('selectsubscription', '$(cloud-upload)', 'Select the active Azure subscription');
+};
+
+exports.showSelectRegionStatusBarButton = function showSelectRegionStatusBarButton() {
+    showButton('selectRegion', '$(globe)', 'Select your desired Azure region');
+};
+
+function showButton(command, text, tooltip) {
+    var customStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
+    customStatusBarItem.color = 'white';
+    customStatusBarItem.command = command;
+    customStatusBarItem.text = text;
+    customStatusBarItem.tooltip = tooltip;
+    customStatusBarItem.show();
 }
