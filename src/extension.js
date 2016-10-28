@@ -57,7 +57,7 @@ function doNewOrExistingServerFarmWorkflow(callback) {
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
                 .then(function (newServerFarmName, cancellationToken) {
 
-                    if(cancellationToken.isCancellationRequested) { return; }
+                    if (cancellationToken.isCancellationRequested) { return; }
 
                     if (newServerFarmName == '')
                         return;
@@ -182,7 +182,7 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName, cancellationToken) {
 
-            if(cancellationToken.isCancellationRequested) { return; }
+            if (cancellationToken.isCancellationRequested) { return; }
 
             state.newWebAppName = newWebSiteName;
             state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
@@ -203,8 +203,8 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName, cancellationToken) {
 
-            if(cancellationToken.isCancellationRequested) { return; }
-            
+            if (cancellationToken.isCancellationRequested) { return; }
+
             state.newWebAppName = newWebSiteName;
             ux
                 .ifNameIsAvailable(state)
@@ -238,8 +238,8 @@ function activate(context) {
 
                                 // we need to figure out what to do with the cancelation here. Do we just "stop"?
                                 // or can we potentially rollback whatever happened earlier
-                                if(cancellationToken.isCancellationRequested) { return; }
-                                
+                                if (cancellationToken.isCancellationRequested) { return; }
+
                                 state.resourceGroupToUse = newResourceGroupName;
                                 ux.createResourceGroup(state, function () {
                                     doNewOrExistingServerFarmWorkflow(function () {

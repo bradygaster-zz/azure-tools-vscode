@@ -1,7 +1,7 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
-var azure = require('azure');
+var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var config = require('./config');
 var constants = config.getConstants();
 
@@ -133,7 +133,7 @@ exports.getFullResourceList = function getFullResourceList(state) {
 exports.getRegions = function getRegions(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        var subscriptionClient = azure.createARMSubscriptionManagementClient(state.credentials);
+        var subscriptionClient = new SubscriptionClient(state.credentials);
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)
                 reject(err);
