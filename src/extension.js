@@ -55,7 +55,10 @@ function doNewOrExistingServerFarmWorkflow(callback) {
         }
         else if (selected == constants.optionNewHostingPlan) {
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
-                .then(function (newServerFarmName) {
+                .then(function (newServerFarmName, cancellationToken) {
+
+                    if(cancellationToken.isCancellationRequested) { return; }
+
                     if (newServerFarmName == '')
                         return;
                     state.selectedServerFarm = newServerFarmName;
@@ -177,7 +180,10 @@ function activate(context) {
     var createWebAppCommandSimple = vscode.commands.registerCommand('createwebapp.simple', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewWebAppName
-        }).then(function (newWebSiteName) {
+        }).then(function (newWebSiteName, cancellationToken) {
+
+            if(cancellationToken.isCancellationRequested) { return; }
+
             state.newWebAppName = newWebSiteName;
             state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
             state.resourceGroupToUse = state.newWebAppName + 'Resources';
@@ -195,7 +201,10 @@ function activate(context) {
     var createWebAppCommandAdvanced = vscode.commands.registerCommand('createwebapp.advanced', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewWebAppName
-        }).then(function (newWebSiteName) {
+        }).then(function (newWebSiteName, cancellationToken) {
+
+            if(cancellationToken.isCancellationRequested) { return; }
+            
             state.newWebAppName = newWebSiteName;
             ux
                 .ifNameIsAvailable(state)
@@ -225,7 +234,12 @@ function activate(context) {
                         else if (selected == constants.optionNewRg) {
                             vscode.window.showInputBox({
                                 prompt: constants.promptNewRgName
-                            }).then(function (newResourceGroupName) {
+                            }).then(function (newResourceGroupName, cancellationToken) {
+
+                                // we need to figure out what to do with the cancelation here. Do we just "stop"?
+                                // or can we potentially rollback whatever happened earlier
+                                if(cancellationToken.isCancellationRequested) { return; }
+                                
                                 state.resourceGroupToUse = newResourceGroupName;
                                 ux.createResourceGroup(state, function () {
                                     doNewOrExistingServerFarmWorkflow(function () {
