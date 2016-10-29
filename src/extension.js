@@ -179,7 +179,7 @@ function activate(context) {
     // starts simple function app creation process
     var createFunctionSimpleCommand = vscode.commands.registerCommand('createFunction.simple', function () {
         vscode.window.showInputBox({
-            prompt: constants.promptNewWebAppName
+            prompt: constants.promptCreateNewFunction
         }).then(function (newWebSiteName) {
 
             if(newWebSiteName == null) return;

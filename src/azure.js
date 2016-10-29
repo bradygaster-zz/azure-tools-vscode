@@ -10,7 +10,7 @@ exports.createWebApp = function createWebApp(state) {
 };
 
 exports.createFunction = function createFunction(state) {
-    return createAppService(state, 'function');
+    return createAppService(state, 'functionapp');
 };
 
 exports.createNewResourceGroup = function createNewResourceGroup(state) {
@@ -139,8 +139,9 @@ function createAppService(state, kind) {
             serverFarmId: state.selectedServerFarm
         };
 
+        // doc: "kind" is how we determine what type of app service we're creating
         if (kind) {
-            config.kind = kind;
+            config.kind = kind; 
         }
         
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
