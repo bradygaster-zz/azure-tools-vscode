@@ -72,6 +72,11 @@
         "command": "selectRegion",
         "title": "select your active region",
         "category": "Azure"
+      },
+      {
+        "command": "createFunction.simple",
+        "title": "create an azure function (simple)",
+        "category": "Azure"
       }
     ]
   },

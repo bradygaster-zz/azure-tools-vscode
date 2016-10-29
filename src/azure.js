@@ -9,6 +9,10 @@ exports.createWebApp = function createWebApp(state) {
     return createAppService(state);
 };
 
+exports.createFunction = function createFunction(state) {
+    return createAppService(state, 'function');
+};
+
 exports.createNewResourceGroup = function createNewResourceGroup(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
