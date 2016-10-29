@@ -174,12 +174,13 @@ exports.getRegions = function getRegions(state) {
 exports.showRegionMenu = function showRegionMenu(state) {
     var regionNames = state.regions.map(function (x) { return x.displayName; });
     vscode.window.showQuickPick(regionNames).then(function (selected) {
-        if (selected != null) {
-            state.selectedRegion = selected;
-            vscode.window.setStatusBarMessage(constants.statusRegionSelected.replace('{0}', state.selectedRegion));
-            updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
-                + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
-        }
+        if (!selected) return;
+
+        state.selectedRegion = selected;
+        vscode.window.setStatusBarMessage(constants.statusRegionSelected.replace('{0}', state.selectedRegion));
+        updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
+            + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
+
     });
 };
 
