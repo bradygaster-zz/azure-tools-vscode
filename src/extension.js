@@ -44,6 +44,7 @@ function doNewOrExistingServerFarmWorkflow(callback) {
                     else {
                         vscode.window.showQuickPick(state.serverFarmList)
                             .then(function (selectedServerFarm) {
+                                if(!selectedServerFarm) return; 
                                 state.selectedServerFarm = selectedServerFarm;
                                 callback();
                             })
@@ -57,10 +58,8 @@ function doNewOrExistingServerFarmWorkflow(callback) {
             vscode.window.showInputBox({ prompt: constants.promptNewServerFarm })
                 .then(function (newServerFarmName) {
 
-                    if(newServerFarmName == null) return;
+                    if (!newServerFarmName || newServerFarmName === '') return;
 
-                    if (newServerFarmName == '')
-                        return;
                     state.selectedServerFarm = newServerFarmName;
                     vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
                     ux.createServerFarm(state, function () {
@@ -144,6 +143,10 @@ function activate(context) {
     var selectSubscriptionCommand = vscode.commands.registerCommand('selectsubscription', function () {
         // when the user selects a subscription remember the selected subscription id
         vscode.window.showQuickPick(state.subscriptionNames).then(selected => {
+
+            // abort if user aborted
+            if (!selected) return;
+
             state.subscriptions.forEach(function (element, index, array) {
                 if (element.name == selected) {
                     state.selectedSubscriptionId = element.id;
@@ -151,6 +154,7 @@ function activate(context) {
 
                     });
                     vscode.window.setStatusBarMessage(constants.statusSubscriptionSelected.replace('{0}', element.name));
+
                 }
             });
         });
@@ -203,7 +207,7 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
 
-            if(newWebSiteName == null) return;
+            if (!newWebSiteName || newWebSiteName === "") return;
 
             state.newWebAppName = newWebSiteName;
             state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
@@ -224,7 +228,7 @@ function activate(context) {
             prompt: constants.promptNewWebAppName
         }).then(function (newWebSiteName) {
 
-            if(newWebSiteName == null) return;
+            if (!newWebSiteName || newWebSiteName === "") return;
 
             state.newWebAppName = newWebSiteName;
             ux
@@ -242,6 +246,9 @@ function activate(context) {
                                     // show the list in a quickpick
                                     vscode.window.showQuickPick(state.resourceGroupList)
                                         .then(function (selectedRg) {
+                                            
+                                            if(!selectedRg) return;
+
                                             state.resourceGroupToUse = selectedRg;
                                             doNewOrExistingServerFarmWorkflow(function () {
                                                 ux.createWebApp(state);
@@ -256,7 +263,8 @@ function activate(context) {
                             vscode.window.showInputBox({
                                 prompt: constants.promptNewRgName
                             }).then(function (newResourceGroupName) {
-                                if(newResourceGroupName == null) return;
+
+                                if (!newResourceGroupName || newResourceGroupName === "") return;
 
                                 state.resourceGroupToUse = newResourceGroupName;
                                 ux.createResourceGroup(state, function () {
