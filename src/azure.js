@@ -1,28 +1,12 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
-var azure = require('azure');
+var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var config = require('./config');
 var constants = config.getConstants();
 
 exports.createWebApp = function createWebApp(state) {
-    return new Promise(function (resolve, reject) {
-        var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
-        webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
-            state.newWebAppName,
-            {
-                location: state.selectedRegion,
-                serverFarmId: state.selectedServerFarm
-            },
-            function (err, result) {
-                if (err != null) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-    });
+    return createAppService(state);
 };
 
 exports.createNewResourceGroup = function createNewResourceGroup(state) {
@@ -133,7 +117,7 @@ exports.getFullResourceList = function getFullResourceList(state) {
 exports.getRegions = function getRegions(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        var subscriptionClient = azure.createARMSubscriptionManagementClient(state.credentials);
+        var subscriptionClient = new SubscriptionClient(state.credentials);
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)
                 reject(err);
@@ -141,5 +125,31 @@ exports.getRegions = function getRegions(state) {
                 resolve(result);
             }
         });
+    });
+};
+
+function createAppService(state, kind) {
+    return new Promise(function (resolve, reject) {
+        var config = {
+            location: state.selectedRegion,
+            serverFarmId: state.selectedServerFarm
+        };
+
+        if (kind) {
+            config.kind = kind;
+        }
+        
+        var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+        webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
+            state.newWebAppName,
+            config,
+            function (err, result) {
+                if (err != null) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
     });
 };

@@ -48,4 +48,4 @@ All feature ideas and issues should be reported using [GitHub issues](https://gi
 
 ## Release Notes
 
-You can find notes for each release in the [Changelog](changelog.md).
+You can find notes for each release in the [changelog](changelog.md).
