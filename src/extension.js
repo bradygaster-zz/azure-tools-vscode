@@ -177,26 +177,6 @@ function activate(context) {
     });
 
     // starts simple function app creation process
-    var createWebAppCommandSimple = vscode.commands.registerCommand('createwebapp.simple', function () {
-        vscode.window.showInputBox({
-            prompt: constants.promptNewWebAppName
-        }).then(function (newWebSiteName) {
-
-            if(newWebSiteName == null) return;
-
-            state.newWebAppName = newWebSiteName;
-            state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
-            state.resourceGroupToUse = state.newWebAppName + 'Resources';
-
-            ux.createResourceGroup(state,
-                function () {
-                    ux.createServerFarm(state, function () {
-                        ux.createWebApp(state)
-                    })
-                });
-        });
-    });
-
     var createFunctionSimpleCommand = vscode.commands.registerCommand('createFunction.simple', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewWebAppName
