@@ -103,6 +103,23 @@ exports.createWebApp = function createWebApp(state, callback) {
         });
 }
 
+// creates the function app based on the state persisted up to this point
+exports.createFunction = function createFunction(state, callback) {
+    vscode.window.setStatusBarMessage(constants.promptFunctionAppCreationInProcess.replace('{0}', state.newWebAppName));
+
+    azure
+        .createFunction(state)
+        .then(function (result) {
+            console.log(result);
+            vscode.window.setStatusBarMessage(constants.promptFunctionAppCreated.replace('{0}', state.newWebAppName));
+            if (callback != null)
+                callback();
+        })
+        .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+}
+
 // gets all the hosting plans
 exports.getServerFarms = function getServerFarms(state) {
     return new Promise(function (resolve, reject) {
