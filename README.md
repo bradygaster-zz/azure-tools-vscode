@@ -24,7 +24,7 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
     ![Browse to portal feature](./media/docs/browse-to-resource-in-portal.gif)
 
-- Web App creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
+- Web App **and new -> Azure Function App** creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
 
     Advanced mode allows you to create or select new or existing resource groups and server farms.
 
