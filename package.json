@@ -77,6 +77,11 @@
         "command": "createFunction.simple",
         "title": "create an azure function (simple)",
         "category": "Azure"
+      },
+      {
+        "command": "createFunction.advanced",
+        "title": "create an azure function (advanced)",
+        "category": "Azure"
       }
     ]
   },
