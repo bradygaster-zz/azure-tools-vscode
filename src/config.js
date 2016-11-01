@@ -5,6 +5,7 @@ const vscode = require('vscode');
 exports.getConstants = function getConstants() {
     return {
         btnRegionSelectionLabel: 'Select your desired Azure region. ',
+        btnStorageSelectionLabel: 'Select your desired Azure Storage Account. ',
         loginButtonLabel: 'Sign In',
         enterCodeString: 'Enter the code ',
         authString: ' to authenticate.',
@@ -21,6 +22,7 @@ exports.getConstants = function getConstants() {
         statusCreatingServerFarm: 'Creating server farm {0}',
         statusCreatedServerFarm: 'Created server farm {0}',
         statusRegionSelected: '{0} region selected',
+        statusStorageAccountSelected: '{0} storage account selected',
         promptNewWebAppName: 'Web App Name',
         promptNewFunctionAppName: 'Function App Name',
         promptNewRgName: 'New Resource Group Name:',

@@ -1,6 +1,7 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
+var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var config = require('./config');
 var constants = config.getConstants();
@@ -125,6 +126,20 @@ exports.getRegions = function getRegions(state) {
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)
                 reject(err);
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+exports.getStorageAccounts = function getStorageAccounts(state) {
+    return new Promise(function (resolve, reject) {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.list(function (err, result) {
+            if (err) {
+                reject(err);
+            }
             else {
                 resolve(result);
             }

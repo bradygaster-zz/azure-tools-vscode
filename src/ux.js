@@ -146,6 +146,27 @@ exports.getServerFarms = function getServerFarms(state) {
     });
 }
 
+exports.getStorageAccounts = function getStorageAccounts(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .getStorageAccounts(state)
+            .then(function (result) {
+                if (result.length === 0)
+                    resolve();
+                else {
+                    result.forEach((item, index, arr) => {
+                        state.storageAccountList.push(item);
+                        if (index === arr.length -1)
+                            resolve();
+                    });
+                }
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+}
+
 var buttons = [];
 
 exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
@@ -180,6 +201,19 @@ exports.showRegionMenu = function showRegionMenu(state) {
         vscode.window.setStatusBarMessage(constants.statusRegionSelected.replace('{0}', state.selectedRegion));
         updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
             + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
+
+    });
+};
+
+exports.showStorageAccountMenu = function showStorageMenu(state) {
+    var storageAccountNames = state.storageAccountList.map(function (x) { return x.name; });
+    vscode.window.showQuickPick(storageAccountNames).then(function (selected) {
+        if (!selected) return;
+
+        state.selectedStorageAccount = selected;
+        vscode.window.setStatusBarMessage(constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
+        updateButtonTooltip('selectStorageAccount', constants.btnStorageSelectionLabel + '('
+            + constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
 
     });
 };
