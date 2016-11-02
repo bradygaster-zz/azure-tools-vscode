@@ -54,6 +54,11 @@
         "category": "Azure"
       },
       {
+        "command": "createstorageaccount.simple",
+        "title": "create storage account (simple)",
+        "category": "Azure"
+      },
+      {
         "command": "logintoazure",
         "title": "login",
         "category": "Azure"

@@ -147,6 +147,27 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
     });
 };
 
+exports.createStorageAccount = function createStorageAccount(state) {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        var createParameters = {
+            location: state.selectedRegion,
+            sku: {
+                name: 'Standard_LRS'
+            },
+            kind: 'Storage'
+        };
+        storageClient.storageAccounts.create(state.resourceGroupToUse, state.selectedStorageAccount, createParameters, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        })
+    });
+};
+
 function createAppService(state, kind) {
     return new Promise(function (resolve, reject) {
         var config = {

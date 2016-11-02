@@ -146,6 +146,7 @@ exports.getServerFarms = function getServerFarms(state) {
     });
 }
 
+// lists all storage accounts in subscription
 exports.getStorageAccounts = function getStorageAccounts(state) {
     return new Promise(function (resolve, reject) {
         azure
@@ -165,6 +166,23 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
                 vscode.window.showErrorMessage(err);
             });
     });
+}
+
+// create new storage account
+exports.createStorageAccount = function createStorageAccount(state, callback) {
+    return new Promise((resolve, reject) => {
+        vscode.window.setStatusBarMessage(constants.statusCreatingStorageAccount.replace('{0}', state.selectedStorageAccount));
+        azure
+            .createStorageAccount(state)
+            .then((result) => {
+                vscode.window.setStatusBarMessage(constants.statusCreatedStorageAccount.replace('{0}', state.selectedStorageAccount));
+                if (callback !== null)
+                    callback(result);
+            })
+            .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+    })
 }
 
 var buttons = [];
