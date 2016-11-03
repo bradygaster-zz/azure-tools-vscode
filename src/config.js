@@ -22,6 +22,7 @@ exports.getConstants = function getConstants() {
         statusCreatingServerFarm: 'Creating server farm {0}',
         statusCreatedServerFarm: 'Created server farm {0}',
         statusRegionSelected: '{0} region selected',
+        statusResourceGroupSelected: '{0} resource group selected',
         statusStorageAccountSelected: '{0} storage account selected',
         statusCreatingStorageAccount: 'Creating storage account "{0}"',
         statusCreatedStorageAccount: 'Storage account "{0}" created successfully',

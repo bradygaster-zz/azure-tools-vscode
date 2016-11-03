@@ -168,6 +168,20 @@ exports.createStorageAccount = function createStorageAccount(state) {
     });
 };
 
+exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.listKeys(state.resourceGroupToUse, state.selectedStorageAccount, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
 function createAppService(state, kind) {
     return new Promise(function (resolve, reject) {
         var config = {

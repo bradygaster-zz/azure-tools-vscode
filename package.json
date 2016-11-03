@@ -59,6 +59,11 @@
         "category": "Azure"
       },
       {
+        "command": "selectStorageAccountKeys",
+        "title": "storage account keys",
+        "category": "Azure"
+      },
+      {
         "command": "logintoazure",
         "title": "login",
         "category": "Azure"
