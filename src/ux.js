@@ -170,7 +170,7 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
             .getStorageAccounts(state)
             .then(function (result) {
                 if (result.length === 0)
-                    reject();
+                    vscode.window.showErrorMessage(constants.promptNoStorageAccount);
                 else {
                     result.forEach((item, index, arr) => {
                         state.storageAccountList.push(item);
@@ -211,6 +211,7 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                 if (result.length === 0)
                     reject();
                 else {
+                    state.storageAccountKeyList = [];
                     result.forEach((item, index, arr) => {
                         state.storageAccountKeyList.push(item);
                         if (index === arr.length -1)

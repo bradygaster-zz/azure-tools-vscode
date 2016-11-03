@@ -42,6 +42,7 @@ exports.getConstants = function getConstants() {
         promptNoSubscriptionsOrMisconfigured: 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
         promptCreateNewFunction: 'Function App name:',
         promptCreateNewStorageAccount: 'Storage account name:',
+        promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',

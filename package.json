@@ -45,22 +45,22 @@
     "commands": [
       {
         "command": "selectsubscription",
-        "title": "subscriptions list",
+        "title": "List Azure Subscriptions",
         "category": "Azure"
       },
       {
         "command": "selectStorageAccount",
-        "title": "storage account list",
+        "title": "List Storage Accounts",
         "category": "Azure"
       },
       {
         "command": "createstorageaccount.simple",
-        "title": "create storage account (simple)",
+        "title": "Create a Storage Account (Simple)",
         "category": "Azure"
       },
       {
         "command": "selectStorageAccountKeys",
-        "title": "storage account keys",
+        "title": "Get Storage Account Keys",
         "category": "Azure"
       },
       {
@@ -70,32 +70,32 @@
       },
       {
         "command": "createwebapp.advanced",
-        "title": "create webapp (advanced)",
+        "title": "Create a Web App (Advanced)",
         "category": "Azure"
       },
       {
         "command": "createwebapp.simple",
-        "title": "create webapp (simple)",
+        "title": "Create a Web App (Simple)",
         "category": "Azure"
       },
       {
         "command": "browseInPortal",
-        "title": "browse resource in portal",
+        "title": "Browse in Portal (Select a resource to open in the Azure Portal)",
         "category": "Azure"
       },
       {
         "command": "selectRegion",
-        "title": "select your active region",
+        "title": "Set your active Azure Data Center",
         "category": "Azure"
       },
       {
         "command": "createFunction.simple",
-        "title": "create an azure function (simple)",
+        "title": "Create an Azure Function App (Simple)",
         "category": "Azure"
       },
       {
         "command": "createFunction.advanced",
-        "title": "create an azure function (advanced)",
+        "title": "Create an Azure Function App (Advanced)",
         "category": "Azure"
       }
     ]
