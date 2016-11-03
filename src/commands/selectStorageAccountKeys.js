@@ -11,21 +11,11 @@ exports.createCommand = function createCommand(state) {
                     ux.showStorageAccountMenu(state, () => {
                         ux.getStorageAccountKeys(state)
                         .then((result) => {
-                            console.log(result);
+                            console.log(state.storageAccountKeyList);
                         });
                     });
                 });
             });
         });
-        
-        // var filePath = "c:\\cur\\abc.txt"; // abc does not exist
-        // var fileUri = vscode.Uri.parse('untitled:' + filePath);
-        // vscode.workspace.openTextDocument(fileUri)
-        // .then((doc) => {
-        //     vscode.window.showTextDocument(doc);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // });
     });
 };

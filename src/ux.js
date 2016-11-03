@@ -166,6 +166,7 @@ exports.getServerFarms = function getServerFarms(state) {
 // lists all storage accounts in subscription
 exports.getStorageAccounts = function getStorageAccounts(state) {
     return new Promise(function (resolve, reject) {
+        state.storageAccountList = [];
         azure
             .getStorageAccounts(state)
             .then(function (result) {
@@ -174,7 +175,7 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
                 else {
                     result.forEach((item, index, arr) => {
                         state.storageAccountList.push(item);
-                        if (index === arr.length -1)
+                        if (index === arr.length - 1)
                             resolve();
                     });
                 }
@@ -197,24 +198,25 @@ exports.createStorageAccount = function createStorageAccount(state, callback) {
                     callback(result);
             })
             .catch(function (err) {
-            vscode.window.showErrorMessage(err);
-        });
+                vscode.window.showErrorMessage(err);
+            });
     });
 }
 
 // list storage account keys
 exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
+
     return new Promise(function (resolve, reject) {
         azure
             .getStorageAccountKeys(state)
             .then(function (result) {
-                if (result.length === 0)
+                if (result.keys.length == 0)
                     reject();
                 else {
                     state.storageAccountKeyList = [];
-                    result.forEach((item, index, arr) => {
+                    result.keys.forEach(function (item, index, arr) {
                         state.storageAccountKeyList.push(item);
-                        if (index === arr.length -1)
+                        if (index === arr.length - 1)
                             resolve();
                     });
                 }
@@ -287,7 +289,7 @@ exports.showStorageAccountMenu = function showStorageMenu(state, callback) {
         vscode.window.setStatusBarMessage(constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
         updateButtonTooltip('selectStorageAccount', constants.btnStorageSelectionLabel + '('
             + constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
-        
+
         if (callback !== null) callback();
     });
 };
