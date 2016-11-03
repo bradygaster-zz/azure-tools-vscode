@@ -14,8 +14,12 @@ exports.createCommand = function createCommand(state) {
             state.selectedStorageAccount = newStorageAccountName;
             state.resourceGroupToUse = state.selectedStorageAccount + 'Resources';
 
-            ux.createResourceGroup(state, () => {
-                ux.createStorageAccount(state);
+            ux.ifStorageAccountNameIsAvailable(state).then(() => {
+                ux.createResourceGroup(state, () => {
+                    ux.createStorageAccount(state);
+                });
+            }).catch((message) => {
+                vscode.window.showErrorMessage(message);
             });
         });
     });

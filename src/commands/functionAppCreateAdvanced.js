@@ -13,7 +13,7 @@ exports.createCommand = function createCommand(state) {
 
             state.newWebAppName = newWebSiteName;
             ux
-                .ifNameIsAvailable(state)
+                .ifWebSiteNameIsAvailable(state)
                 .then(function () {
                     // name is available so we need to know a resource group to use
                     vscode.window.showQuickPick([

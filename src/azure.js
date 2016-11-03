@@ -147,6 +147,22 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
     });
 };
 
+exports.checkStorageAccountNameAvailability = (state) => {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.checkNameAvailability(
+        state.selectedStorageAccount, 
+        (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    })
+}
+
 exports.createStorageAccount = function createStorageAccount(state) {
     return new Promise((resolve, reject) => {
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
@@ -157,14 +173,20 @@ exports.createStorageAccount = function createStorageAccount(state) {
             },
             kind: 'Storage'
         };
-        storageClient.storageAccounts.create(state.resourceGroupToUse, state.selectedStorageAccount, createParameters, (err, result) => {
+        
+        storageClient.storageAccounts.create(
+            state.resourceGroupToUse, 
+            state.selectedStorageAccount, 
+            createParameters, 
+            (err, result) => {
             if (err) {
                 reject(err);
             }
             else {
                 resolve(result);
             }
-        })
+        });
+        
     });
 };
 

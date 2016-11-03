@@ -21,7 +21,7 @@ exports.getResourceGroups = function getResourceGroups(state) {
 };
 
 // check the site's name
-exports.ifNameIsAvailable = function ifNameIsAvailable(state) {
+exports.ifWebSiteNameIsAvailable = function ifWebSiteNameIsAvailable(state) {
     return new Promise(function (resolve, reject) {
         azure
             .checkSiteNameAvailability(state)
@@ -29,6 +29,23 @@ exports.ifNameIsAvailable = function ifNameIsAvailable(state) {
                 if (!result.nameAvailable) {
                     // name isn't available so we bail out'
                     reject(constants.promptWebSiteNameNotAvailable);
+                }
+                else {
+                    resolve();
+                }
+            });
+    });
+};
+
+// check the storage account's name
+exports.ifStorageAccountNameIsAvailable = function ifStorageAccountNameIsAvailable(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .checkStorageAccountNameAvailability(state)
+            .then(function (result) {
+                if (!result.nameAvailable) {
+                    // name isn't available so we bail out'
+                    reject(constants.promptStorageAccountNameNotAvailable);
                 }
                 else {
                     resolve();
@@ -182,7 +199,7 @@ exports.createStorageAccount = function createStorageAccount(state, callback) {
             .catch(function (err) {
             vscode.window.showErrorMessage(err);
         });
-    })
+    });
 }
 
 // list storage account keys

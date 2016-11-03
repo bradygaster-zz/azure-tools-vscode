@@ -30,6 +30,7 @@ exports.getConstants = function getConstants() {
         promptNewFunctionAppName: 'Function App Name',
         promptNewRgName: 'New Resource Group Name:',
         promptWebSiteNameNotAvailable: 'That web app name is not available.',
+        promptStorageAccountNameNotAvailable: 'That storage account name is not available.',
         promptNewServerFarm: 'Server Farm Name',
         promptWebAppCreationInProcess: 'Creating Web App "{0}"...',
         promptWebAppCreated: 'Created Web App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
