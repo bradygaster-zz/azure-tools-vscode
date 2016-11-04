@@ -1,6 +1,7 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
+var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var config = require('./config');
 var constants = config.getConstants();
@@ -125,6 +126,77 @@ exports.getRegions = function getRegions(state) {
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)
                 reject(err);
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+exports.getStorageAccounts = function getStorageAccounts(state) {
+    return new Promise(function (resolve, reject) {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.list(function (err, result) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+exports.checkStorageAccountNameAvailability = (state) => {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.checkNameAvailability(
+        state.selectedStorageAccount, 
+        (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    })
+}
+
+exports.createStorageAccount = function createStorageAccount(state) {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        var createParameters = {
+            location: state.selectedRegion,
+            sku: {
+                name: 'Standard_LRS'
+            },
+            kind: 'Storage'
+        };
+        
+        storageClient.storageAccounts.create(
+            state.resourceGroupToUse, 
+            state.selectedStorageAccount, 
+            createParameters, 
+            (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+        
+    });
+};
+
+exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
+    return new Promise((resolve, reject) => {
+        var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        storageClient.storageAccounts.listKeys(state.resourceGroupToUse, state.selectedStorageAccount, (err, result) => {
+            if (err) {
+                reject(err);
+            }
             else {
                 resolve(result);
             }

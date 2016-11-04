@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -45,7 +45,17 @@
     "commands": [
       {
         "command": "selectsubscription",
-        "title": "subscriptions list",
+        "title": "List Azure Subscriptions",
+        "category": "Azure"
+      },
+      {
+        "command": "storageAccountGetConnectionString",
+        "title": "Get a Storage Account Connection String",
+        "category": "Azure"
+      },
+      {
+        "command": "createstorageaccount.simple",
+        "title": "Create a Storage Account (Simple)",
         "category": "Azure"
       },
       {
@@ -55,32 +65,32 @@
       },
       {
         "command": "createwebapp.advanced",
-        "title": "create webapp (advanced)",
+        "title": "Create a Web App (Advanced)",
         "category": "Azure"
       },
       {
         "command": "createwebapp.simple",
-        "title": "create webapp (simple)",
+        "title": "Create a Web App (Simple)",
         "category": "Azure"
       },
       {
         "command": "browseInPortal",
-        "title": "browse resource in portal",
+        "title": "Browse in Portal (Select a resource to open in the Azure Portal)",
         "category": "Azure"
       },
       {
         "command": "selectRegion",
-        "title": "select your active region",
+        "title": "Set your active Azure Data Center",
         "category": "Azure"
       },
       {
         "command": "createFunction.simple",
-        "title": "create an azure function (simple)",
+        "title": "Create an Azure Function App (Simple)",
         "category": "Azure"
       },
       {
         "command": "createFunction.advanced",
-        "title": "create an azure function (advanced)",
+        "title": "Create an Azure Function App (Advanced)",
         "category": "Azure"
       }
     ]
@@ -92,11 +102,12 @@
     "vscode": "^0.11.0"
   },
   "dependencies": {
-    "ms-rest-azure": "1.15.2",
-    "azure-arm-website": "0.11.4",
     "azure-arm-resource": "1.5.1-preview",
+    "azure-arm-storage": "^0.13.4-preview",
+    "azure-arm-website": "0.11.4",
     "copy-paste": "^1.3.0",
     "get-urls": "^5.0.1",
+    "ms-rest-azure": "1.15.2",
     "open": "0.0.5"
   }
 }

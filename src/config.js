@@ -5,6 +5,7 @@ const vscode = require('vscode');
 exports.getConstants = function getConstants() {
     return {
         btnRegionSelectionLabel: 'Select your desired Azure region. ',
+        btnStorageSelectionLabel: 'Select your desired Azure Storage Account. ',
         loginButtonLabel: 'Sign In',
         enterCodeString: 'Enter the code ',
         authString: ' to authenticate.',
@@ -21,10 +22,15 @@ exports.getConstants = function getConstants() {
         statusCreatingServerFarm: 'Creating server farm {0}',
         statusCreatedServerFarm: 'Created server farm {0}',
         statusRegionSelected: '{0} region selected',
+        statusResourceGroupSelected: '{0} resource group selected',
+        statusStorageAccountSelected: '{0} storage account selected',
+        statusCreatingStorageAccount: 'Creating storage account "{0}"',
+        statusCreatedStorageAccount: 'Storage account "{0}" created successfully',
         promptNewWebAppName: 'Web App Name',
         promptNewFunctionAppName: 'Function App Name',
         promptNewRgName: 'New Resource Group Name:',
         promptWebSiteNameNotAvailable: 'That web app name is not available.',
+        promptStorageAccountNameNotAvailable: 'That storage account name is not available.',
         promptNewServerFarm: 'Server Farm Name',
         promptWebAppCreationInProcess: 'Creating Web App "{0}"...',
         promptWebAppCreated: 'Created Web App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
@@ -35,12 +41,16 @@ exports.getConstants = function getConstants() {
         promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
         promptNoSubscriptionsOrMisconfigured: 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
         promptCreateNewFunction: 'Function App name:',
+        promptCreateNewStorageAccount: 'Storage account name:',
+        promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
+        promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
         optionExistingRg: 'Use existing resource group',
         optionNewHostingPlan: 'Create a new server farm',
-        optionUseExistingHostingPlan: 'Use an existing server farm'
+        optionUseExistingHostingPlan: 'Use an existing server farm',
+        templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};'
     };
 };
 

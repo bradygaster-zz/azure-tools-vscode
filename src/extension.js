@@ -22,7 +22,10 @@ var state = {
     entireResourceList: [],
     newWebAppName: null,
     regions: [],
-    selectedRegion: 'West US'
+    selectedRegion: 'West US',
+    storageAccountList: [],
+    selectedStorageAccount: null,
+    storageAccountKeyList: []
 };
 
 // this method is called when your extension is activated
@@ -57,14 +60,22 @@ function activate(context) {
     // starts advanced the function app creation process
     var createFunctionAdvancedCommand = require('./commands/functionAppCreateAdvanced').createCommand(state);
 
+    // starts simple storage account creation process
+    var storageAccountGetConnectionStringCommand = require('./commands/storageAccountGetConnectionString').createCommand(state);
+
+    // create a storage account
+    var storageAccountCreateSimpleCommand = require('./commands/storageAccountCreateSimple').createCommand(state);
+
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
+    context.subscriptions.push(selectRegionCommand);
+    context.subscriptions.push(browseInPortal);
+    context.subscriptions.push(createFunctionSimpleCommand);
     context.subscriptions.push(createWebAppCommandSimple);
     context.subscriptions.push(createWebAppCommandAdvanced);
-    context.subscriptions.push(browseInPortal);
-    context.subscriptions.push(selectRegionCommand);
-    context.subscriptions.push(createFunctionSimpleCommand);
     context.subscriptions.push(createFunctionAdvancedCommand);
+    context.subscriptions.push(storageAccountGetConnectionStringCommand);
+    context.subscriptions.push(storageAccountCreateSimpleCommand);
 }
 exports.activate = activate;
 

@@ -21,7 +21,7 @@ exports.getResourceGroups = function getResourceGroups(state) {
 };
 
 // check the site's name
-exports.ifNameIsAvailable = function ifNameIsAvailable(state) {
+exports.ifWebSiteNameIsAvailable = function ifWebSiteNameIsAvailable(state) {
     return new Promise(function (resolve, reject) {
         azure
             .checkSiteNameAvailability(state)
@@ -29,6 +29,23 @@ exports.ifNameIsAvailable = function ifNameIsAvailable(state) {
                 if (!result.nameAvailable) {
                     // name isn't available so we bail out'
                     reject(constants.promptWebSiteNameNotAvailable);
+                }
+                else {
+                    resolve();
+                }
+            });
+    });
+};
+
+// check the storage account's name
+exports.ifStorageAccountNameIsAvailable = function ifStorageAccountNameIsAvailable(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .checkStorageAccountNameAvailability(state)
+            .then(function (result) {
+                if (!result.nameAvailable) {
+                    // name isn't available so we bail out'
+                    reject(constants.promptStorageAccountNameNotAvailable);
                 }
                 else {
                     resolve();
@@ -146,6 +163,75 @@ exports.getServerFarms = function getServerFarms(state) {
     });
 }
 
+// lists all storage accounts in subscription
+exports.getStorageAccounts = function getStorageAccounts(state) {
+    return new Promise(function (resolve, reject) {
+        state.storageAccountList = [];
+        azure
+            .getStorageAccounts(state)
+            .then(function (result) {
+                if (result.length === 0)
+                    vscode.window.showErrorMessage(constants.promptNoStorageAccount);
+                else {
+                    result.forEach((item, index, arr) => {
+                        state.storageAccountList.push(item);
+                        if (index === arr.length - 1)
+                            resolve();
+                    });
+                }
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+}
+
+// create new storage account
+exports.createStorageAccount = function createStorageAccount(state, callback) {
+    return new Promise((resolve, reject) => {
+        vscode.window.setStatusBarMessage(constants.statusCreatingStorageAccount.replace('{0}', state.selectedStorageAccount));
+        azure
+            .createStorageAccount(state)
+            .then((result) => {
+                vscode.window.setStatusBarMessage(constants.statusCreatedStorageAccount.replace('{0}', state.selectedStorageAccount));
+                if (callback !== null)
+                    callback(result);
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+}
+
+// list storage account keys
+exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
+
+    return new Promise(function (resolve, reject) {
+        azure
+            .getStorageAccountKeys(state)
+            .then(function (result) {
+                if (result.keys.length == 0)
+                    reject();
+                else {
+                    state.storageAccountKeyList = [];
+
+                    if (result.keys.length != 0)
+                        resolve();
+                    else
+                        reject();
+
+                    result.keys.forEach(function (item, index, arr) {
+                        state.storageAccountKeyList.push(item);
+                    });
+                }
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+                reject();
+            });
+    });
+}
+
 var buttons = [];
 
 exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
@@ -171,6 +257,21 @@ exports.getRegions = function getRegions(state) {
     });
 };
 
+exports.showResourceGroupsMenu = function showResourceGroupsMenu(state, callback) {
+    var resourceGroupNames = state.resourceGroupList.map(function (x) { return x; });
+    vscode.window.showQuickPick(resourceGroupNames).then(function (selected) {
+        if (!selected) return;
+
+        state.resourceGroupToUse = selected;
+        vscode.window.setStatusBarMessage(constants.statusResourceGroupSelected.replace('{0}', state.resourceGroupToUse));
+        // updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
+        //     + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
+
+        if (callback !== null)
+            callback();
+    });
+};
+
 exports.showRegionMenu = function showRegionMenu(state) {
     var regionNames = state.regions.map(function (x) { return x.displayName; });
     vscode.window.showQuickPick(regionNames).then(function (selected) {
@@ -181,6 +282,23 @@ exports.showRegionMenu = function showRegionMenu(state) {
         updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
             + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
 
+    });
+};
+
+exports.showStorageAccountMenu = function showStorageMenu(state) {
+    return new Promise(function (resolve, reject) {
+        var storageAccountNames = state.storageAccountList.map(function (x) { return x.name; });
+        vscode.window.showQuickPick(storageAccountNames).then(function (selected) {
+            if (!selected)
+                resolve(null);
+            else {
+                state.selectedStorageAccount = selected;
+                vscode.window.setStatusBarMessage(constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
+                updateButtonTooltip('selectStorageAccount', constants.btnStorageSelectionLabel + '('
+                    + constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
+                resolve(selected);
+            }
+        });
     });
 };
 
