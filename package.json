@@ -50,7 +50,7 @@
       },
       {
         "command": "storageAccountGetConnectionString",
-        "title": "Get Storage Account Connection String",
+        "title": "Get a Storage Account Connection String",
         "category": "Azure"
       },
       {
