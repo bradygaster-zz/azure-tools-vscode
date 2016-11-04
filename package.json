@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -49,18 +49,13 @@
         "category": "Azure"
       },
       {
-        "command": "selectStorageAccount",
-        "title": "List Storage Accounts",
+        "command": "storageAccountGetConnectionString",
+        "title": "Get Storage Account Connection String",
         "category": "Azure"
       },
       {
         "command": "createstorageaccount.simple",
         "title": "Create a Storage Account (Simple)",
-        "category": "Azure"
-      },
-      {
-        "command": "selectStorageAccountKeys",
-        "title": "Get Storage Account Keys",
         "category": "Azure"
       },
       {

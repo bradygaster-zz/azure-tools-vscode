@@ -43,12 +43,14 @@ exports.getConstants = function getConstants() {
         promptCreateNewFunction: 'Function App name:',
         promptCreateNewStorageAccount: 'Storage account name:',
         promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
+        promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
         optionExistingRg: 'Use existing resource group',
         optionNewHostingPlan: 'Create a new server farm',
-        optionUseExistingHostingPlan: 'Use an existing server farm'
+        optionUseExistingHostingPlan: 'Use an existing server farm',
+        templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};'
     };
 };
 

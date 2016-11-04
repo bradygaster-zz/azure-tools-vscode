@@ -60,26 +60,22 @@ function activate(context) {
     // starts advanced the function app creation process
     var createFunctionAdvancedCommand = require('./commands/functionAppCreateAdvanced').createCommand(state);
 
-    // shows the user a list of storage accounts
-    var selectStorageAccountCommand = require('./commands/selectStorageAccount').createCommand(state);
-
     // starts simple storage account creation process
-    var createStorageAccountSimpleCommand = require('./commands/storageAccountCreateSimple').createCommand(state);
+    var storageAccountGetConnectionStringCommand = require('./commands/storageAccountGetConnectionString').createCommand(state);
 
-    // shows new window with storage account keys
-    var selectStorageAccountKeyCommand = require('./commands/selectStorageAccountKeys').createCommand(state);
+    // create a storage account
+    var storageAccountCreateSimpleCommand = require('./commands/storageAccountCreateSimple').createCommand(state);
 
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
+    context.subscriptions.push(selectRegionCommand);
+    context.subscriptions.push(browseInPortal);
+    context.subscriptions.push(createFunctionSimpleCommand);
     context.subscriptions.push(createWebAppCommandSimple);
     context.subscriptions.push(createWebAppCommandAdvanced);
-    context.subscriptions.push(browseInPortal);
-    context.subscriptions.push(selectRegionCommand);
-    context.subscriptions.push(createFunctionSimpleCommand);
     context.subscriptions.push(createFunctionAdvancedCommand);
-    context.subscriptions.push(selectStorageAccountCommand);
-    context.subscriptions.push(createStorageAccountSimpleCommand);
-    context.subscriptions.push(selectStorageAccountKeyCommand);
+    context.subscriptions.push(storageAccountGetConnectionStringCommand);
+    context.subscriptions.push(storageAccountCreateSimpleCommand);
 }
 exports.activate = activate;
 

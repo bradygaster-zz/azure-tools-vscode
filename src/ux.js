@@ -214,15 +214,20 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                     reject();
                 else {
                     state.storageAccountKeyList = [];
+
+                    if (result.keys.length != 0)
+                        resolve();
+                    else
+                        reject();
+
                     result.keys.forEach(function (item, index, arr) {
                         state.storageAccountKeyList.push(item);
-                        if (index === arr.length - 1)
-                            resolve();
                     });
                 }
             })
             .catch(function (err) {
                 vscode.window.showErrorMessage(err);
+                reject();
             });
     });
 }
@@ -280,17 +285,20 @@ exports.showRegionMenu = function showRegionMenu(state) {
     });
 };
 
-exports.showStorageAccountMenu = function showStorageMenu(state, callback) {
-    var storageAccountNames = state.storageAccountList.map(function (x) { return x.name; });
-    vscode.window.showQuickPick(storageAccountNames).then(function (selected) {
-        if (!selected) return;
-
-        state.selectedStorageAccount = selected;
-        vscode.window.setStatusBarMessage(constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
-        updateButtonTooltip('selectStorageAccount', constants.btnStorageSelectionLabel + '('
-            + constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
-
-        if (callback !== null) callback();
+exports.showStorageAccountMenu = function showStorageMenu(state) {
+    return new Promise(function (resolve, reject) {
+        var storageAccountNames = state.storageAccountList.map(function (x) { return x.name; });
+        vscode.window.showQuickPick(storageAccountNames).then(function (selected) {
+            if (!selected)
+                resolve(null);
+            else {
+                state.selectedStorageAccount = selected;
+                vscode.window.setStatusBarMessage(constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
+                updateButtonTooltip('selectStorageAccount', constants.btnStorageSelectionLabel + '('
+                    + constants.statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
+                resolve(selected);
+            }
+        });
     });
 };
 
