@@ -36,14 +36,14 @@ Once you've added the GUID-based setting (available Active Directory area in the
 ## Creating Azure Resources
 You can use the Azure Tools for Code to create App Service Web and Function Apps, and Azure Storage Accounts (and more resources are on the way). The video embedded below demonstrates using VS Code along with [Yeoman](http://yeoman.io) templates to create a new Azure Function App. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7UQtUmsRHtY" frameborder="0" allowfullscreen></iframe>
+[![Create an Azure Function using Code](media/docs/video-function.png)](https://www.youtube.com/watch?v=7UQtUmsRHtY)
 
 In the case of Web and Function Apps the Azure Tools Extension allows for creation of your apps using a Simple flow, which creates a resource group, server farm, and app all at once. Or, you can use the Advanced flow to select an existing resource group or server farm in which to create your app. 
 
 ### Creating and Using Storage Accounts
 **New!** You can also use the Azure Tools for Visual Studio Code to create an Azure Storage Account. In the video below you'll see how you can create a new Storage Account in a new or existing resource group. Then, using the *Get Storage Account Connection String* command, you can get the connection string for an existing storage account copied to your clipboard. Then, you can easily paste it into a configuration file so your app can store and retrieve data using Azure Storage. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/98BHeUQ38Bo" frameborder="0" allowfullscreen></iframe>
+[![Create an Azure Storage Account using Code](media/docs/video-storage.png)](https://www.youtube.com/watch?v=98BHeUQ38Bo)
 
 ## Browsing Resources in the Azure Portal
 Two commands are provided to enable easy access to your Azure resources in the portal. By opening the command palette and typing **Browse** you will see the convenient "Browse in Portal" options. 
