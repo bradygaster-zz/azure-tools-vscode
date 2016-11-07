@@ -4,35 +4,59 @@ This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azur
 
 ## Features
 
-- Interactive Login, with support for Azure Active Directory accounts right out of the box.
+- Login with Microsoft Account (@hotmail.com, @live.com, etc.)
+- Login with Azure Active Directory (or "Organizational") account
+- Create App Service Web Apps
+- Create App Service Function Apps
+- Create Storage Accounts **New!**
+- Get Storage Account connection string **New!**
+- Browse to resource in portal
+- Browse to resource group in portal **New!** 
+- Support for multiple Azure subscriptions
+- Supports all Azure data centers
 
-    ![Sign in using an Azure Active Directory account](./media/docs/sign-in-org-account.gif) 
+Each of these commands is visible directly from commands visible in the command palette. 
 
-    Microsoft accounts are also supported, so you can log in using @outlook.com, @live.com, or @hotmail.com services. To enable MSA login, add the GUID of your AAD tenant to your workspace configuration using the `azure.tenantId` setting this extension contributes.
+![Azure Tools Commands](media/docs/commands.png)
 
-    ![Sign in using a Microsoft account](./media/docs/sign-in-msa.gif) 
+## Getting Started
+Once you've installed the extension you can log in using either your organizational account or a Microsoft account such as a @live.com address. If you need to log in using an "organizationa account" there is no setup work to be done. Simply pull up the command palette and look for the **Azure: Login** command. This command runs the web-based interactive login process. 
 
-- **New Feature** - All Azure regions supported! Simply click on the region-selection status bar button and select your region. 
+![Login Command](media/docs/login.png)
 
-    ![Select region](./media/docs/select-region.gif)
+### Logging in with a Microsoft Account?
+If you're logging in using a Microsoft account (such as a @hotmail.com, @live.com, or @outlook.com account) you will need to set the `azure.tenantId` setting. The screenshot below shows this setting being entered using the *File -> Preferences -> User Settings* feature.
 
-- Multiple subscription support, so if you have multiple Azure subscriptions associated with your login you'll be able to switch between them easily.
+![Adding the Azure tenant ID setting](media/docs/azure-tenant-id-setting.png)
 
-    ![Select subscription](./media/docs/select-subscription.gif)
+Once you've added the GUID-based setting (available Active Directory area in the [classic portal](https://manage.windowsazure.com) to the user or workspace settings using the `azure.tenantId` setting you can login using your Microsoft Account. The animated gif below demonstrates the full process of logging in using an MSA. 
 
-- Browse resources in the Azure portal shows a pick list of all your resources. When clicked, you'll go right to the portal blade for that resource.
+![Signing in using an MSA](media/docs/sign-in-msa.gif)
 
-    ![Browse to portal feature](./media/docs/browse-to-resource-in-portal.gif)
+## Creating Azure Resources
+You can use the Azure Tools for Code to create App Service Web and Function Apps, and Azure Storage Accounts (and more resources are on the way). The video embedded below demonstrates using VS Code along with [Yeoman](http://yeoman.io) templates to create a new Azure Function App. 
 
-- Web App **and new -> Azure Function App** creation - using either an advanced or simple mode, you can create new Azure App Service Web Apps directly from within Visual Studio Code.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7UQtUmsRHtY" frameborder="0" allowfullscreen></iframe>
 
-    Advanced mode allows you to create or select new or existing resource groups and server farms.
+In the case of Web and Function Apps the Azure Tools Extension allows for creation of your apps using a Simple flow, which creates a resource group, server farm, and app all at once. Or, you can use the Advanced flow to select an existing resource group or server farm in which to create your app. 
 
-    ![Advanced web app creation mode](./media/docs/create-web-app-advanced-scenario.gif)
+### Creating and Using Storage Accounts
+**New!** You can also use the Azure Tools for Visual Studio Code to create an Azure Storage Account. In the video below you'll see how you can create a new Storage Account in a new or existing resource group. Then, using the *Get Storage Account Connection String* command, you can get the connection string for an existing storage account copied to your clipboard. Then, you can easily paste it into a configuration file so your app can store and retrieve data using Azure Storage. 
 
-    Simple mode creates a new resource group, server farm, and Web App after typing in the name of the Web App.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/98BHeUQ38Bo" frameborder="0" allowfullscreen></iframe>
 
-    ![Simple web app creation mode](./media/docs/create-web-app-simple-scenario.gif)
+## Browsing Resources in the Azure Portal
+Two commands are provided to enable easy access to your Azure resources in the portal. By opening the command palette and typing **Browse** you will see the convenient "Browse in Portal" options. 
+
+![Browse Commands](media/docs/browseCommands.png)
+
+You can navigate directly to an individual resource's portal page:
+
+![Select a resource](media/docs/resources.png)
+
+Or to a resource group's portal page:
+
+![Select a resource group](media/docs/resourceGroups.png)
 
 ## Extension Settings
 
