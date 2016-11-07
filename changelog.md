@@ -1,3 +1,7 @@
+## 0.0.10 - 2016-11-04
+- Added storage account creation
+- Added storage account connection string retrieval
+
 ## 0.0.9 - 2016-10-31
 - Added support for Azure Functions creation
 

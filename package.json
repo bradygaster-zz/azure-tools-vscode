@@ -60,7 +60,7 @@
       },
       {
         "command": "logintoazure",
-        "title": "login",
+        "title": "Login",
         "category": "Azure"
       },
       {
@@ -76,6 +76,11 @@
       {
         "command": "browseInPortal",
         "title": "Browse in Portal (Select a resource to open in the Azure Portal)",
+        "category": "Azure"
+      },
+      {
+        "command": "browseResourceGroupInPortal",
+        "title": "Browse Resource Group in Portal",
         "category": "Azure"
       },
       {

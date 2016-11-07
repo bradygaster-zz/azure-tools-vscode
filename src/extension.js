@@ -48,6 +48,9 @@ function activate(context) {
     // command to bounce a customer to a particular resource in their subscription
     var browseInPortal = require('./commands/browse').createCommand(state);
 
+    // command to bounce a customer to a particular resource group in their subscription
+    var browseResourceGroupInPortal = require('./commands/browseToResourceGroup').createCommand(state);
+
     // starts simple function app creation process
     var createFunctionSimpleCommand = require('./commands/functionAppCreateSimple').createCommand(state);
 
@@ -70,6 +73,7 @@ function activate(context) {
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(selectRegionCommand);
     context.subscriptions.push(browseInPortal);
+    context.subscriptions.push(browseResourceGroupInPortal);
     context.subscriptions.push(createFunctionSimpleCommand);
     context.subscriptions.push(createWebAppCommandSimple);
     context.subscriptions.push(createWebAppCommandAdvanced);

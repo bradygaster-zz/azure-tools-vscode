@@ -264,8 +264,6 @@ exports.showResourceGroupsMenu = function showResourceGroupsMenu(state, callback
 
         state.resourceGroupToUse = selected;
         vscode.window.setStatusBarMessage(constants.statusResourceGroupSelected.replace('{0}', state.resourceGroupToUse));
-        // updateButtonTooltip('selectRegion', constants.btnRegionSelectionLabel + '('
-        //     + constants.statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
 
         if (callback !== null)
             callback();
