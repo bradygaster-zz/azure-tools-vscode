@@ -1,3 +1,6 @@
+## 0.0.11
+- Repaired login due to change in incoming authentication message. 
+
 ## 0.0.10 - 2016-11-04
 - Added storage account creation
 - Added storage account connection string retrieval

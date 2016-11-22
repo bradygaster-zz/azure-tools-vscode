@@ -7,7 +7,7 @@ exports.getConstants = function getConstants() {
         btnRegionSelectionLabel: 'Select your desired Azure region. ',
         btnStorageSelectionLabel: 'Select your desired Azure Storage Account. ',
         loginButtonLabel: 'Sign In',
-        enterCodeString: 'Enter the code ',
+        enterCodeString: 'enter the code ',
         authString: ' to authenticate.',
         signInMessage: 'The code {0} has been copied to your clipboard. Click Sign In and paste in the code to authenticate.',
         loggedInMessage: 'You have been logged in. Use the \'azure subscription list\' command to select your desired subscription.',

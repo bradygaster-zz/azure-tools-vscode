@@ -17,7 +17,6 @@ exports.createCommand = function createCommand(state) {
                     ux.getRegions(state).then(function () {
                     });
                     vscode.window.setStatusBarMessage(constants.statusSubscriptionSelected.replace('{0}', element.name));
-
                 }
             });
         });
