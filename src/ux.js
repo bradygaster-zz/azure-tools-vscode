@@ -230,7 +230,25 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                 reject();
             });
     });
-}
+};
+
+exports.searchArmGallery = (state) => {
+    return new Promise((resolve, reject) => {
+        azure
+            .searchArmGallery(state)
+            .then((result) => {
+                if (result.items) {
+                    resolve();
+                } else {
+                    reject();
+                }
+            })
+            .catch((err) => {
+                vscode.window.showErrorMessage(err);
+                reject();
+            });
+    });
+};
 
 var buttons = [];
 

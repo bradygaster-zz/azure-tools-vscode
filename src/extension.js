@@ -25,7 +25,8 @@ var state = {
     selectedRegion: 'West US',
     storageAccountList: [],
     selectedStorageAccount: null,
-    storageAccountKeyList: []
+    storageAccountKeyList: [],
+    AzureGalleryItemId: null
 };
 
 // this method is called when your extension is activated
