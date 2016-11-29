@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -96,6 +96,11 @@
       {
         "command": "createFunction.advanced",
         "title": "Create an Azure Function App (Advanced)",
+        "category": "Azure"
+      },
+      {
+        "command": "azure.armgallerysearch",
+        "title": "Searches the Azure Resource Manager Template Gallery based on your filter string.",
         "category": "Azure"
       }
     ]

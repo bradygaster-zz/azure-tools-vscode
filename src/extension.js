@@ -26,7 +26,8 @@ var state = {
     storageAccountList: [],
     selectedStorageAccount: null,
     storageAccountKeyList: [],
-    AzureGalleryItemId: null
+    AzureGalleryItemId: null,
+    gallerySearchFilter: null
 };
 
 // this method is called when your extension is activated
@@ -70,6 +71,9 @@ function activate(context) {
     // create a storage account
     var storageAccountCreateSimpleCommand = require('./commands/storageAccountCreateSimple').createCommand(state);
 
+    // search the gallery
+    var gallerySearchCommand = require('./commands/armGallerySearch').createCommand(state);
+
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(selectRegionCommand);
@@ -81,6 +85,7 @@ function activate(context) {
     context.subscriptions.push(createFunctionAdvancedCommand);
     context.subscriptions.push(storageAccountGetConnectionStringCommand);
     context.subscriptions.push(storageAccountCreateSimpleCommand);
+    context.subscriptions.push(gallerySearchCommand);
 }
 exports.activate = activate;
 
