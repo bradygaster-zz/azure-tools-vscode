@@ -59,6 +59,11 @@
         "category": "Azure"
       },
       {
+        "command": "searchArmGallery",
+        "title": "Search Azure Arm Gallery",
+        "category": "Azure"
+      },
+      {
         "command": "logintoazure",
         "title": "Login",
         "category": "Azure"
