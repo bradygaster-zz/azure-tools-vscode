@@ -152,15 +152,15 @@ exports.checkStorageAccountNameAvailability = (state) => {
     return new Promise((resolve, reject) => {
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
         storageClient.storageAccounts.checkNameAvailability(
-        state.selectedStorageAccount, 
-        (err, result) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(result);
-            }
-        });
+            state.selectedStorageAccount,
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
     })
 }
 
@@ -174,20 +174,20 @@ exports.createStorageAccount = function createStorageAccount(state) {
             },
             kind: 'Storage'
         };
-        
+
         storageClient.storageAccounts.create(
-            state.resourceGroupToUse, 
-            state.selectedStorageAccount, 
-            createParameters, 
+            state.resourceGroupToUse,
+            state.selectedStorageAccount,
+            createParameters,
             (err, result) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(result);
-            }
-        });
-        
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+
     });
 };
 
@@ -208,7 +208,12 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
 exports.searchArmGallery = (state) => {
     return new Promise((resolve, reject) => {
         var galleryClient = AzureGallery.createGalleryClient(state.credentials);
-        galleryClient.items.list(null, (err, result) => {
+        var filt = "substringof(Name,'" + state.AzureGallerySearchTerm + "')";
+
+        galleryClient.items.list({
+            filter: filt,
+            top: 10
+        }, (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -240,9 +245,9 @@ function createAppService(state, kind) {
 
         // doc: "kind" is how we determine what type of app service we're creating
         if (kind) {
-            config.kind = kind; 
+            config.kind = kind;
         }
-        
+
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
         webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
             state.newWebAppName,

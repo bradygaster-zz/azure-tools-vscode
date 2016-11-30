@@ -99,8 +99,8 @@
         "category": "Azure"
       },
       {
-        "command": "azure.armgallerysearch",
-        "title": "Searches the Azure Resource Manager Template Gallery based on your filter string.",
+        "command": "searchArmGallery",
+        "title": "Search the Azure Resource Manager Template Gallery",
         "category": "Azure"
       }
     ]

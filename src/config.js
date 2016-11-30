@@ -45,6 +45,7 @@ exports.getConstants = function getConstants() {
         promptCreateNewStorageAccount: 'Storage account name:',
         promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
         promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
+        promptSearchArmGallery: 'Type a search term to search the Azure ARM Gallery.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',

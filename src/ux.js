@@ -232,12 +232,36 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
     });
 };
 
+// Search Azure ARM Gallery Templates
 exports.searchArmGallery = (state) => {
     return new Promise((resolve, reject) => {
         azure
             .searchArmGallery(state)
             .then((result) => {
                 if (result.items) {
+                    result.items.forEach((item, index, arr) => {
+                        state.AzureGalleryList.push(item);
+                        if (index === arr.length - 1)
+                            resolve();
+                    });
+                } else {
+                    reject();
+                }
+            })
+            .catch((err) => {
+                vscode.window.showErrorMessage(err);
+                reject();
+            });
+    });
+};
+
+// Download Azure ARM Template from gallery
+exports.getArmTemplateFromGallery = (state) => {
+    return new Promise((resolve, reject) => {
+        azure
+            .getArmTemplateFromGallery(state)
+            .then((result) => {
+                if (result.item) {
                     resolve();
                 } else {
                     reject();
