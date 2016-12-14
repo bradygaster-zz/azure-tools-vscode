@@ -3,7 +3,6 @@ var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
-var AzureGallery = require('azure-gallery');
 var config = require('./config');
 var constants = config.getConstants();
 
@@ -199,37 +198,6 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                 reject(err);
             }
             else {
-                resolve(result);
-            }
-        });
-    });
-};
-
-exports.searchArmGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        var galleryClient = AzureGallery.createGalleryClient(state.credentials);
-        var filt = "substringof(Name,'" + state.AzureGallerySearchTerm + "')";
-
-        galleryClient.items.list({
-            filter: filt,
-            top: 10
-        }, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(result);
-            }
-        });
-    });
-};
-
-exports.getArmTemplateFromGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        var galleryClient = AzureGallery.createGalleryClient(state.credentials);
-        galleryClient.items.get(state.AzureGalleryItemId, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
                 resolve(result);
             }
         });
