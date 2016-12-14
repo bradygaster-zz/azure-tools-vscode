@@ -112,7 +112,7 @@
     "vscode": "^0.11.0"
   },
   "extensionDependencies": [
-    "azurerm-vscode-tools"
+    "msazurermtools.azurerm-vscode-tools"
   ],
   "dependencies": {
     "azure-arm-resource": "1.5.1-preview",
