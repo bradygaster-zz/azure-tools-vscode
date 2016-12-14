@@ -38,6 +38,7 @@ exports.getConstants = function getConstants() {
         promptWebAppCreationFailed: 'Failed to create web app. Reason: {0}',
         promptFunctionAppCreationInProcess: 'Creating Function App "{0}"...',
         promptFunctionAppCreated: 'Created Function App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
+        promptNoTemplateQueryProvided: 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'',
         promptFunctionAppCreationFailed: 'Failed to create Function App. Reason: {0}',
         promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
         promptNoSubscriptionsOrMisconfigured: 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
