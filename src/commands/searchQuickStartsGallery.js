@@ -32,11 +32,13 @@ exports.createCommand = function createCommand(state) {
                 });
                 vscode.window.showQuickPick(state.AzureGalleryList)
                     .then((selectedItem) => {
-                        console.log(JSON.stringify(selectedItem));
+                        var selectedTemplate = state.AzureGallerySearchResults.filter((itm) => {
+                            return itm.path == selectedItem;
+                        });
+                        if (selectedTemplate && selectedTemplate.length > 0)
+                            console.log(selectedTemplate[0].git_url);
                     });
             });
-
-        }).catch(function (err) {
 
         });
     })
