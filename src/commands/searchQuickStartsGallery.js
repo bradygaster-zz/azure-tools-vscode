@@ -46,46 +46,60 @@ exports.createCommand = function createCommand(state) {
 
                             var url = selectedTemplate[0].html_url;
                             url = url.replace('https://github.com/', 'https://raw.githubusercontent.com/').replace('blob/', '');
-
-                            // download the template
-                            download(url.replace('metadata.json', 'azuredeploy.json'), {
-                                directory: vscode.workspace.rootPath,
-                                filename: 'azuredeploy.json'
-                            }, function (err) {
-                                if (err) {
-                                    vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
-                                }
-                                else {
-                                    vscode.workspace.openTextDocument(vscode.workspace.rootPath + '\\azuredeploy.json')
-                                        .then(doc => {
-                                            vscode.window.showTextDocument(doc);
-                                        });
-                                }
-                                console.log("file downloaded");
-                            });
-
-                            // download the template parameters
-                            download(url.replace('metadata.json', 'azuredeploy.parameters.json'), {
-                                directory: vscode.workspace.rootPath,
-                                filename: 'azuredeploy.parameters.json'
-                            }, function (err) {
-                                if (err) {
-                                    vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
-                                }
-                                else {
-                                    vscode.workspace.openTextDocument(vscode.workspace.rootPath + '\\azuredeploy.parameters.json')
-                                        .then(doc => {
-                                            vscode.window.showTextDocument(doc);
-                                        });
-                                }
-                                console.log("file downloaded");
-                            });
+                            
+                            // download and open the templates
+                            downloadTemplate(url)
+                                .then(() => {
+                                    downloadTemplateParameters(url);
+                                });
                         }
                     });
             });
 
         });
     })
+}
+
+function downloadTemplate(url) {
+    return new Promise((resolve, reject) => {
+        download(url.replace('metadata.json', 'azuredeploy.json'), {
+            directory: vscode.workspace.rootPath,
+            filename: 'azuredeploy.json'
+        }, function (err) {
+            if (err) {
+                vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
+                reject();
+            }
+            else {
+                vscode.workspace.openTextDocument(vscode.workspace.rootPath + '\\azuredeploy.json')
+                    .then(doc => {
+                        vscode.window.showTextDocument(doc);
+                        resolve();
+                    });
+            }
+        });
+    });
+}
+
+function downloadTemplateParameters(url) {
+    return new Promise((resolve, reject) => {
+        download(url.replace('metadata.json', 'azuredeploy.parameters.json'), {
+            directory: vscode.workspace.rootPath,
+            filename: 'azuredeploy.parameters.json'
+        }, function (err) {
+            if (err) {
+                vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
+                reject();
+            }
+            else {
+                vscode.workspace.openTextDocument(vscode.workspace.rootPath + '\\azuredeploy.parameters.json')
+                    .then(prms => {
+                        vscode.window.showTextDocument(prms);
+                        resolve();
+                    });
+            }
+        });
+    });
 }
 
 function dynamicSort(property) {
