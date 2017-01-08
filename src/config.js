@@ -49,6 +49,7 @@ exports.getConstants = function getConstants() {
         promptSearchArmGallery: 'Type a search term to search the Azure ARM Gallery.',
         promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
         promptErrorDownloadingTemplate: 'There was an error downloading the template: {0}',
+        promptSelectDownloadedTemplate: 'Select the template from those in your workspace',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
