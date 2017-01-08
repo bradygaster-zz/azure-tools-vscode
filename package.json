@@ -102,7 +102,12 @@
         "command": "searchQuickStartsGallery",
         "title": "Search the Azure Resource Manager Template QuickStarts on GitHub",
         "category": "Azure"
-      }
+      },
+      {
+        "command": "deployTemplate",
+        "title": "Deploy the Azure Resource Manager (ARM) template open in the editor",
+        "category": "Azure"
+      }      
     ]
   },
   "scripts": {

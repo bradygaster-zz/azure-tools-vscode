@@ -6,6 +6,22 @@ var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var config = require('./config');
 var constants = config.getConstants();
 
+exports.deployTemplate = function deployTemplate(state) {
+    return new Promise((resolve, reject) => {
+        var resourceGroupName = 'TestDeploymentGroup01';
+        var deploymentName = 'TestDeploymentGroupDeployment01';
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        
+        resourceClient.deployments.validate(resourceGroupName,
+            deploymentName,
+            {
+                templateFile: state.SelectedTemplateFile,
+                parametersFile: state.SelectedTemplateParametersFile
+            }
+        );
+    });
+};
+
 exports.createWebApp = function createWebApp(state) {
     return createAppService(state);
 };

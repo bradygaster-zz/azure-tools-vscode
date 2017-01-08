@@ -47,6 +47,7 @@ exports.getConstants = function getConstants() {
         promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
         promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
         promptSearchArmGallery: 'Type a search term to search the Azure ARM Gallery.',
+        promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
         promptErrorDownloadingTemplate: 'There was an error downloading the template: {0}',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',

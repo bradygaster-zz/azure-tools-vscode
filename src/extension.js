@@ -29,7 +29,9 @@ var state = {
     AzureGalleryList: [],
     AzureGalleryItemId: null,
     AzureGallerySearchTerm: null,
-    AzureGallerySearchResults: []
+    AzureGallerySearchResults: [],
+    SelectedTemplateFile: null,
+    SelectedTemplateParametersFile: null
 };
 
 // this method is called when your extension is activated
@@ -76,6 +78,9 @@ function activate(context) {
     // search azure arm quickstarts repository
     var searchQuickStartsGallery = require('./commands/searchQuickStartsGallery').createCommand(state);
 
+    // deploy a template that's open in the editor
+    var deployTemplate = require('./commands/deployTemplate').createCommand(state);
+
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(selectRegionCommand);
@@ -88,6 +93,7 @@ function activate(context) {
     context.subscriptions.push(storageAccountGetConnectionStringCommand);
     context.subscriptions.push(storageAccountCreateSimpleCommand);
     context.subscriptions.push(searchQuickStartsGallery);
+    context.subscriptions.push(deployTemplate);
 }
 exports.activate = activate;
 
