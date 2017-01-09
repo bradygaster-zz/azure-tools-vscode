@@ -1,6 +1,7 @@
 var vscode = require('vscode');
 var ux = require('../ux');
 var config = require('../config');
+var azure = require('../azure');
 var constants = config.getConstants();
 var open = require('open');
 var path = require('path');
@@ -24,8 +25,10 @@ exports.createCommand = function createCommand(state) {
             });
 
             vscode.window.showQuickPick(directories).then((selectedTemplate) => {
-                state.SelectedTemplateFile = vscode.workspace.rootPath + '\\' + selectedTemplate + '\\azuredeploy.json';
-                state.SelectedTemplateParametersFile = vscode.workspace.rootPath + '\\' + selectedTemplate + '\\azuredeploy.parameters.json';
+                state.SelectedTemplateFile = vscode.workspace.rootPath + '\\arm-templates\\' + selectedTemplate + '\\azuredeploy.json';
+                state.SelectedTemplateParametersFile = vscode.workspace.rootPath + '\\arm-templates\\' + selectedTemplate + '\\azuredeploy.parameters.json';
+
+                state.selectedTemplateName = selectedTemplate;
 
                 // new or existing resource group?
                 vscode.window.showQuickPick([
@@ -45,7 +48,7 @@ exports.createCommand = function createCommand(state) {
 
                                         state.resourceGroupToUse = selectedRg;
 
-                                        vscode.window.showInformationMessage('TODO: Deploy ' + selectedTemplate + ' to existing resource group ' + state.resourceGroupToUse);
+                                        ux.deployTemplate(state);
                                     });
                             })
                             .catch(function (err) {
@@ -60,7 +63,7 @@ exports.createCommand = function createCommand(state) {
                             if (!newResourceGroupName || newResourceGroupName === "") return;
                             state.resourceGroupToUse = newResourceGroupName;
                             ux.createResourceGroup(state, function () {
-                                vscode.window.showInformationMessage('TODO: Deploy ' + selectedTemplate + ' to new resource group ' + state.resourceGroupToUse);
+                                ux.deployTemplate(state);
                             });
                         });
                     }

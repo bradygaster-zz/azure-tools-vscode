@@ -3,22 +3,43 @@ var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
+var fs = require('fs');
 var config = require('./config');
 var constants = config.getConstants();
 
 exports.deployTemplate = function deployTemplate(state) {
     return new Promise((resolve, reject) => {
-        var resourceGroupName = 'TestDeploymentGroup01';
-        var deploymentName = 'TestDeploymentGroupDeployment01';
+        var resourceGroupName = state.resourceGroupToUse;
+        var deploymentName = state.resourceGroupToUse + '-' + new Date().getTime();
+        var templateFile = fs.readFileSync(state.SelectedTemplateFile);
+        var templateParametersFile = fs.readFileSync(state.SelectedTemplateParametersFile);
+        var template = JSON.parse(templateFile);
+        var templateParameters = JSON.parse(templateParametersFile);
+
+        // handle v2 version of parameters file that has $schema
+        if (templateParameters.parameters)
+            templateParameters = templateParameters.parameters;
+
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        
-        resourceClient.deployments.validate(resourceGroupName,
+
+        resourceClient.deployments.createOrUpdate(resourceGroupName,
             deploymentName,
             {
-                templateFile: state.SelectedTemplateFile,
-                parametersFile: state.SelectedTemplateParametersFile
-            }
-        );
+                properties: {
+                    template: template,
+                    parameters: templateParameters,
+                    mode: 'Complete'
+                }
+            }, (err, result, request, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(constants.promptDeployingTemplateCompleted
+                        .replace('{0}', state.selectedTemplateName)
+                        .replace('{1}', state.resourceGroupToUse)
+                        .replace('{2}', result.provisioningState));
+                }
+            });
     });
 };
 

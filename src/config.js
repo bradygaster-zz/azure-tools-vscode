@@ -50,6 +50,9 @@ exports.getConstants = function getConstants() {
         promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
         promptErrorDownloadingTemplate: 'There was an error downloading the template: {0}',
         promptSelectDownloadedTemplate: 'Select the template from those in your workspace',
+        promptDeployingTemplate: 'Deploying template {0} to resource group {1}',
+        promptDeployingTemplateCompleted: 'Template {0} deployment to resource group {1} completed with status of {2}',
+        promptDeployingTemplateFailed: 'FAILED to deploy template {0} to resource group {1}',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
@@ -57,7 +60,8 @@ exports.getConstants = function getConstants() {
         optionNewHostingPlan: 'Create a new server farm',
         optionUseExistingHostingPlan: 'Use an existing server farm',
         templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};',
-        templateResourceGroupUrl: 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview'
+        templateResourceGroupUrl: 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview',
+        selectedTemplateName: null
     };
 };
 

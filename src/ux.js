@@ -3,6 +3,25 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
 
+// deploys arm template
+exports.deployTemplate = function deployTemplate(state) {
+    vscode.window.setStatusBarMessage(constants.promptDeployingTemplate
+        .replace('{0}', state.selectedTemplateName)
+        .replace('{1}', state.resourceGroupToUse))
+
+    azure.deployTemplate(state)
+        .then((msg) => {
+            vscode.window.showInformationMessage(msg);
+            vscode.window.setStatusBarMessage('');
+        })
+        .catch((err) => {
+            vscode.window.showErrorMessage(constants.promptDeployingTemplateFailed
+                .replace('{0}', state.selectedTemplateName)
+                .replace('{1}', state.resourceGroupToUse));
+            vscode.window.setStatusBarMessage('');
+        });
+};
+
 // get the list of resource groups from the subscription
 exports.getResourceGroups = function getResourceGroups(state) {
     return new Promise(function (resolve, reject) {
