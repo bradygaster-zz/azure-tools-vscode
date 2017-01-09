@@ -37,7 +37,7 @@ exports.deployTemplate = function deployTemplate(state) {
                     resolve(constants.promptDeployingTemplateCompleted
                         .replace('{0}', state.selectedTemplateName)
                         .replace('{1}', state.resourceGroupToUse)
-                        .replace('{2}', result.provisioningState));
+                        .replace('{2}', result.properties.provisioningState));
                 }
             });
     });
