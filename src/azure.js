@@ -3,9 +3,45 @@ var WebSiteManagement = require('azure-arm-website');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
-var AzureGallery = require('azure-gallery');
+var fs = require('fs');
 var config = require('./config');
 var constants = config.getConstants();
+
+exports.deployTemplate = function deployTemplate(state) {
+    return new Promise((resolve, reject) => {
+        var resourceGroupName = state.resourceGroupToUse;
+        var deploymentName = state.resourceGroupToUse + '-' + new Date().getTime();
+        var templateFile = fs.readFileSync(state.SelectedTemplateFile);
+        var templateParametersFile = fs.readFileSync(state.SelectedTemplateParametersFile);
+        var template = JSON.parse(templateFile);
+        var templateParameters = JSON.parse(templateParametersFile);
+
+        // handle v2 version of parameters file that has $schema
+        if (templateParameters.parameters)
+            templateParameters = templateParameters.parameters;
+
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+
+        resourceClient.deployments.createOrUpdate(resourceGroupName,
+            deploymentName,
+            {
+                properties: {
+                    template: template,
+                    parameters: templateParameters,
+                    mode: 'Complete'
+                }
+            }, (err, result, request, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(constants.promptDeployingTemplateCompleted
+                        .replace('{0}', state.selectedTemplateName)
+                        .replace('{1}', state.resourceGroupToUse)
+                        .replace('{2}', result.properties.provisioningState));
+                }
+            });
+    });
+};
 
 exports.createWebApp = function createWebApp(state) {
     return createAppService(state);
@@ -199,37 +235,6 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                 reject(err);
             }
             else {
-                resolve(result);
-            }
-        });
-    });
-};
-
-exports.searchArmGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        var galleryClient = AzureGallery.createGalleryClient(state.credentials);
-        var filt = "substringof(Name,'" + state.AzureGallerySearchTerm + "')";
-
-        galleryClient.items.list({
-            filter: filt,
-            top: 10
-        }, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(result);
-            }
-        });
-    });
-};
-
-exports.getArmTemplateFromGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        var galleryClient = AzureGallery.createGalleryClient(state.credentials);
-        galleryClient.items.get(state.AzureGalleryItemId, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
                 resolve(result);
             }
         });

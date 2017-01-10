@@ -38,6 +38,7 @@ exports.getConstants = function getConstants() {
         promptWebAppCreationFailed: 'Failed to create web app. Reason: {0}',
         promptFunctionAppCreationInProcess: 'Creating Function App "{0}"...',
         promptFunctionAppCreated: 'Created Function App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
+        promptNoTemplateQueryProvided: 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'',
         promptFunctionAppCreationFailed: 'Failed to create Function App. Reason: {0}',
         promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
         promptNoSubscriptionsOrMisconfigured: 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
@@ -46,6 +47,12 @@ exports.getConstants = function getConstants() {
         promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
         promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
         promptSearchArmGallery: 'Type a search term to search the Azure ARM Gallery.',
+        promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
+        promptErrorDownloadingTemplate: 'There was an error downloading the template: {0}',
+        promptSelectDownloadedTemplate: 'Select the template from those in your workspace',
+        promptDeployingTemplate: 'Deploying template {0} to resource group {1}',
+        promptDeployingTemplateCompleted: 'Template {0} deployment to resource group {1} completed with status of {2}',
+        promptDeployingTemplateFailed: 'FAILED to deploy template {0} to resource group {1}',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
@@ -53,7 +60,8 @@ exports.getConstants = function getConstants() {
         optionNewHostingPlan: 'Create a new server farm',
         optionUseExistingHostingPlan: 'Use an existing server farm',
         templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};',
-        templateResourceGroupUrl: 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview'
+        templateResourceGroupUrl: 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview',
+        selectedTemplateName: null
     };
 };
 

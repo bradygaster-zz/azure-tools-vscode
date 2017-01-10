@@ -3,6 +3,25 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
 
+// deploys arm template
+exports.deployTemplate = function deployTemplate(state) {
+    vscode.window.setStatusBarMessage(constants.promptDeployingTemplate
+        .replace('{0}', state.selectedTemplateName)
+        .replace('{1}', state.resourceGroupToUse))
+
+    azure.deployTemplate(state)
+        .then((msg) => {
+            vscode.window.showInformationMessage(msg);
+            vscode.window.setStatusBarMessage('');
+        })
+        .catch((err) => {
+            vscode.window.showErrorMessage(constants.promptDeployingTemplateFailed
+                .replace('{0}', state.selectedTemplateName)
+                .replace('{1}', state.resourceGroupToUse));
+            vscode.window.setStatusBarMessage('');
+        });
+};
+
 // get the list of resource groups from the subscription
 exports.getResourceGroups = function getResourceGroups(state) {
     return new Promise(function (resolve, reject) {
@@ -226,48 +245,6 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
                 }
             })
             .catch(function (err) {
-                vscode.window.showErrorMessage(err);
-                reject();
-            });
-    });
-};
-
-// Search Azure ARM Gallery Templates
-exports.searchArmGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        azure
-            .searchArmGallery(state)
-            .then((result) => {
-                if (result.items) {
-                    result.items.forEach((item, index, arr) => {
-                        state.AzureGalleryList.push(item);
-                        if (index === arr.length - 1)
-                            resolve();
-                    });
-                } else {
-                    reject();
-                }
-            })
-            .catch((err) => {
-                vscode.window.showErrorMessage(err);
-                reject();
-            });
-    });
-};
-
-// Download Azure ARM Template from gallery
-exports.getArmTemplateFromGallery = (state) => {
-    return new Promise((resolve, reject) => {
-        azure
-            .getArmTemplateFromGallery(state)
-            .then((result) => {
-                if (result.item) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            })
-            .catch((err) => {
                 vscode.window.showErrorMessage(err);
                 reject();
             });

@@ -2,22 +2,74 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-## Features
+**New Features in v1.0.0**
+- Search the [Azure QuickStart Templates](https://github.com/Azure/azure-quickstart-templates) GitHub repository
+- Download Azure Resource Manager (ARM) template and parameter files to workspace
+- Uses the [Azure Resource Manager Tools](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) extension to simplify the template-editing experience
+- ARM template deployment to live Azure subscription
 
+**Features**
 - Login with Microsoft Account (@hotmail.com, @live.com, etc.)
 - Login with Azure Active Directory (or "Organizational") account
 - Create App Service Web Apps
 - Create App Service Function Apps
-- Create Storage Accounts **New!**
-- Get Storage Account connection string **New!**
+- Create Storage Accounts
+- Get Storage Account connection string
 - Browse to resource in portal
-- Browse to resource group in portal **New!** 
+- Browse to resource group in portal
 - Support for multiple Azure subscriptions
 - Supports all Azure data centers
 
 Each of these commands is visible directly from commands visible in the command palette. 
 
 ![Azure Tools Commands](media/docs/commands.png)
+
+## New Azure Resource Manager (ARM) Features
+**New in 1.0.0** - Now you can use keyword searches to find one of the numerous existing templates in the Azure QuickStart Templates repository, then download the templates you find and deploy them **all within Visual Studio Code**. 
+
+### Search and Download from the Azure Template QuickStart Repository
+Templates in the QuickStart repository are easily searchable from within Visual Studio Code. 
+
+![Search for templates](media/docs/Screenshot_129.png)
+
+Type in a string or combination of strings for which you're searching:
+
+![Search for templates](media/docs/Screenshot_131.png)
+
+Select the appropriate template from the resulting list:
+
+![Select your template](media/docs/Screenshot_132.png)
+
+Note that the templates you select are downloaded into the `arm-templates` folder in your workspace. This way you can open the parameters file, make changes, and customize your deployment. 
+
+![Downloaded templates](media/docs/Screenshot_133.png)
+
+Now that the Azure Tools for Visual Studio Code takes a dependency on the Azure Resource Manager Tools for Visual Studio Code, editing of ARM templates you download from the repository is easier due to auto-completion, IntelliSense support, and the other ARM editing features provided in the Azure Resource Manager Tools extension. 
+
+## Deploying Templates
+Once you've edited your ARM template you can even use Visual Studio Code to deploy the template and add your Azure resources to your subscription. The *Deploy* command is visible in the command list below.
+
+![Deploy command](media/docs/Screenshot_134.png)
+
+The various ARM templates you may have downloaded into your workspace will be shown in a list. This way, if you have multiple resources you wish to deploy in phases or you're just testing various templates out, you can deploy them individually. 
+
+![Select the template to be deployed](media/docs/Screenshot_135.png)
+
+Deployments can be made to new or existing resource groups:
+
+![Create new resource group](media/docs/Screenshot_137.png)
+
+The status bar shows that the deployment being created: 
+
+![Deployment happening](media/docs/Screenshot_140.png)
+
+In this template scenario a GitHub-backed Web App is created. The portal screenshot below shows how the site is being deployed from GitHub once the template is deployed. 
+
+![Portal view](media/docs/Screenshot_141.png)
+
+Finally, Visual Studio Code provides an update when the deployment has completed. 
+
+![Deployment complete](media/docs/Screenshot_142.png)
 
 ## Getting Started
 Once you've installed the extension you can log in using either your organizational account or a Microsoft account such as a @live.com address. If you need to log in using an "organizationa account" there is no setup work to be done. Simply pull up the command palette and look for the **Azure: Login** command. This command runs the web-based interactive login process. 
@@ -41,7 +93,7 @@ You can use the Azure Tools for Code to create App Service Web and Function Apps
 In the case of Web and Function Apps the Azure Tools Extension allows for creation of your apps using a Simple flow, which creates a resource group, server farm, and app all at once. Or, you can use the Advanced flow to select an existing resource group or server farm in which to create your app. 
 
 ### Creating and Using Storage Accounts
-**New!** You can also use the Azure Tools for Visual Studio Code to create an Azure Storage Account. In the video below you'll see how you can create a new Storage Account in a new or existing resource group. Then, using the *Get Storage Account Connection String* command, you can get the connection string for an existing storage account copied to your clipboard. Then, you can easily paste it into a configuration file so your app can store and retrieve data using Azure Storage. 
+You can also use the Azure Tools for Visual Studio Code to create an Azure Storage Account. In the video below you'll see how you can create a new Storage Account in a new or existing resource group. Then, using the *Get Storage Account Connection String* command, you can get the connection string for an existing storage account copied to your clipboard. Then, you can easily paste it into a configuration file so your app can store and retrieve data using Azure Storage. 
 
 [![Create an Azure Storage Account using Code](media/docs/video-storage.png)](https://www.youtube.com/watch?v=98BHeUQ38Bo)
 

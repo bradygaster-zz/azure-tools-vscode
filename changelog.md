@@ -1,3 +1,9 @@
+## 1.0.0
+- Search the [Azure QuickStart Templates](https://github.com/Azure/azure-quickstart-templates) GitHub repository for Azure Resource Manager (ARM) templates.
+- Takes a dependency on the [Azure Resource Manager Tools](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) to make the ARM template editing experience better.
+- Download ARM template and parameters to workspace.
+- Deploy ARM templates to live Azure subscription. 
+
 ## 0.0.11
 - Repaired login due to change in incoming authentication message. 
 
