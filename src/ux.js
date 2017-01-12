@@ -109,11 +109,11 @@ exports.getAzureResources = function getAzureResources(state) {
 
 // creates a new key vault
 exports.createKeyVault = function createKeyVault(state, callback){
-    vscode.window.setStatusBarMessage(constants.statusCreatingKeyVault.replace('{0}', state.resourceGroupToUse));
+    vscode.window.setStatusBarMessage(constants.statusCreatingKeyVault.replace('{0}', state.keyVaultName));
     azure
         .createNewKeyVault(state)
         .then(function (result) {
-            vscode.window.setStatusBarMessage(constants.statusCreatedKeyVault.replace('{0}', state.resourceGroupToUse));
+            vscode.window.setStatusBarMessage(constants.statusCreatedKeyVault.replace('{0}', state.keyVaultName));
             if (callback != null)
                 callback();
         })

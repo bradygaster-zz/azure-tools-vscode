@@ -71,7 +71,20 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
 exports.createNewKeyVault = function createNewKeyVault(state){
     return new Promise(function(resolve, reject){
         var keyVaultClient = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
-        keyVaultClient.vaults.createOrUpdate(state.resourceGroupToUse, state.keyVaultName, null, 
+        var keyVaultParameters = {
+            location : state.selectedRegion,
+                properties : {
+                sku : {
+                    family : 'A',
+                    name : 'standard'
+                },
+                accessPolicies : [],
+                enabledForDeployment : false,
+                tenantId: state.subscriptions.find(x => x.id === state.selectedSubscriptionId).tenantId
+            },
+            tags : {}
+        };
+        keyVaultClient.vaults.createOrUpdate(state.resourceGroupToUse, state.keyVaultName, keyVaultParameters, null,
             function(err, result){
             if (err != null)
                     reject(err);

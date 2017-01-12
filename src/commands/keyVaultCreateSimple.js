@@ -13,18 +13,17 @@ exports.createCommand = function createCommand(state) {
             state.keyVaultName = newKeyVaultName;
             state.resourceGroupToUse = state.keyVaultName + 'Resources';
 
-            ux.createResourceGroup(state,
-                function () {
-                    ux.ifKeyVaultNameIsAvailable(state).then(()=> {
-                        ux.createKeyVault(state);
-                    }).catch((message) => {
-                        vscode.window.showErrorMessage(message);
-                    })
-            }).catch((message) =>{
-                vscode.window.showErrorMessage(message);
+            ux.createResourceGroup(state, function () {
+                    ux.ifKeyVaultNameIsAvailable(state)
+                    .then(function () {
+                        //name is available so we need to know the region to use
+                        vscode.window.showQuickPick(state.keyVaultRegions)
+                        .then(selectedRegion => {
+                            state.region = selectedRegion;
+                            ux.createKeyVault(state);
+                    }) 
+                })
             })
-        }).catch((message) => {
-            vscode.window.showErrorMessage(message);
-        })   
+        }) 
     });
 };
