@@ -20,6 +20,7 @@ var state = {
     serverFarmList: [],
     selectedServerFarm: null,
     entireResourceList: [],
+    keyVaultName: null,
     newWebAppName: null,
     regions: [],
     selectedRegion: 'West US',
@@ -60,6 +61,9 @@ function activate(context) {
     // starts simple function app creation process
     var createFunctionSimpleCommand = require('./commands/functionAppCreateSimple').createCommand(state);
 
+    // starts the key vault creation process
+    var createKeyVaultCommand = require('./commands/keyVaultCreate').createCommand(state);
+
     // starts simple web app creation process
     var createWebAppCommandSimple = require('./commands/webAppCreateSimple').createCommand(state);
 
@@ -94,6 +98,7 @@ function activate(context) {
     context.subscriptions.push(storageAccountCreateSimpleCommand);
     context.subscriptions.push(searchQuickStartsGallery);
     context.subscriptions.push(deployTemplate);
+    context.subscriptions.push(createKeyVaultCommand);
 }
 exports.activate = activate;
 

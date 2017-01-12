@@ -1,5 +1,6 @@
 var msRestAzure = require('ms-rest-azure');
 var WebSiteManagement = require('azure-arm-website');
+var KeyVaultManagement = require('azure-arm-keyvault');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
@@ -62,6 +63,20 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
             }
             else {
                 resolve(result);
+            }
+        });
+    });
+};
+
+exports.createNewKeyVault = function createNewKeyVault(state){
+    return new Promise(function(resolve, reject){
+        var keyVaultClient = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
+        keyVaultClient.vaults.createOrUpdate(state.resourceGroupToUse, state.keyVaultName, null, 
+            function(err, result){
+            if (err != null)
+                    reject(err);
+                else {
+                    resolve(result);
             }
         });
     });
@@ -139,6 +154,25 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
     });
 };
 
+exports.checkKeyVaultNameAvailability = function checkKeyVaultNameAvailability(state) {
+   return new Promise(function (resolve, reject) {
+        var keyVaultManagement = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
+        keyVaultManagement.vaults.list(null, 
+         function (err, result) {
+            if (err != null)
+                reject(err);
+            else {
+                if(result.indexOf(state.keyVaultName) > 0) {
+                    resolve(false);    
+                }
+                else{
+                    resolve(true);
+                }
+            }
+        });
+    });
+};
+
 exports.getFullResourceList = function getFullResourceList(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
@@ -198,7 +232,7 @@ exports.checkStorageAccountNameAvailability = (state) => {
                 }
             });
     })
-}
+};
 
 exports.createStorageAccount = function createStorageAccount(state) {
     return new Promise((resolve, reject) => {
