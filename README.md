@@ -2,13 +2,19 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-**New Features in v1.0.0**
+## New in v1.1.0
+
+- **Azure Key Vault creation.**
+
+    You can now use the Azure Tools for Visual Studio Code to create new Key Vault instances. Selecting the **Create Key Vault** command. Then you can create a new or select an existing resource group into which your new Key Vault will be created. 
+
+    ![Create Key Vault](media/docs/Screenshot_150.png)
+
+## Features
 - Search the [Azure QuickStart Templates](https://github.com/Azure/azure-quickstart-templates) GitHub repository
 - Download Azure Resource Manager (ARM) template and parameter files to workspace
 - Uses the [Azure Resource Manager Tools](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) extension to simplify the template-editing experience
 - ARM template deployment to live Azure subscription
-
-**Features**
 - Login with Microsoft Account (@hotmail.com, @live.com, etc.)
 - Login with Azure Active Directory (or "Organizational") account
 - Create App Service Web Apps
