@@ -175,8 +175,8 @@ exports.checkKeyVaultNameAvailability = function checkKeyVaultNameAvailability(s
             if (err != null)
                 reject(err);
             else {
-                if(result.indexOf(state.keyVaultName) > 0) {
-                    resolve(false);    
+                if (result.filter(e => e.name === state.keyVaultName).length > 0) {
+                    resolve(false);
                 }
                 else{
                     resolve(true);
@@ -203,9 +203,24 @@ exports.getFullResourceList = function getFullResourceList(state) {
     });
 };
 
-exports.getRegions = function getRegions(state) {
+exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType){
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        resourceClient.providers.list(function(err, result){
+            if(err != null){
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+    
+}
+
+exports.getRegions = function getRegions(state) {
+    return new Promise(function (resolve, reject) {
+        
         var subscriptionClient = new SubscriptionClient(state.credentials);
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)

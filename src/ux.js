@@ -308,6 +308,19 @@ exports.getRegions = function getRegions(state) {
     });
 };
 
+exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType){
+   return new Promise(function (resolve, reject) {
+        azure
+            .getRegionsForResource(state, resourceProvider, resourceType)
+            .then(function (result) {
+                resolve(result);
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+}
+
 exports.showResourceGroupsMenu = function showResourceGroupsMenu(state, callback) {
     var resourceGroupNames = state.resourceGroupList.map(function (x) { return x; });
     vscode.window.showQuickPick(resourceGroupNames).then(function (selected) {

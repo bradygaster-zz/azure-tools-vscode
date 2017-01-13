@@ -12,9 +12,9 @@ We've added some guideliness to help you in your quest. Please read and feel fre
 6. DO NOT push to master. If you don't know what this means, refresh your memory [here](link to git docs) 
 
 ## Setting up the project locally
-1. Ensure you have Node.js installed. Get it [here]()
-2. Ensure you have Visual Studio Code installed. Get it [here]()
-3. Ensure you have Git installed. Get it [here]()
+1. Ensure you have Node.js installed. Get it [here](https://nodejs.org/en/)
+2. Ensure you have Visual Studio Code installed. Get it [here](https://code.visualstudio.com/Download)
+3. Ensure you have Git installed. Get it [here](https://git-scm.com/download)
 4. Open the command line of your choice and navigate to the root of the project folder
 5. Run `npm install` to install the npm packages necessary to run the project
 
@@ -25,4 +25,4 @@ At the moment we don't have automated tests. Trust us, we're working on it. Howe
 Once you're happy with your changes and you've made sure they work and have no bugs (unit tests would help in this case), please commit your changes with a reference to the GitHub issue you raised. Push to your remote and raise a Pull Request. I hope you remembered to do all this work on your branch! If not, no biggie. Just create a branch on the fly and make sure you raise the PR accordingly.
 
 ## We're here to assist
-We appreciate you talking time to help us out. We're a helpful bunch of developers and hobbyists so if you have any questions or need help with your code, please feel free to reach out to us. We will do our best to help. Please note that this is a side project and not our full time job so response times may vary :)
+We appreciate you talking time to help us out. We're a helpful bunch of developers and hobbyists so if you have any questions or need help with your code, please feel free to reach out to us. We will do our best to help. Please note that this is a side project and not our full time job, so response times may vary :)

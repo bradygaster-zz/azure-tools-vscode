@@ -21,7 +21,7 @@ var state = {
     selectedServerFarm: null,
     entireResourceList: [],
     keyVaultName: null,
-    keyVaultRegions: ["Central US","East US","East US 2","North Central US","South Central US","West Central US","West US","West US 2","North Europe","West Europe","East Asia","Southeast Asia","Japan East","Japan West","Brazil South","Australia East","Australia Southeast","Central India","South India","West India","Canada Central","Canada East","Germany Central","Germany Northeast","UK South","UK West","US Gov Iowa","US Gov Virginia"],
+    keyVaultRegions: [],
     newWebAppName: null,
     regions: [],
     selectedRegion: 'West US',
