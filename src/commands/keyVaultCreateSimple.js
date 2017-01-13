@@ -16,24 +16,24 @@ exports.createCommand = function createCommand(state) {
             state.keyVaultName = newKeyVaultName;
             state.resourceGroupToUse = state.keyVaultName + 'Resources';
 
-            ux.createResourceGroup(state, function () {
-                ux.ifKeyVaultNameIsAvailable(state)
-                    .then(function () {
-                        //name is available so we need to know the region to use
-                        ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
-                            .then(function (result) {
-                                state.keyVaultRegions = result.filter(x => x.namespace === "Microsoft.KeyVault")[0].resourceTypes.filter(x => x.resourceType === "vaults")[0].locations;
+            ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
+                .then((result) => {
+                    state.keyVaultRegions = result.filter(x =>
+                        x.namespace === "Microsoft.KeyVault")[0].resourceTypes.filter(x =>
+                            x.resourceType === "vaults")[0].locations;
+
+                    ux.showNewOrExistingResourceGroupMenu(state).then(() => {
+                        ux.ifKeyVaultNameIsAvailable(state)
+                            .then(() => {
                                 vscode.window.showQuickPick(state.keyVaultRegions)
                                     .then(selectedRegion => {
-
                                         if (!selectedRegion || selectedRegion === "") return;
-
-                                        state.region = selectedRegion;
+                                        state.selectedRegion = selectedRegion;
                                         ux.createKeyVault(state);
                                     });
-                            })
-                    })
-            })
+                            });
+                    });
+                });
         })
     });
 };

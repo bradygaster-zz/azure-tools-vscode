@@ -39,6 +39,42 @@ exports.getResourceGroups = function getResourceGroups(state) {
     });
 };
 
+// wrapper method for handling "new or existing resource group" workflows
+exports.showNewOrExistingResourceGroupMenu = function showNewOrExistingResourceGroupMenu(state) {
+    return new Promise((resolve, reject) => {
+        vscode.window.showQuickPick([
+            constants.optionExistingRg,
+            constants.optionNewRg
+        ]).then(selected => {
+            if (selected == constants.optionExistingRg) {
+                this.getResourceGroups(state)
+                    .then(function () {
+                        vscode.window.showQuickPick(state.resourceGroupList)
+                            .then(function (selectedRg) {
+                                if (!selectedRg) reject();
+                                state.resourceGroupToUse = selectedRg;
+                                resolve();
+                            });
+                    })
+                    .catch(function (err) {
+                        vscode.window.showErrorMessage(err);
+                    });
+            }
+            else if (selected == constants.optionNewRg) {
+                vscode.window.showInputBox({
+                    prompt: constants.promptNewRgName
+                }).then(function (newResourceGroupName) {
+                    if (!newResourceGroupName || newResourceGroupName === "") reject();
+                    state.resourceGroupToUse = newResourceGroupName;
+                    azure.createNewResourceGroup(state).then(() => {
+                        resolve();
+                    });
+                });
+            }
+        });
+    });
+};
+
 // check the site's name
 exports.ifWebSiteNameIsAvailable = function ifWebSiteNameIsAvailable(state) {
     return new Promise(function (resolve, reject) {
@@ -108,7 +144,7 @@ exports.getAzureResources = function getAzureResources(state) {
 };
 
 // creates a new key vault
-exports.createKeyVault = function createKeyVault(state, callback){
+exports.createKeyVault = function createKeyVault(state, callback) {
     vscode.window.setStatusBarMessage(constants.statusCreatingKeyVault.replace('{0}', state.keyVaultName));
     azure
         .createNewKeyVault(state)
@@ -308,8 +344,8 @@ exports.getRegions = function getRegions(state) {
     });
 };
 
-exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType){
-   return new Promise(function (resolve, reject) {
+exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType) {
+    return new Promise(function (resolve, reject) {
         azure
             .getRegionsForResource(state, resourceProvider, resourceType)
             .then(function (result) {
