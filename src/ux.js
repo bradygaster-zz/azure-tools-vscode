@@ -73,6 +73,23 @@ exports.ifStorageAccountNameIsAvailable = function ifStorageAccountNameIsAvailab
     });
 };
 
+// check the key vault name is available
+exports.ifKeyVaultNameIsAvailable = function ifKeyVaultNameIsAvailable(state) {
+    return new Promise(function (resolve, reject) {
+        azure
+            .checkKeyVaultNameAvailability(state)
+            .then(function (result) {
+                if (!result) {
+                    // name isn't available so we bail out'
+                    reject(constants.promptKeyVaultNameNotAvailable);
+                }
+                else {
+                    resolve();
+                }
+            });
+    });
+}
+
 // gets all of the resources
 exports.getAzureResources = function getAzureResources(state) {
     return new Promise((function (resolve, reject) {
@@ -89,6 +106,21 @@ exports.getAzureResources = function getAzureResources(state) {
             });
     }));
 };
+
+// creates a new key vault
+exports.createKeyVault = function createKeyVault(state, callback){
+    vscode.window.setStatusBarMessage(constants.statusCreatingKeyVault.replace('{0}', state.keyVaultName));
+    azure
+        .createNewKeyVault(state)
+        .then(function (result) {
+            vscode.window.setStatusBarMessage(constants.statusCreatedKeyVault.replace('{0}', state.keyVaultName));
+            if (callback != null)
+                callback();
+        })
+        .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+}
 
 // method to create the resource group
 exports.createResourceGroup = function createResourceGroup(state, callback) {
@@ -275,6 +307,19 @@ exports.getRegions = function getRegions(state) {
             });
     });
 };
+
+exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType){
+   return new Promise(function (resolve, reject) {
+        azure
+            .getRegionsForResource(state, resourceProvider, resourceType)
+            .then(function (result) {
+                resolve(result);
+            })
+            .catch(function (err) {
+                vscode.window.showErrorMessage(err);
+            });
+    });
+}
 
 exports.showResourceGroupsMenu = function showResourceGroupsMenu(state, callback) {
     var resourceGroupNames = state.resourceGroupList.map(function (x) { return x; });

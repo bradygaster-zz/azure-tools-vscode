@@ -21,6 +21,8 @@ exports.createCommand = function createCommand(state) {
                         ux.createWebApp(state)
                     })
                 });
+        }).catch((message) =>{
+                vscode.window.showErrorMessage(message);
         });
     });
 };
