@@ -68,30 +68,30 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
     });
 };
 
-exports.createNewKeyVault = function createNewKeyVault(state){
-    return new Promise(function(resolve, reject){
+exports.createNewKeyVault = function createNewKeyVault(state) {
+    return new Promise(function (resolve, reject) {
         var keyVaultClient = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
-        var keyVaultParameters = {
-            location : state.selectedRegion,
-                properties : {
-                sku : {
-                    family : 'A',
-                    name : 'standard'
-                },
-                accessPolicies : [],
-                enabledForDeployment : false,
+        var keyVaultParameters  =  {
+            location :  state.selectedRegion,
+            properties :  {
+                sku :  {
+                    family :  'A',
+                    name :  'standard'
+                },
+                accessPolicies :  [],
+                enabledForDeployment :  false,
                 tenantId: state.subscriptions.find(x => x.id === state.selectedSubscriptionId).tenantId
-            },
-            tags : {}
-        };
+            },
+            tags :  {}
+        };
         keyVaultClient.vaults.createOrUpdate(state.resourceGroupToUse, state.keyVaultName, keyVaultParameters, null,
-            function(err, result){
-            if (err != null)
+            function (err, result) {
+                if (err != null)
                     reject(err);
                 else {
                     resolve(result);
-            }
-        });
+                }
+            });
     });
 };
 
@@ -168,21 +168,21 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
 };
 
 exports.checkKeyVaultNameAvailability = function checkKeyVaultNameAvailability(state) {
-   return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var keyVaultManagement = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
-        keyVaultManagement.vaults.list(null, 
-         function (err, result) {
-            if (err != null)
-                reject(err);
-            else {
-                if (result.filter(e => e.name === state.keyVaultName).length > 0) {
-                    resolve(false);
+        keyVaultManagement.vaults.list(null,
+            function (err, result) {
+                if (err != null)
+                    reject(err);
+                else {
+                    if (result.filter(e => e.name === state.keyVaultName).length > 0) {
+                        resolve(false);
+                    }
+                    else {
+                        resolve(true);
+                    }
                 }
-                else{
-                    resolve(true);
-                }
-            }
-        });
+            });
     });
 };
 
@@ -203,24 +203,24 @@ exports.getFullResourceList = function getFullResourceList(state) {
     });
 };
 
-exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType){
+exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
-        resourceClient.providers.list(function(err, result){
-            if(err != null){
+        resourceClient.providers.list(function (err, result) {
+            if (err != null) {
                 reject(err);
             }
-            else{
+            else {
                 resolve(result);
             }
         })
     });
-    
+
 }
 
 exports.getRegions = function getRegions(state) {
     return new Promise(function (resolve, reject) {
-        
+
         var subscriptionClient = new SubscriptionClient(state.credentials);
         subscriptionClient.subscriptions.listLocations(state.selectedSubscriptionId, function (err, result) {
             if (err != null)
