@@ -74,8 +74,8 @@
         "category": "Azure"
       },
       {
-        "command": "createKeyVault.simple",
-        "title": "Create a Key Vault (Simple)",
+        "command": "createKeyVault",
+        "title": "Create a Key Vault",
         "category": "Azure"
       },
       {
