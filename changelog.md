@@ -1,3 +1,6 @@
+## 1.1.0
+- [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) creation. Select the Create Key Vault command to create a new or select an existing resource group into which your new Key Vault will be created.
+
 ## 1.0.0
 - Search the [Azure QuickStart Templates](https://github.com/Azure/azure-quickstart-templates) GitHub repository for Azure Resource Manager (ARM) templates.
 - Takes a dependency on the [Azure Resource Manager Tools](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) to make the ARM template editing experience better.
