@@ -9,7 +9,7 @@ We've added some guideliness to help you in your quest. Please read and feel fre
 3. Raise an issue on GitHub to initiate the conversation and use it as a point of reference
 4. Let us know if you have any questions or you're unsure of something
 5. Please fork the project and create a new branch to commit your work
-6. DO NOT push to master. If you don't know what this means, refresh your memory [here](link to git docs) 
+6. DO NOT push to master. If you don't know what this means, refresh your memory [here](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) 
 
 ## Setting up the project locally
 1. Ensure you have Node.js installed. Get it [here](https://nodejs.org/en/)
