@@ -7,7 +7,7 @@ var keyVaultProvider = "Microsoft.KeyVault";
 var keyVaultResourceType = "vaults";
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('createKeyVault.simple', function () {
+    vscode.commands.registerCommand('createKeyVault', function () {
         vscode.window.showInputBox({
             prompt: constants.promptNewKeyVault
         }).then(function (newKeyVaultName) {
