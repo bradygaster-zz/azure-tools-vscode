@@ -5,20 +5,20 @@ var azure = require('./azure');
 
 // deploys arm template
 exports.deployTemplate = function deployTemplate(state) {
-    vscode.window.setStatusBarMessage(constants.promptDeployingTemplate
+    state.statusBar = vscode.window.setStatusBarMessage(constants.promptDeployingTemplate
         .replace('{0}', state.selectedTemplateName)
         .replace('{1}', state.resourceGroupToUse))
 
     azure.deployTemplate(state)
         .then((msg) => {
             vscode.window.showInformationMessage(msg);
-            vscode.window.setStatusBarMessage('');
+            state.statusBar.dispose();
         })
         .catch((err) => {
             vscode.window.showErrorMessage(constants.promptDeployingTemplateFailed
                 .replace('{0}', state.selectedTemplateName)
                 .replace('{1}', state.resourceGroupToUse));
-            vscode.window.setStatusBarMessage('');
+            state.statusBar.dispose();
         });
 };
 
@@ -129,12 +129,12 @@ exports.ifKeyVaultNameIsAvailable = function ifKeyVaultNameIsAvailable(state) {
 // gets all of the resources
 exports.getAzureResources = function getAzureResources(state) {
     return new Promise((function (resolve, reject) {
-        vscode.window.setStatusBarMessage(constants.statusGettingResources);
+        var statusBar = vscode.window.setStatusBarMessage(constants.statusGettingResources);
 
         azure
             .getFullResourceList(state)
             .then(function (names) {
-                vscode.window.setStatusBarMessage('');
+                statusBar.dispose();
                 resolve(names);
             })
             .catch(function (err) {
@@ -228,11 +228,11 @@ exports.createFunction = function createFunction(state, callback) {
 exports.getServerFarms = function getServerFarms(state) {
     return new Promise(function (resolve, reject) {
         state.serverFarmList = [];
-        vscode.window.setStatusBarMessage(constants.statusGettingFarms);
+        var statusBar = vscode.window.setStatusBarMessage(constants.statusGettingFarms);
         azure
             .getServerFarms(state)
             .then(function (result) {
-                vscode.window.setStatusBarMessage('');
+                statusBar.dispose();
                 if (result.length == 0)
                     resolve();
                 else {

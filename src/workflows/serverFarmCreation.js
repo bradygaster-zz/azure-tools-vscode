@@ -37,7 +37,7 @@ exports.doNewOrExistingServerFarmWorkflow = function doNewOrExistingServerFarmWo
                     if (!newServerFarmName || newServerFarmName === '') return;
 
                     state.selectedServerFarm = newServerFarmName;
-                    vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm));
+                    vscode.window.setStatusBarMessage(constants.statusCreatingServerFarm.replace('{0}', state.selectedServerFarm, 5000));
                     ux.createServerFarm(state, function () {
                         callback();
                     });
