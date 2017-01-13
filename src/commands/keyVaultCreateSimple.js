@@ -19,8 +19,8 @@ exports.createCommand = function createCommand(state) {
             ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
                 .then((result) => {
                     state.keyVaultRegions = result.filter(x =>
-                        x.namespace === "Microsoft.KeyVault")[0].resourceTypes.filter(x =>
-                            x.resourceType === "vaults")[0].locations;
+                        x.namespace === keyVaultProvider)[0].resourceTypes.filter(x =>
+                            x.resourceType === keyVaultResourceType)[0].locations;
 
                     ux.showNewOrExistingResourceGroupMenu(state).then(() => {
                         ux.ifKeyVaultNameIsAvailable(state)
