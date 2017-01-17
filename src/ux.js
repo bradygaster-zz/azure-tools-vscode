@@ -3,6 +3,8 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
 var path = require('path');
+var fs = require('fs');
+var fsPath = require('fs-path');
 
 // perform the export template feature
 exports.exportTemplate = function exportTemplate(state) {
@@ -12,17 +14,24 @@ exports.exportTemplate = function exportTemplate(state) {
                 .then(function (selectedRg) {
                     if (!selectedRg) reject();
                     state.resourceGroupToUse = selectedRg;
-
                     azure.exportTemplate(state)
                         .then((result) => {
                             console.log(result);
                             var json = JSON.stringify(result.template);
-                            if (result.error) {
-                                vscode.window.showErrorMessage(constants.promptTemplateExportedWithErrors.replace('{0}',state.resourceGroupToUse));
-                            }
-                            else {
-                                vscode.window.showInformationMessage(constants.promptTemplateExported.replace('{0}',state.resourceGroupToUse));
-                            }
+                            var filename = path.join(vscode.workspace.rootPath, constants.armTemplatesPath, state.resourceGroupToUse, 'azuredeploy.json');
+                            fsPath.writeFile(filename, json, (err) => {
+                                if (result.error) {
+                                    vscode.window.showErrorMessage(constants.promptTemplateExportedWithErrors.replace('{0}', state.resourceGroupToUse));
+                                }
+                                else {
+                                    vscode.window.showInformationMessage(constants.promptTemplateExported.replace('{0}', state.resourceGroupToUse));
+                                }
+                                vscode.workspace.openTextDocument(filename)
+                                .then(prms => {
+                                    vscode.window.showTextDocument(prms);
+                                    resolve();
+                                });
+                            });
                         });
                 });
         })
