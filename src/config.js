@@ -58,6 +58,7 @@ exports.getConstants = function getConstants() {
         promptDeployingTemplate: 'Deploying template {0} to resource group {1}',
         promptDeployingTemplateCompleted: 'Template {0} deployment to resource group {1} completed with status of {2}',
         promptDeployingTemplateFailed: 'FAILED to deploy template {0} to resource group {1}',
+        promptNotLoggedIn : 'You have not yet logged in. Run the Azure Login command first.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',

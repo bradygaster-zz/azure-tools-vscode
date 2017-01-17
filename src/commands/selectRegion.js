@@ -5,8 +5,10 @@ var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('selectRegion', function () {
-        ux.getRegions(state).then(function () {
-            ux.showRegionMenu(state);
+        ux.isLoggedIn(state).then(() => {
+            ux.getRegions(state).then(function () {
+                ux.showRegionMenu(state);
+            });
         });
     });
 };

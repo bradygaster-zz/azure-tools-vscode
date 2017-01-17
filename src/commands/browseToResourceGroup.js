@@ -6,12 +6,14 @@ var open = require('open');
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('browseResourceGroupInPortal', function () {
-        ux.getResourceGroups(state).then(() => {
-            ux.showResourceGroupsMenu(state, () => {
-                open(constants.templateResourceGroupUrl
-                    .replace('{subscriptionId}', state.selectedSubscriptionId)
-                    .replace('{resourceGroup}', state.resourceGroupToUse)
-                );
+        ux.isLoggedIn(state).then(() => {
+            ux.getResourceGroups(state).then(() => {
+                ux.showResourceGroupsMenu(state, () => {
+                    open(constants.templateResourceGroupUrl
+                        .replace('{subscriptionId}', state.selectedSubscriptionId)
+                        .replace('{resourceGroup}', state.resourceGroupToUse)
+                    );
+                });
             });
         });
     });
