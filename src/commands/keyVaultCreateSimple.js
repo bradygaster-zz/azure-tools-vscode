@@ -16,13 +16,7 @@ exports.createCommand = function createCommand(state) {
 
                 state.keyVaultName = newKeyVaultName;
                 state.resourceGroupToUse = state.keyVaultName + 'Resources';
-
-            ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
-                .then((result) => {
-                    state.keyVaultRegions = result.filter(x =>
-                        x.namespace === "Microsoft.KeyVault")[0].resourceTypes.filter(x =>
-                            x.resourceType === "vaults")[0].locations;
-                 ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
+                ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
                 	.then((result) => {
                     	state.keyVaultRegions = result.filter(x =>
                         	x.namespace === keyVaultProvider)[0].resourceTypes.filter(x =>
