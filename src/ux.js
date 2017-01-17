@@ -2,6 +2,41 @@ var vscode = require('vscode');
 var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
+var path = require('path');
+var fs = require('fs');
+var fsPath = require('fs-path');
+
+// perform the export template feature
+exports.exportTemplate = function exportTemplate(state) {
+    this.getResourceGroups(state)
+        .then(function () {
+            vscode.window.showQuickPick(state.resourceGroupList)
+                .then(function (selectedRg) {
+                    if (!selectedRg) reject();
+                    state.resourceGroupToUse = selectedRg;
+                    azure.exportTemplate(state)
+                        .then((result) => {
+                            var json = JSON.stringify(result.template);
+                            var filename = path.join(vscode.workspace.rootPath, constants.armTemplatesPath, state.resourceGroupToUse, 'azuredeploy.json');
+                            fsPath.writeFile(filename, json, (err) => {
+                                if (result.error) {
+                                    vscode.window.showErrorMessage(constants.promptTemplateExportedWithErrors.replace('{0}', state.resourceGroupToUse));
+                                }
+                                else {
+                                    vscode.window.showInformationMessage(constants.promptTemplateExported.replace('{0}', state.resourceGroupToUse));
+                                }
+                                vscode.workspace.openTextDocument(filename)
+                                .then(prms => {
+                                    vscode.window.showTextDocument(prms);
+                                });
+                            });
+                        });
+                });
+        })
+        .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+};
 
 // check to see if the user is logged in
 exports.isLoggedIn = function isLoggedIn(state) {

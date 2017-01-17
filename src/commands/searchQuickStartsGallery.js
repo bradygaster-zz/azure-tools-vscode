@@ -6,6 +6,7 @@ var client = github.client();
 var githubSearch = client.search();
 var constants = config.getConstants();
 var download = require('download-file');
+var path = require('path');
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('searchQuickStartsGallery', function () {
@@ -42,7 +43,7 @@ exports.createCommand = function createCommand(state) {
                         if (vscode.workspace.rootPath) {
                             if (selectedTemplate && selectedTemplate.length > 0) {
                                 var options = {
-                                    directory: vscode.workspace.rootPath + '/arm-templates/' + selectedItem,
+                                    directory: path.join(vscode.workspace.rootPath, 'arm-templates', selectedItem),
                                     filename: selectedTemplate[0].name
                                 };
 
@@ -74,7 +75,7 @@ function downloadTemplate(url, options) {
                 reject();
             }
             else {
-                vscode.workspace.openTextDocument(options.directory + '/azuredeploy.json')
+                vscode.workspace.openTextDocument(path.join(options.directory, 'azuredeploy.json'))
                     .then(doc => {
                         vscode.window.showTextDocument(doc);
                         resolve();
@@ -95,7 +96,7 @@ function downloadTemplateParameters(url, options) {
                 reject();
             }
             else {
-                vscode.workspace.openTextDocument(options.directory + '/azuredeploy.parameters.json')
+                vscode.workspace.openTextDocument(path.join(options.directory, 'azuredeploy.parameters.json'))
                     .then(prms => {
                         vscode.window.showTextDocument(prms);
                         resolve();

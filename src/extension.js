@@ -86,6 +86,9 @@ function activate(context) {
     // deploy a template that's open in the editor
     var deployTemplate = require('./commands/deployTemplate').createCommand(state);
 
+    // export a resource group to a template file
+    var exportTemplate = require('./commands/exportTemplate').createCommand(state);
+
     context.subscriptions.push(loginToAzureCommand);
     context.subscriptions.push(selectSubscriptionCommand);
     context.subscriptions.push(selectRegionCommand);
@@ -99,6 +102,7 @@ function activate(context) {
     context.subscriptions.push(storageAccountCreateSimpleCommand);
     context.subscriptions.push(searchQuickStartsGallery);
     context.subscriptions.push(deployTemplate);
+    context.subscriptions.push(exportTemplate);
     context.subscriptions.push(createKeyVaultCommandSimple);
 }
 exports.activate = activate;
