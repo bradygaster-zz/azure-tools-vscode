@@ -3,6 +3,18 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
 
+// check to see if the user is logged in
+exports.isLoggedIn = function isLoggedIn(state) {
+    return new Promise((resolve, reject) => {
+        if (state && state.credentials && state.accessToken && (state.subscriptions && state.subscriptions.length > 0)) {
+            resolve();
+        }
+        else {
+            vscode.window.showErrorMessage(constants.promptNotLoggedIn);
+        }
+    });
+};
+
 // deploys arm template
 exports.deployTemplate = function deployTemplate(state) {
     state.statusBar = vscode.window.setStatusBarMessage(constants.promptDeployingTemplate
