@@ -3,6 +3,29 @@ var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
 
+// perform the export template feature
+exports.exportTemplate = function exportTemplate(state) {
+    this.getResourceGroups(state)
+        .then(function () {
+            vscode.window.showQuickPick(state.resourceGroupList)
+                .then(function (selectedRg) {
+                    if (!selectedRg) reject();
+                    state.resourceGroupToUse = selectedRg;
+
+                    azure.exportTemplate(state)
+                        .then((result) => {
+                            console.log(result);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                });
+        })
+        .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+};
+
 // check to see if the user is logged in
 exports.isLoggedIn = function isLoggedIn(state) {
     return new Promise((resolve, reject) => {

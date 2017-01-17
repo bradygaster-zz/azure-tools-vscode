@@ -8,6 +8,23 @@ var fs = require('fs');
 var config = require('./config');
 var constants = config.getConstants();
 
+exports.exportTemplate = function exportTemplate(state) {
+    return new Promise((resolve, reject) => {
+        var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        resourceClient.resourceGroups.exportTemplate(state.resourceGroupToUse, {
+            resources: ["*"],
+            options: "IncludeParameterDefaultValue"
+        }, (err, result, request, response) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+};
+
 exports.deployTemplate = function deployTemplate(state) {
     return new Promise((resolve, reject) => {
         var resourceGroupName = state.resourceGroupToUse;
@@ -71,18 +88,18 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
 exports.createNewKeyVault = function createNewKeyVault(state) {
     return new Promise(function (resolve, reject) {
         var keyVaultClient = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
-        var keyVaultParameters  =  {
-            location :  state.selectedRegion,
-            properties :  {
-                sku :  {
-                    family :  'A',
-                    name :  'standard'
+        var keyVaultParameters = {
+            location : state.selectedRegion,
+            properties : {
+                sku : {
+                    family : 'A',
+                    name : 'standard'
                 },
-                accessPolicies :  [],
-                enabledForDeployment :  false,
+                accessPolicies : [],
+                enabledForDeployment : false,
                 tenantId: state.subscriptions.find(x => x.id === state.selectedSubscriptionId).tenantId
             },
-            tags :  {}
+            tags : {}
         };
         keyVaultClient.vaults.createOrUpdate(state.resourceGroupToUse, state.keyVaultName, keyVaultParameters, null,
             function (err, result) {

@@ -112,7 +112,12 @@
         "command": "deployTemplate",
         "title": "Deploy one of the Azure Resource Manager (ARM) templates in your workspace",
         "category": "Azure"
-      }      
+      },
+      {
+        "command": "exportTemplate",
+        "title": "Export one of your Resource Groups as a template saved in your workspace",
+        "category": "Azure"
+      }
     ]
   },
   "scripts": {
