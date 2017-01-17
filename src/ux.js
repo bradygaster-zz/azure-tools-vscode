@@ -2,6 +2,7 @@ var vscode = require('vscode');
 var config = require('./config');
 var constants = config.getConstants();
 var azure = require('./azure');
+var path = require('path');
 
 // perform the export template feature
 exports.exportTemplate = function exportTemplate(state) {
@@ -15,9 +16,13 @@ exports.exportTemplate = function exportTemplate(state) {
                     azure.exportTemplate(state)
                         .then((result) => {
                             console.log(result);
-                        })
-                        .catch((err) => {
-                            console.log(err);
+                            var json = JSON.stringify(result.template);
+                            if (result.error) {
+                                vscode.window.showErrorMessage(constants.promptTemplateExportedWithErrors.replace('{0}',state.resourceGroupToUse));
+                            }
+                            else {
+                                vscode.window.showInformationMessage(constants.promptTemplateExported.replace('{0}',state.resourceGroupToUse));
+                            }
                         });
                 });
         })

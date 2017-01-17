@@ -20,14 +20,14 @@ exports.createCommand = function createCommand(state) {
                     reject(constants.promptNoWorkspaceOpen);
                 }
 
-                var srcpath = vscode.workspace.rootPath + '/arm-templates';
+                var srcpath = path.join(vscode.workspace.rootPath, constants.armTemplatesPath);
                 var directories = fs.readdirSync(srcpath).filter(function (file) {
                     return fs.statSync(path.join(srcpath, file)).isDirectory();
                 });
 
                 vscode.window.showQuickPick(directories).then((selectedTemplate) => {
-                    state.SelectedTemplateFile = vscode.workspace.rootPath + '\\arm-templates\\' + selectedTemplate + '\\azuredeploy.json';
-                    state.SelectedTemplateParametersFile = vscode.workspace.rootPath + '\\arm-templates\\' + selectedTemplate + '\\azuredeploy.parameters.json';
+                    state.SelectedTemplateFile = path.join(vscode.workspace.rootPath, 'arm-templates', selectedTemplate ,'azuredeploy.json');
+                    state.SelectedTemplateParametersFile = path.join(vscode.workspace.rootPath, 'arm-templates', selectedTemplate, 'azuredeploy.parameters.json');
 
                     state.selectedTemplateName = selectedTemplate;
 

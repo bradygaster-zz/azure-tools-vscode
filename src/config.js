@@ -4,6 +4,7 @@ const vscode = require('vscode');
 
 exports.getConstants = function getConstants() {
     return {
+        armTemplatesPath: 'arm-templates',
         btnRegionSelectionLabel: 'Select your desired Azure region. ',
         btnStorageSelectionLabel: 'Select your desired Azure Storage Account. ',
         loginButtonLabel: 'Sign In',
@@ -59,6 +60,8 @@ exports.getConstants = function getConstants() {
         promptDeployingTemplateCompleted: 'Template {0} deployment to resource group {1} completed with status of {2}',
         promptDeployingTemplateFailed: 'FAILED to deploy template {0} to resource group {1}',
         promptNotLoggedIn : 'You have not yet logged in. Run the Azure Login command first.',
+        promptTemplateExported: 'Resource group {0} has been exported to your workspace\'s arm-templates folder',
+        promptTemplateExportedWithErrors: 'Resource group {0} has been exported with errors. Check the template for completeness.',
         btnLabelNewRg: 'New',
         btnLabelExistingRg: 'Existing',
         optionNewRg: 'Create new resource group',
