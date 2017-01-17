@@ -16,7 +16,6 @@ exports.exportTemplate = function exportTemplate(state) {
                     state.resourceGroupToUse = selectedRg;
                     azure.exportTemplate(state)
                         .then((result) => {
-                            console.log(result);
                             var json = JSON.stringify(result.template);
                             var filename = path.join(vscode.workspace.rootPath, constants.armTemplatesPath, state.resourceGroupToUse, 'azuredeploy.json');
                             fsPath.writeFile(filename, json, (err) => {
