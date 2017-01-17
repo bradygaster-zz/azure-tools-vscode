@@ -136,6 +136,9 @@
     "get-urls": "^5.0.1",
     "ms-rest-azure": "1.15.2",
     "octonode": "^0.7.7",
-    "open": "0.0.5"
+    "open": "0.0.5",
+    "moment": "^2.17.1",
+    "azure-keyvault": "^1.0.0",
+    "adal-node": "^0.1.17"
   }
 }
