@@ -29,7 +29,6 @@ exports.exportTemplate = function exportTemplate(state) {
                                 vscode.workspace.openTextDocument(filename)
                                 .then(prms => {
                                     vscode.window.showTextDocument(prms);
-                                    resolve();
                                 });
                             });
                         });
