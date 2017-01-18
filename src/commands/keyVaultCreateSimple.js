@@ -16,13 +16,11 @@ exports.createCommand = function createCommand(state) {
 
                 state.keyVaultName = newKeyVaultName;
                 state.resourceGroupToUse = state.keyVaultName + 'Resources';
-
                 ux.getRegionsForResource(state, keyVaultProvider, keyVaultResourceType)
-                    .then((result) => {
-                        state.keyVaultRegions = result.filter(x =>
-                            x.namespace === "Microsoft.KeyVault")[0].resourceTypes.filter(x =>
-                                x.resourceType === "vaults")[0].locations;
-
+                	.then((result) => {
+                    	state.keyVaultRegions = result.filter(x =>
+                        	x.namespace === keyVaultProvider)[0].resourceTypes.filter(x =>
+                            	x.resourceType === keyVaultResourceType)[0].locations;
                         ux.showNewOrExistingResourceGroupMenu(state).then(() => {
                             ux.ifKeyVaultNameIsAvailable(state)
                                 .then(() => {
@@ -34,7 +32,7 @@ exports.createCommand = function createCommand(state) {
                                         });
                                 });
                         });
-                    });
+   	              });
             });
         });
     });

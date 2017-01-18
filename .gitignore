@@ -40,3 +40,6 @@ jspm_packages
 
 # deployment/publishing files
 *.vsix
+
+# git merge/diff files
+*.orig

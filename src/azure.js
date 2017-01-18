@@ -3,6 +3,7 @@ var WebSiteManagement = require('azure-arm-website');
 var KeyVaultManagement = require('azure-arm-keyvault');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
+var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
 var config = require('./config');

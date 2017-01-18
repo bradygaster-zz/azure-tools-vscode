@@ -6,5 +6,24 @@
     },
     "exclude": [
         "node_modules"
-    ]
+    ],
+    "typeAcquisition": {
+        "include": [
+            "azure-arm-resource",
+            "azure-arm-storage",
+            "azure-arm-website",
+            "azure-arm-keyvault",
+            "azure-gallery",
+            "documentdb",
+            "copy-paste",
+            "download-file",
+            "get-urls",
+            "ms-rest-azure",
+            "octonode",
+            "open",
+            "moment",
+            "azure-keyvault",
+            "adal-node"
+        ]
+    }
 }
