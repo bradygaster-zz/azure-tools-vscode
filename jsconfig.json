@@ -13,6 +13,7 @@
             "azure-arm-storage",
             "azure-arm-website",
             "azure-arm-keyvault",
+            "azure-arm-batch",
             "azure-gallery",
             "documentdb",
             "copy-paste",

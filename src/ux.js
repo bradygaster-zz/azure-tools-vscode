@@ -173,11 +173,26 @@ exports.ifKeyVaultNameIsAvailable = function ifKeyVaultNameIsAvailable(state) {
     });
 }
 
+// check the batch account name is available
+exports.ifBatchAccountNameIsAvailable = function ifBatchAccountNameIsAvailable(state){
+    return new Promise(function (resolve, reject){
+        azure
+            .checkBatchAccountNameAvailability(state)
+            .then(function (result){
+                if(!result){
+                    reject(constants.promptBatchAccountNameNotAvailable);
+                }
+                else{
+                    resolve();
+                }
+            });
+    });
+}
+
 // gets all of the resources
 exports.getAzureResources = function getAzureResources(state) {
     return new Promise((function (resolve, reject) {
         var statusBar = vscode.window.setStatusBarMessage(constants.statusGettingResources);
-
         azure
             .getFullResourceList(state)
             .then(function (names) {
@@ -197,6 +212,20 @@ exports.createKeyVault = function createKeyVault(state, callback) {
         .createNewKeyVault(state)
         .then(function (result) {
             vscode.window.setStatusBarMessage(constants.statusCreatedKeyVault.replace('{0}', state.keyVaultName));
+            if (callback != null)
+                callback();
+        })
+        .catch(function (err) {
+            vscode.window.showErrorMessage(err);
+        });
+}
+
+exports.createBatchAccount = function createBatchAccount(state, callback){
+    vscode.window.setStatusBarMessage(constants.statusCreatingBatchAccount.replace('{0}', state.batchAccountName));
+    azure
+        .createNewBatchAccount(state)
+        .then(function (result) {
+            vscode.window.setStatusBarMessage(constants.statusCreatedBatchAccount.replace('{0}', state.batchAccountName));
             if (callback != null)
                 callback();
         })

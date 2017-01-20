@@ -3,6 +3,7 @@ var WebSiteManagement = require('azure-arm-website');
 var KeyVaultManagement = require('azure-arm-keyvault');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
+var BatchManagement = require('azure-arm-batch');
 var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
@@ -112,6 +113,39 @@ exports.createNewKeyVault = function createNewKeyVault(state) {
             });
     });
 };
+
+exports.createNewBatchAccount = function createNewBatchAccount(state){
+    return new Promise(function (resolve, reject) {
+        var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        
+        var batchAccountParameters = {
+            location : state.selectedRegion,
+            tags: {}
+        }
+        batchClient.account.create(state.resourceGroupName, state.batchAccountName, batchAccountParameters, null, 
+            function(err, result){
+                if(err !==  null){
+                    reject("failed");
+                }
+                else {
+                    resolve("result");
+                }
+            })
+     });
+}
+
+exports.checkBatchAccountNameAvailability = function checkBatchAccountNameAvailability(state){
+     return new Promise(function (resolve, reject) {
+        //var batchClient = new BatchManagement.
+        var test = 1;
+        if(test !== 1){
+            reject("failed");
+        }
+        else {
+            result("success");
+        }
+     });
+}
 
 exports.createNewServerFarm = function createNewServerFarm(state) {
     return new Promise(function (resolve, reject) {

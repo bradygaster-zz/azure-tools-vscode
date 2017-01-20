@@ -22,6 +22,8 @@ var state = {
     entireResourceList: [],
     keyVaultName: null,
     keyVaultRegions: [],
+    batchAccountName: null,
+    batchAccountRegions: [],
     newWebAppName: null,
     regions: [],
     selectedRegion: 'West US',
@@ -83,6 +85,9 @@ function activate(context) {
     // search azure arm quickstarts repository
     var searchQuickStartsGallery = require('./commands/searchQuickStartsGallery').createCommand(state);
 
+    // starts the batch account creation process
+    var createBatchAccountCommand = require('./commands/batchCreate');
+
     // deploy a template that's open in the editor
     var deployTemplate = require('./commands/deployTemplate').createCommand(state);
 
@@ -104,6 +109,7 @@ function activate(context) {
     context.subscriptions.push(deployTemplate);
     context.subscriptions.push(exportTemplate);
     context.subscriptions.push(createKeyVaultCommandSimple);
+    context.subscriptions.push(createBatchAccountCommand);
 }
 exports.activate = activate;
 
