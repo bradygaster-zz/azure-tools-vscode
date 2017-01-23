@@ -3,6 +3,7 @@ var WebSiteManagement = require('azure-arm-website');
 var KeyVaultManagement = require('azure-arm-keyvault');
 var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
+var BatchManagement = require('azure-arm-batch');
 var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
@@ -111,6 +112,46 @@ exports.createNewKeyVault = function createNewKeyVault(state) {
                 }
             });
     });
+};
+
+exports.createNewBatchAccount = function createNewBatchAccount(state){
+    return new Promise(function (resolve, reject) {
+        var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        
+        var batchAccountParameters = {
+            location : state.selectedRegion,
+            tags: {}
+        }
+        batchClient.batchAccountOperations.create(state.resourceGroupToUse, state.batchAccountName, batchAccountParameters, null, 
+            function(err, result){
+                if(err !==  null){
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+        });
+     });
+};
+
+exports.checkBatchAccountNameAvailability = function checkBatchAccountNameAvailability(state){
+     return new Promise(function (resolve, reject) {
+        var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        batchClient.batchAccountOperations.get(state.resourceGroupToUse, state.batchAccountName, null, 
+            function(err, result){
+                if(err !==  null){
+                    if(err.code === "ResourceNotFound"){
+                        resolve(true);
+                    }
+                    else{
+                        reject(err);
+                    }
+                }
+                else {
+                    resolve(false);
+                }
+        });
+     });
 };
 
 exports.createNewServerFarm = function createNewServerFarm(state) {
