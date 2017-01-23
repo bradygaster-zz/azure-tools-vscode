@@ -117,6 +117,11 @@
         "command": "exportTemplate",
         "title": "Export one of your Resource Groups as a template saved in your workspace",
         "category": "Azure"
+      },
+      {
+        "command": "createBatchAccount",
+        "title": "Create an Azure Batch Account",
+        "category": "Azure"
       }
     ]
   },

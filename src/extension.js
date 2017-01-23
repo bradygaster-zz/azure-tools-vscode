@@ -86,7 +86,7 @@ function activate(context) {
     var searchQuickStartsGallery = require('./commands/searchQuickStartsGallery').createCommand(state);
 
     // starts the batch account creation process
-    var createBatchAccountCommand = require('./commands/batchCreate');
+    var createBatchAccountCommand = require('./commands/batchCreate').createCommand(state);
 
     // deploy a template that's open in the editor
     var deployTemplate = require('./commands/deployTemplate').createCommand(state);

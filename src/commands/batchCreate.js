@@ -14,7 +14,7 @@ exports.createCommand = function createCommand(state) {
             }).then(function (newBatchAccountName) {
                 if (!newBatchAccountName || newBatchAccountName === "") return;
 
-                state.newBatchAccountName = newBatchAccountName;
+                state.batchAccountName = newBatchAccountName;
                 state.resourceGroupToUse = state.newBatchAccountName + 'Resources';
                 ux.getRegionsForResource(state, provider, resourceType)
                 	.then((result) => {

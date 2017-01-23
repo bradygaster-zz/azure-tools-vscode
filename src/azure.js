@@ -122,30 +122,37 @@ exports.createNewBatchAccount = function createNewBatchAccount(state){
             location : state.selectedRegion,
             tags: {}
         }
-        batchClient.account.create(state.resourceGroupName, state.batchAccountName, batchAccountParameters, null, 
+        batchClient.batchAccountOperations.create(state.resourceGroupToUse, state.batchAccountName, batchAccountParameters, null, 
             function(err, result){
                 if(err !==  null){
-                    reject("failed");
+                    reject(err);
                 }
                 else {
-                    resolve("result");
+                    resolve(result);
                 }
-            })
+        });
      });
-}
+};
 
 exports.checkBatchAccountNameAvailability = function checkBatchAccountNameAvailability(state){
      return new Promise(function (resolve, reject) {
-        //var batchClient = new BatchManagement.
-        var test = 1;
-        if(test !== 1){
-            reject("failed");
-        }
-        else {
-            result("success");
-        }
+        var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        batchClient.batchAccountOperations.get(state.resourceGroupToUse, state.batchAccountName, null, 
+            function(err, result){
+                if(err !==  null){
+                    if(err.code === "ResourceNotFound"){
+                        resolve(true);
+                    }
+                    else{
+                        reject(err);
+                    }
+                }
+                else {
+                    resolve(false);
+                }
+        });
      });
-}
+};
 
 exports.createNewServerFarm = function createNewServerFarm(state) {
     return new Promise(function (resolve, reject) {
