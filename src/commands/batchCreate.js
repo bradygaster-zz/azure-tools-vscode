@@ -33,6 +33,9 @@ exports.createCommand = function createCommand(state) {
                                 });
                         });
    	              });
+            })
+            .catch(function (message) {
+                    vscode.window.showErrorMessage(message);
             });
         });
     });
