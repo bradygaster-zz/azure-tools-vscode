@@ -35,8 +35,6 @@ exports.getConstants = function getConstants() {
         promptNewWebAppName: 'Web App Name',
         promptNewRgName: 'New Resource Group Name:',
         promptNewBatchAccount: 'New Batch Account Name:',
-        promptNewKeyVault: 'New Key Vault Name:',
-        promptKeyVaultNameNotAvailable: 'That key vault name is not available',
         promptWebSiteNameNotAvailable: 'That web app name is not available.',
         promptStorageAccountNameNotAvailable: 'That storage account name is not available.',
         promptBatchAccountNameNotAvailable: 'The batch account name is not available.',

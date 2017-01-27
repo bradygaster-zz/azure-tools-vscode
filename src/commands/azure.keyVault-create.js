@@ -1,16 +1,14 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var config = require('../config');
-var constants = config.getConstants();
-
 var keyVaultProvider = "Microsoft.KeyVault";
 var keyVaultResourceType = "vaults";
+var promptNewKeyVault = 'New Key Vault Name:';
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.keyVault-create', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
-                prompt: constants.promptNewKeyVault
+                prompt: promptNewKeyVault
             }).then(function (newKeyVaultName) {
                 if (!newKeyVaultName || newKeyVaultName === "") return;
 

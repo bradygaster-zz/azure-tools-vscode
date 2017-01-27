@@ -158,6 +158,8 @@ exports.ifStorageAccountNameIsAvailable = function ifStorageAccountNameIsAvailab
 
 // check the key vault name is available
 exports.ifKeyVaultNameIsAvailable = function ifKeyVaultNameIsAvailable(state) {
+    var promptKeyVaultNameNotAvailable = 'That key vault name is not available';
+    
     return new Promise(function (resolve, reject) {
         azure
             .checkKeyVaultNameAvailability(state)
