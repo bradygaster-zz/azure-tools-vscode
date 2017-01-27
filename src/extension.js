@@ -8,6 +8,7 @@ var config = require('./config');
 var constants = config.getConstants();
 var fs = require('fs');
 var path = require('path');
+var appEvents = require('./appEvents');
 
 // state used in the extension
 var state = {
@@ -40,8 +41,6 @@ var state = {
     SelectedTemplateParametersFile: null
 };
 
-var appEvents = require('./appEvents');
-
 function activate(context) {
     appEvents.setContext(context);
 
@@ -55,7 +54,7 @@ function activate(context) {
         });
     });
 
-    console.log('ACTIVATION: "azuretoolsforvscode"');
+    console.log('azure tools loaded');
 }
 
 exports.activate = activate;

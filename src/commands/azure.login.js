@@ -12,6 +12,10 @@ exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.login', function () {
         vscode.window.setStatusBarMessage(state.statusGettingSubscriptions);
 
+        appEvents.on('loggedIn', (state) => {
+            console.log('logged in');
+        });
+
         // handle the interactive user login message result
         var options = {};
         var tenantId = config.getTenantId();
@@ -59,7 +63,7 @@ exports.createCommand = function createCommand(state) {
                     vscode.window.showInformationMessage(constants.loggedInMessage);
                     vscode.window.setStatusBarMessage(
                         constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
-                        appEvents.loggedIn(state);
+                    appEvents.emit('loggedIn', state);
                 });
 
                 ux.getRegions(state);
