@@ -73,7 +73,6 @@ exports.getConstants = function getConstants() {
         optionNewHostingPlan: 'Create a new server farm',
         optionUseExistingHostingPlan: 'Use an existing server farm',
         templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};',
-        templateResourceGroupUrl: 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview',
         selectedTemplateName: null
     };
 };
