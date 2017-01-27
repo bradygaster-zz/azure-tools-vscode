@@ -4,13 +4,13 @@ var config = require('../config');
 var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('createFunction.simple', function () {
+    vscode.commands.registerCommand('azure.webApp-create-simple', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
-                prompt: constants.promptCreateNewFunction
+                prompt: constants.promptNewWebAppName
             }).then(function (newWebSiteName) {
 
-                if (newWebSiteName == null) return;
+                if (!newWebSiteName || newWebSiteName === "") return;
 
                 state.newWebAppName = newWebSiteName;
                 state.selectedServerFarm = state.newWebAppName + 'ServerFarm';
@@ -19,9 +19,11 @@ exports.createCommand = function createCommand(state) {
                 ux.createResourceGroup(state,
                     function () {
                         ux.createServerFarm(state, function () {
-                            ux.createFunction(state)
+                            ux.createWebApp(state)
                         })
                     });
+            }).catch((message) => {
+                vscode.window.showErrorMessage(message);
             });
         });
     });

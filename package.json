@@ -44,82 +44,82 @@
     },
     "commands": [
       {
-        "command": "selectsubscription",
+        "command": "azure.subscription-select",
         "title": "List Azure Subscriptions",
         "category": "Azure"
       },
       {
-        "command": "storageAccountGetConnectionString",
+        "command": "azure.storage-getConnectionString",
         "title": "Get a Storage Account Connection String",
         "category": "Azure"
       },
       {
-        "command": "createstorageaccount.simple",
+        "command": "azure.storage-createAccount",
         "title": "Create a Storage Account",
         "category": "Azure"
       },
       {
-        "command": "logintoazure",
+        "command": "azure.login",
         "title": "Login",
         "category": "Azure"
       },
       {
-        "command": "createwebapp.advanced",
+        "command": "azure.webApp-create-advanced",
         "title": "Create a Web App (Advanced)",
         "category": "Azure"
       },
       {
-        "command": "createwebapp.simple",
+        "command": "azure.webApp-create-simple",
         "title": "Create a Web App (Simple)",
         "category": "Azure"
       },
       {
-        "command": "createKeyVault",
+        "command": "azure.keyVault-create",
         "title": "Create a Key Vault",
         "category": "Azure"
       },
       {
-        "command": "browseInPortal",
+        "command": "azure.browse-resource",
         "title": "Browse in Portal (Select a resource to open in the Azure Portal)",
         "category": "Azure"
       },
       {
-        "command": "browseResourceGroupInPortal",
+        "command": "azure.browse-resourceGroup",
         "title": "Browse Resource Group in Portal",
         "category": "Azure"
       },
       {
-        "command": "selectRegion",
+        "command": "azure.region-select",
         "title": "Set your active Azure Data Center",
         "category": "Azure"
       },
       {
-        "command": "createFunction.simple",
+        "command": "azure.functionApp-create-simple",
         "title": "Create an Azure Function App (Simple)",
         "category": "Azure"
       },
       {
-        "command": "createFunction.advanced",
+        "command": "azure.functionApp-create-advanced",
         "title": "Create an Azure Function App (Advanced)",
         "category": "Azure"
       },
       {
-        "command": "searchQuickStartsGallery",
+        "command": "azure.template-search",
         "title": "Search the Azure Resource Manager (ARM) Template QuickStarts on GitHub",
         "category": "Azure"
       },
       {
-        "command": "deployTemplate",
+        "command": "azure.template-deploy",
         "title": "Deploy one of the Azure Resource Manager (ARM) templates in your workspace",
         "category": "Azure"
       },
       {
-        "command": "exportTemplate",
+        "command": "azure.template-export",
         "title": "Export one of your Resource Groups as a template saved in your workspace",
         "category": "Azure"
       },
       {
-        "command": "createBatchAccount",
+        "command": "azure.batch-create",
         "title": "Create an Azure Batch Account",
         "category": "Azure"
       }

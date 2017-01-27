@@ -8,7 +8,7 @@ var path = require('path');
 var fs = require('fs');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('deployTemplate', function () {
+    vscode.commands.registerCommand('azure.template-deploy', function () {
         ux.isLoggedIn(state).then(() => {
             return new Promise((resolve, reject) => {
                 if (!vscode.workspace) {

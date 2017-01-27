@@ -4,7 +4,7 @@ var config = require('../config');
 var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('selectsubscription', function () {
+    vscode.commands.registerCommand('azure.subscription-select', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showQuickPick(state.subscriptionNames).then(selected => {
 

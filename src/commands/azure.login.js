@@ -6,9 +6,10 @@ var vscode = require('vscode');
 var ux = require('../ux');
 var config = require('../config');
 var constants = config.getConstants();
+var appEvents = require('../appEvents');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('logintoazure', function () {
+    vscode.commands.registerCommand('azure.login', function () {
         vscode.window.setStatusBarMessage(state.statusGettingSubscriptions);
 
         // handle the interactive user login message result
@@ -58,6 +59,7 @@ exports.createCommand = function createCommand(state) {
                     vscode.window.showInformationMessage(constants.loggedInMessage);
                     vscode.window.setStatusBarMessage(
                         constants.statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
+                        appEvents.loggedIn(state);
                 });
 
                 ux.getRegions(state);

@@ -5,7 +5,7 @@ var constants = config.getConstants();
 var open = require('open');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('browseInPortal', function () {
+    vscode.commands.registerCommand('azure.browse-resource', function () {
         ux.isLoggedIn(state).then(() => {
             ux.getAzureResources(state)
                 .then(function (names) {

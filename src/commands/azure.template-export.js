@@ -8,7 +8,7 @@ var path = require('path');
 var fs = require('fs');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('exportTemplate', function () {
+    vscode.commands.registerCommand('azure.template-export', function () {
         ux.isLoggedIn(state).then(() => {
             ux.exportTemplate(state);
         });

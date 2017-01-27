@@ -5,7 +5,7 @@ var config = require('../config');
 var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('storageAccountGetConnectionString', function () {
+    vscode.commands.registerCommand('azure.storage-getConnectionString', function () {
         ux.isLoggedIn(state).then(() => {
             ux.getStorageAccounts(state).then(function () {
                 ux.showStorageAccountMenu(state).then((selected) => {

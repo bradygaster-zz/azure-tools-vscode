@@ -9,7 +9,7 @@ var download = require('download-file');
 var path = require('path');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('searchQuickStartsGallery', function () {
+    vscode.commands.registerCommand('azure.template-search', function () {
         vscode.window.showInputBox({
             prompt: constants.promptSearchArmGallery
         }).then(function (searchTerm) {

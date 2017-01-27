@@ -4,10 +4,10 @@ var config = require('../config');
 var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('createFunction.advanced', function () {
+    vscode.commands.registerCommand('azure.webApp-create-advanced', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
-                prompt: constants.promptNewFunctionAppName
+                prompt: constants.promptNewWebAppName
             }).then(function (newWebSiteName) {
 
                 if (!newWebSiteName || newWebSiteName === "") return;
@@ -33,7 +33,7 @@ exports.createCommand = function createCommand(state) {
 
                                                 state.resourceGroupToUse = selectedRg;
                                                 require('../workflows/serverFarmCreation').doNewOrExistingServerFarmWorkflow(state, function () {
-                                                    ux.createFunction(state);
+                                                    ux.createWebApp(state);
                                                 });
                                             });
                                     })
@@ -51,7 +51,7 @@ exports.createCommand = function createCommand(state) {
                                     state.resourceGroupToUse = newResourceGroupName;
                                     ux.createResourceGroup(state, function () {
                                         require('../workflows/serverFarmCreation').doNewOrExistingServerFarmWorkflow(state, function () {
-                                            ux.createFunction(state);
+                                            ux.createWebApp(state);
                                         });
                                     });
                                 });

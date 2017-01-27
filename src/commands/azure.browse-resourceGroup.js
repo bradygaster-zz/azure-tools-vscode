@@ -5,7 +5,7 @@ var constants = config.getConstants();
 var open = require('open');
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('browseResourceGroupInPortal', function () {
+    vscode.commands.registerCommand('azure.browse-resourceGroup', function () {
         ux.isLoggedIn(state).then(() => {
             ux.getResourceGroups(state).then(() => {
                 ux.showResourceGroupsMenu(state, () => {

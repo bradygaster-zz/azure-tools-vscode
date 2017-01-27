@@ -4,7 +4,7 @@ var config = require('../config');
 var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('createstorageaccount.simple', function () {
+    vscode.commands.registerCommand('azure.storage-createAccount', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
                 prompt: constants.promptCreateNewStorageAccount

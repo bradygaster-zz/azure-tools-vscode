@@ -7,7 +7,7 @@ var keyVaultProvider = "Microsoft.KeyVault";
 var keyVaultResourceType = "vaults";
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('createKeyVault', function () {
+    vscode.commands.registerCommand('azure.keyVault-create', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
                 prompt: constants.promptNewKeyVault
