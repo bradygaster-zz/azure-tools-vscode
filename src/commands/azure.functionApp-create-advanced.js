@@ -3,11 +3,13 @@ var ux = require('../ux');
 var config = require('../config');
 var constants = config.getConstants();
 
+var promptNewFunctionAppName = 'Function App Name';
+
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.functionApp-create-advanced', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
-                prompt: constants.promptNewFunctionAppName
+                prompt: promptNewFunctionAppName
             }).then(function (newWebSiteName) {
 
                 if (!newWebSiteName || newWebSiteName === "") return;

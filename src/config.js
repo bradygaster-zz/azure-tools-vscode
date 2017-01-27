@@ -33,7 +33,6 @@ exports.getConstants = function getConstants() {
         statusCreatedStorageAccount: 'Storage account "{0}" created successfully',
         promptGallerySearch: 'Gallery name filter:',
         promptNewWebAppName: 'Web App Name',
-        promptNewFunctionAppName: 'Function App Name',
         promptNewRgName: 'New Resource Group Name:',
         promptNewBatchAccount: 'New Batch Account Name:',
         promptNewKeyVault: 'New Key Vault Name:',
