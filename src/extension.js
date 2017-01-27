@@ -3,9 +3,6 @@
 var vscode = require('vscode');
 
 // config and services
-var ux = require('./ux');
-var config = require('./config');
-var constants = config.getConstants();
 var fs = require('fs');
 var path = require('path');
 var appEvents = require('./appEvents');

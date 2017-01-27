@@ -8,7 +8,7 @@ var path = require('path');
 
 var promptSearchArmGallery = 'Type a search term to search the Azure ARM Gallery.',
     promptErrorDownloadingTemplate = 'There was an error downloading the template: {0}',
-    promptNoTemplateQueryProvided = 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'', ;
+    promptNoTemplateQueryProvided = 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'';
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.template-search', function () {

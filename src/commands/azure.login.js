@@ -12,7 +12,8 @@ var loginButtonLabel = 'Sign In',
     authString = ' to authenticate.',
     signInMessage = 'The code {0} has been copied to your clipboard. Click Sign In and paste in the code to authenticate.',
     loggedInMessage = 'You have been logged in. Use the \'azure subscription list\' command to select your desired subscription.',
-    promptNoSubscriptionsOrMisconfigured = 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).';
+    promptNoSubscriptionsOrMisconfigured = 'No Azure subscriptions found (are you missing the "azure.tenantId" setting?).',
+    statusLoggedInAndSubscriptionSelected = 'Logged into Azure and subscription "{0}" selected. Use "azure subscription list" to change subscription.';
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.login', function () {

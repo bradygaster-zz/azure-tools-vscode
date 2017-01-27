@@ -7,8 +7,6 @@ var BatchManagement = require('azure-arm-batch');
 var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
-var config = require('./config');
-var constants = config.getConstants();
 
 exports.exportTemplate = function exportTemplate(state) {
     return new Promise((resolve, reject) => {
@@ -28,6 +26,8 @@ exports.exportTemplate = function exportTemplate(state) {
 };
 
 exports.deployTemplate = function deployTemplate(state) {
+    var promptDeployingTemplateCompleted = 'Template {0} deployment to resource group {1} completed with status of {2}';
+
     return new Promise((resolve, reject) => {
         var resourceGroupName = state.resourceGroupToUse;
         var deploymentName = state.resourceGroupToUse + '-' + new Date().getTime();
@@ -54,7 +54,7 @@ exports.deployTemplate = function deployTemplate(state) {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(constants.promptDeployingTemplateCompleted
+                    resolve(promptDeployingTemplateCompleted
                         .replace('{0}', state.selectedTemplateName)
                         .replace('{1}', state.resourceGroupToUse)
                         .replace('{2}', result.properties.provisioningState));
