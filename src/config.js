@@ -12,7 +12,6 @@ exports.getConstants = function getConstants() {
         statusGettingFarms: 'Geting your list of server farms...',
         statusGettingResources: 'Getting your list of resources',
         statusLoggedInAndSubscriptionSelected: 'Logged into Azure and subscription "{0}" selected. Use "azure subscription list" to change subscription.',
-        statusSubscriptionSelected: 'You selected subscription "{0}".',
         statusCreatingResourceGroup: 'Creating resource group "{0}"',
         statusCreatedResourceGroup: 'Resource group "{0}" created successfully',
         statusCreatingKeyVault: 'Creating key vault "{0}"',
@@ -40,16 +39,9 @@ exports.getConstants = function getConstants() {
         promptKeyVaultCreationFailed: 'Failed to create key vault. Reason: {0}',
         promptFunctionAppCreationInProcess: 'Creating Function App "{0}"...',
         promptFunctionAppCreated: 'Created Function App "{0}". Use "azure browse resource in portal" to open it up in the Azure portal.',
-        promptNoTemplateQueryProvided: 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'',
         promptFunctionAppCreationFailed: 'Failed to create Function App. Reason: {0}',
         promptNoFarmInResourceGroup: 'The resource group you selected doesn\'t have any server farms.',
-        promptCreateNewFunction: 'Function App name:',
-        promptCreateNewStorageAccount: 'Storage account name:',
-        promptNoStorageAccount: 'No storage accounts found in subscription. Maybe you should create one?',
-        promptConnectionStringCopied: 'The connection string for storage account "{0}" has been copied to your clipboard.',
-        promptSearchArmGallery: 'Type a search term to search the Azure ARM Gallery.',
         promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
-        promptErrorDownloadingTemplate: 'There was an error downloading the template: {0}',
         promptSelectDownloadedTemplate: 'Select the template from those in your workspace',
         promptDeployingTemplate: 'Deploying template {0} to resource group {1}',
         promptDeployingTemplateCompleted: 'Template {0} deployment to resource group {1} completed with status of {2}',
@@ -63,7 +55,6 @@ exports.getConstants = function getConstants() {
         optionExistingRg: 'Use existing resource group',
         optionNewHostingPlan: 'Create a new server farm',
         optionUseExistingHostingPlan: 'Use an existing server farm',
-        templateStorageConnectionString: 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};',
         selectedTemplateName: null
     };
 };

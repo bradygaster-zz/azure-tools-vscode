@@ -1,21 +1,23 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var config = require('../config');
 var github = require('octonode');
 var client = github.client();
 var githubSearch = client.search();
-var constants = config.getConstants();
 var download = require('download-file');
 var path = require('path');
+
+var promptSearchArmGallery = 'Type a search term to search the Azure ARM Gallery.',
+    promptErrorDownloadingTemplate = 'There was an error downloading the template: {0}',
+    promptNoTemplateQueryProvided = 'Please provide a search term like \'Virtual Machines\' or \'Redis\' or \'Web App\'', ;
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.template-search', function () {
         vscode.window.showInputBox({
-            prompt: constants.promptSearchArmGallery
+            prompt: promptSearchArmGallery
         }).then(function (searchTerm) {
 
             if (!searchTerm) {
-                vscode.showErrorMessage(constants.promptNoTemplateQueryProvided);
+                vscode.showErrorMessage(promptNoTemplateQueryProvided);
                 return;
             }
 
@@ -71,7 +73,7 @@ function downloadTemplate(url, options) {
             filename: 'azuredeploy.json'
         }, function (err) {
             if (err) {
-                vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
+                vscode.window.showErrorMessage(promptErrorDownloadingTemplate.replace('{0}', err));
                 reject();
             }
             else {
@@ -92,7 +94,7 @@ function downloadTemplateParameters(url, options) {
             filename: 'azuredeploy.parameters.json'
         }, function (err) {
             if (err) {
-                vscode.window.showErrorMessage(constants.promptErrorDownloadingTemplate.replace('{0}', err));
+                vscode.window.showErrorMessage(promptErrorDownloadingTemplate.replace('{0}', err));
                 reject();
             }
             else {

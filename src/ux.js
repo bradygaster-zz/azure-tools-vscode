@@ -330,13 +330,14 @@ exports.getServerFarms = function getServerFarms(state) {
 
 // lists all storage accounts in subscription
 exports.getStorageAccounts = function getStorageAccounts(state) {
+    var promptNoStorageAccount = 'No storage accounts found in subscription. Maybe you should create one?';
     return new Promise(function (resolve, reject) {
         state.storageAccountList = [];
         azure
             .getStorageAccounts(state)
             .then(function (result) {
                 if (result.length === 0)
-                    vscode.window.showErrorMessage(constants.promptNoStorageAccount);
+                    vscode.window.showErrorMessage(promptNoStorageAccount);
                 else {
                     result.forEach((item, index, arr) => {
                         state.storageAccountList.push(item);

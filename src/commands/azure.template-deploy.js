@@ -1,11 +1,11 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var config = require('../config');
 var azure = require('../azure');
-var constants = config.getConstants();
 var open = require('open');
 var path = require('path');
 var fs = require('fs');
+var config = require('../config');
+var constants = config.getConstants();
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.template-deploy', function () {

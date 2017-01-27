@@ -1,8 +1,9 @@
 var vscode = require('vscode');
 var cp = require('copy-paste');
 var ux = require('../ux');
-var config = require('../config');
-var constants = config.getConstants();
+
+var templateStorageConnectionString = 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};',
+    promptConnectionStringCopied = 'The connection string for storage account "{0}" has been copied to your clipboard.';
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.storage-getConnectionString', function () {
@@ -22,10 +23,10 @@ exports.createCommand = function createCommand(state) {
                         ux.getStorageAccountKeys(state)
                             .then(() => {
                                 console.log(state.storageAccountKeyList[0]);
-                                var connectionString = constants.templateStorageConnectionString.replace('{0}', selected);
+                                var connectionString = templateStorageConnectionString.replace('{0}', selected);
                                 connectionString = connectionString.replace('{1}', state.storageAccountKeyList[0].value);
                                 cp.copy(connectionString);
-                                vscode.window.showInformationMessage(constants.promptConnectionStringCopied.replace('{0}', selected));
+                                vscode.window.showInformationMessage(promptConnectionStringCopied.replace('{0}', selected));
                             })
                             .catch(() => {
                                 console.log('Storage_Key_Missing')
