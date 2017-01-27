@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
       },
       {
         "command": "createstorageaccount.simple",
-        "title": "Create a Storage Account (Simple)",
+        "title": "Create a Storage Account",
         "category": "Azure"
       },
       {

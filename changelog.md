@@ -1,3 +1,8 @@
+## 1.2.0
+- [Azure Batch](https://docs.microsoft.com/en-us/azure/batch/) creation. Select the Create Batch Account command to create a new, empty batch account. Future features will enable consumption and scripting your Batch account.
+
+- Export resource group as template will allow you to download an Azure Resource Manager (ARM) template representing the structure of a resource group in your Azure subscription.  
+
 ## 1.1.0
 - [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) creation. Select the Create Key Vault command to create a new or select an existing resource group into which your new Key Vault will be created.
 
