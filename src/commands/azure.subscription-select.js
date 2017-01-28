@@ -1,9 +1,12 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var statusSubscriptionSelected = 'You selected subscription "{0}".';
+var menu = require('../menu').menu;
+
+var statusSubscriptionSelected = 'Selected subscription: "{0}".';
+var commandName = 'azure.subscription-select';
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('azure.subscription-select', function () {
+    vscode.commands.registerCommand(commandName, function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showQuickPick(state.subscriptionNames)
                 .then(selected => {
@@ -15,6 +18,7 @@ exports.createCommand = function createCommand(state) {
                         if (element.name == selected) {
                             state.selectedSubscriptionId = element.id;
                             ux.getRegions(state).then(function () { });
+                            menu.updateButtonTooltip(commandName, statusSubscriptionSelected.replace('{0}', element.name));
                             vscode.window.setStatusBarMessage(statusSubscriptionSelected.replace('{0}', element.name));
                         }
                     });

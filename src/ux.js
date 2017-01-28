@@ -5,6 +5,7 @@ var azure = require('./azure');
 var path = require('path');
 var fs = require('fs');
 var fsPath = require('fs-path');
+var menu = require('./menu').menu;
 
 // perform the export template feature
 exports.exportTemplate = function exportTemplate(state) {
@@ -437,16 +438,6 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
     });
 };
 
-var buttons = [];
-
-exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
-    showButton('azure.subscription-select', '$(cloud-upload)', 'Select the active Azure subscription');
-};
-
-exports.showSelectRegionStatusBarButton = function showSelectRegionStatusBarButton() {
-    showButton('azure.region-select', '$(globe)', 'Select your desired Azure region');
-};
-
 exports.getRegions = function getRegions(state) {
     return new Promise(function (resolve, reject) {
         azure
@@ -500,7 +491,7 @@ exports.showRegionMenu = function showRegionMenu(state) {
 
         state.selectedRegion = selected;
         vscode.window.setStatusBarMessage(statusRegionSelected.replace('{0}', state.selectedRegion));
-        updateButtonTooltip('azure.region-select', btnRegionSelectionLabel + '('
+        menu.updateButtonTooltip('azure.region-select', btnRegionSelectionLabel + '('
             + statusRegionSelected.replace('{0}', state.selectedRegion) + ')');
 
     });
@@ -517,7 +508,7 @@ exports.showStorageAccountMenu = function showStorageMenu(state) {
             else {
                 state.selectedStorageAccount = selected;
                 vscode.window.setStatusBarMessage(statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount));
-                updateButtonTooltip('selectStorageAccount', btnStorageSelectionLabel + '('
+                menu.updateButtonTooltip('selectStorageAccount', btnStorageSelectionLabel + '('
                     + statusStorageAccountSelected.replace('{0}', state.selectedStorageAccount) + ')');
                 resolve(selected);
             }
@@ -525,20 +516,10 @@ exports.showStorageAccountMenu = function showStorageMenu(state) {
     });
 };
 
-function showButton(command, text, tooltip) {
-    var customStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
-    customStatusBarItem.color = 'white';
-    customStatusBarItem.command = command;
-    customStatusBarItem.text = text;
-    customStatusBarItem.tooltip = tooltip;
-    customStatusBarItem.show();
-    buttons.push(customStatusBarItem);
+exports.showSubscriptionStatusBarButton = function showSubscriptionStatusBarButton() {
+    menu.showButton('azure.subscription-select', '$(cloud-upload)', 'Select the active Azure subscription');
 };
 
-function updateButtonTooltip(command, tooltip) {
-    var x = buttons.filter(function (f) {
-        return f.command == command;
-    });
-    if (x != null && x.length > 0)
-        x[0].tooltip = tooltip;
+exports.showSelectRegionStatusBarButton = function showSelectRegionStatusBarButton() {
+    menu.showButton('azure.region-select', '$(globe)', 'Select your desired Azure region');
 };
