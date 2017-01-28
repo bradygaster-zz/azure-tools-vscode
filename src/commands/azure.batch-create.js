@@ -5,12 +5,13 @@ var constants = config.getConstants();
 
 var provider = "Microsoft.Batch";
 var resourceType = "batchAccounts";
+var promptNewBatchAccount = 'New Batch Account Name:';
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.batch-create', function () {
         ux.isLoggedIn(state).then(() => {
             vscode.window.showInputBox({
-                prompt: constants.promptNewBatchAccount
+                prompt: promptNewBatchAccount
             })
             .then(function (newBatchAccountName) {
                 if (!newBatchAccountName || newBatchAccountName === "") return;
