@@ -3,6 +3,13 @@
 
 - Export resource group as template will allow you to download an Azure Resource Manager (ARM) template representing the structure of a resource group in your Azure subscription.  
 
+- Refactoring
+
+    - Split contants and configuration and moved constants into separate class
+    - Added basic event aggregation plumbing to prepare for further refactoring
+    - Cleaned up command names, made them more conventional and consistent
+    - Simplified command-loading paradigm. Now, contributors need only to add their command to the `package.json` file and drop the same-named file into the `src/commands` folder. 
+
 ## 1.1.0
 - [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) creation. Select the Create Key Vault command to create a new or select an existing resource group into which your new Key Vault will be created.
 
