@@ -1,6 +1,6 @@
 var vscode = require('vscode');
 var config = require('./config');
-var constants = config.getConstants();
+var constants = require('./constants').Constants;
 var azure = require('./azure');
 var path = require('path');
 var fs = require('fs');

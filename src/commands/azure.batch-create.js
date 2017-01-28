@@ -1,7 +1,6 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var config = require('../config');
-var constants = config.getConstants();
+var constants = require('../constants').Constants;
 
 var provider = "Microsoft.Batch";
 var resourceType = "batchAccounts";

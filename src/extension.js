@@ -6,6 +6,7 @@ var vscode = require('vscode');
 var fs = require('fs');
 var path = require('path');
 var appEvents = require('./appEvents');
+var constants = require('./constants').Constants;
 
 // state used in the extension
 var state = {

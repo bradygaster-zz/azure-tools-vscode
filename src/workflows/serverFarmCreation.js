@@ -2,8 +2,7 @@ var vscode = require('vscode');
 
 // config and services
 var ux = require('../ux');
-var config = require('../config');
-var constants = config.getConstants();
+var constants = require('../constants').Constants;
 
 var optionUseExistingHostingPlan = 'Use an existing server farm',
     optionNewHostingPlan = 'Create a new server farm',

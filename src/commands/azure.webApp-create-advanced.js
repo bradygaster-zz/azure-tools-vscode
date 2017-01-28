@@ -1,7 +1,6 @@
 var vscode = require('vscode');
 var ux = require('../ux');
-var config = require('../config');
-var constants = config.getConstants();
+var constants = require('../constants').Constants;
 
 exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.webApp-create-advanced', function () {
