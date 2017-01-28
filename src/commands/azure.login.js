@@ -62,7 +62,7 @@ exports.createCommand = function createCommand(state) {
 
                 for (var i = 0; i < state.subscriptions.length; i++) {
                     state.subscriptionIds.push(state.subscriptions[i].id);
-                    state.subscriptionNames.push(state.subscriptions[i].name);
+                    state.subscriptionNames.push(state.subscriptions[i].name + ' (' + state.subscriptions[i].id + ')');
                 }
 
                 credentials.retrieveTokenFromCache(function (notUsed, tokenType, accessToken) {

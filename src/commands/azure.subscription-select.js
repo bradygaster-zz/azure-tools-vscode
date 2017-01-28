@@ -15,7 +15,7 @@ exports.createCommand = function createCommand(state) {
                     if (!selected) return;
 
                     state.subscriptions.forEach((element, index, array) => {
-                        if (element.name == selected) {
+                        if (selected == (element.name + ' (' + element.id + ')')) {
                             state.selectedSubscriptionId = element.id;
                             ux.getRegions(state).then(function () { });
                             menu.updateButtonTooltip(commandName, statusSubscriptionSelected.replace('{0}', element.name));
