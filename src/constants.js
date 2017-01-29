@@ -5,5 +5,6 @@ exports.Constants = {
     promptNoWorkspaceOpen: 'You do not have a directory open so there is no workspace.',
     optionNewRg: 'Create new resource group',
     optionExistingRg: 'Use existing resource group',
-    selectedTemplateName: null
+    selectedTemplateName: null,
+    telemetryKey: '180e2b98-1210-4efa-ac85-35172826c001'
 };
