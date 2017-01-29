@@ -6,5 +6,5 @@ exports.Constants = {
     optionNewRg: 'Create new resource group',
     optionExistingRg: 'Use existing resource group',
     selectedTemplateName: null,
-    telemetryKey: '180e2b98-1210-4efa-ac85-35172826c001'
+    telemetryKey: '0b199132-4e40-40e9-b706-a9e4296b409d'
 };
