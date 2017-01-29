@@ -39,6 +39,11 @@
           "type": "string",
           "default": null,
           "description": "Your AAD Tenant ID from the portal. You need to set this if you intend on logging in using an MSA (@outlook.com, @live.com, @hotmail.com, etc.)."
+        },
+        "azure.enableTelemetry": {
+          "type": "boolean",
+          "default": true,
+          "description": "To opt out of sending basic usage telemetry set this to false. Default is true."
         }
       }
     },

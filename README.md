@@ -3,7 +3,7 @@
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
 ## New in v1.2.0
-Here's a brief summary of the new features included in the 1.2.0 release.
+In addition to a doing some refactoring to ease extension contributions, we've added a ton of new features in this version. 
 
 ### Export Template
 
@@ -26,6 +26,13 @@ A few seconds later, the resource group's contents are downloaded as an ARM temp
 From within Visual Studio Code you can use the `Create Azure Batch` command from the palette, shown below, to create new Azure Batch accounts. Future releases may add support for scripting against your Batch account, creating Jobs, and so forth. Feel free to send the team requests for additional Batch features via our [GitHub Issues page](https://github.com/bradygaster/azure-tools-vscode/issues).
 
 ![Create Key Vault](media/docs/Screenshot_161.png)
+
+### Telemetry Collection
+This release introduces the collection of basic usage telemetry. We're using Application Insights to collect and understand how customers are using the extension. To disable the collection of telemetry data simply edit set the `azure.enableTelemetry` configuration setting to `false` as shown below. 
+
+![How to disable usage telemetry](media/docs/Screenshot_165.png)
+
+> Note: No performance degradation has occurred during this addition, and no private customer information is being persisted. [Our telemetry code](https://github.com/bradygaster/azure-tools-vscode/blob/master/src/telemetry.js) tracks the name of the call being made (like `CreateAppService`) and the GUID-based subscription id being affected. We capture the subscription ID so we can understand the frequency of customer usage; the ID can't be used to reversely-identify customers. No customer-identifying data, passwords, connection strings, or resource names are being persisted to our telemetry system. 
 
 ## Features
 - Azure Key Vault Creation

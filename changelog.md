@@ -3,18 +3,19 @@
 
 - Export resource group as template will allow you to download an Azure Resource Manager (ARM) template representing the structure of a resource group in your Azure subscription.  
 
+- Issues resolved
+
+    - [#4](https://github.com/bradygaster/azure-tools-vscode/issues/4) - New tooltip addition shows the selected subscription
+    - [#24](https://github.com/bradygaster/azure-tools-vscode/issues/24) - Batch creation support added
+    - [#7](https://github.com/bradygaster/azure-tools-vscode/issues/7) - Fixed by showing the ID so multiple-subscription customers can use the ID to differentiate.
+    - [#35](https://github.com/bradygaster/azure-tools-vscode/issues/35) - Adds telemetry support througout features
+
 - Refactoring
 
     - Split contants and configuration and moved constants into separate class
     - Added basic event aggregation plumbing to prepare for further refactoring
     - Cleaned up command names, made them more conventional and consistent
     - Simplified command-loading paradigm. Now, contributors need only to add their command to the `package.json` file and drop the same-named file into the `src/commands` folder. 
-
-- Issues resolved
-
-    - [#4](https://github.com/bradygaster/azure-tools-vscode/issues/4) - New tooltip addition shows the selected subscription
-    - [#24](https://github.com/bradygaster/azure-tools-vscode/issues/24) - Batch creation support added
-    - [#7](https://github.com/bradygaster/azure-tools-vscode/issues/7) - Fixed by showing the ID so multiple-subscription customers can use the ID to differentiate.
 
 ## 1.1.0
 - [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) creation. Select the Create Key Vault command to create a new or select an existing resource group into which your new Key Vault will be created.
