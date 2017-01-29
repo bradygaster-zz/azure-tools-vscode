@@ -1,11 +1,18 @@
 var vscode = require('vscode');
 var ux = require('../ux');
 var open = require('open');
+var telemetry = require('../telemetry').Telemetry;
+var commandName = 'azure.browse-resource';
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('azure.browse-resource', () => {
+    vscode.commands.registerCommand(commandName, () => {
         ux.isLoggedIn(state)
             .then(() => {
+                
+                telemetry.recordEvent(commandName, {
+                    subscriptionId: state.selectedSubscriptionId
+                });
+
                 ux.getAzureResources(state)
                     .then(function (names) {
                         vscode.window.showQuickPick(names)

@@ -6,7 +6,9 @@ var vscode = require('vscode');
 var ux = require('../ux');
 var config = require('../config');
 var appEvents = require('../appEvents');
+var telemetry = require('../telemetry').Telemetry;
 
+var commandName = 'azure.login';
 var loginButtonLabel = 'Sign In',
     enterCodeString = 'enter the code ',
     authString = ' to authenticate.',
@@ -17,12 +19,14 @@ var loginButtonLabel = 'Sign In',
     statusGettingSubscriptions = 'Logging into Azure and getting your list of subscriptions...';
 
 exports.createCommand = function createCommand(state) {
-    vscode.commands.registerCommand('azure.login', function () {
+    vscode.commands.registerCommand(commandName, function () {
         vscode.window.setStatusBarMessage(statusGettingSubscriptions);
 
         appEvents.on('loggedIn', (state) => {
             console.log('logged in');
         });
+
+        telemetry.recordEvent(commandName);
 
         // handle the interactive user login message result
         var options = {};
@@ -72,12 +76,19 @@ exports.createCommand = function createCommand(state) {
                     vscode.window.setStatusBarMessage(
                         statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
                     appEvents.emit('loggedIn', state);
+
+                    telemetry.recordEvent('Login.Success', {
+                        subscriptionCount: state.subscriptions.length,
+                        selectedSubscription: state.selectedSubscriptionId
+                    })
                 });
 
                 ux.getRegions(state);
             }
             else {
                 vscode.window.showErrorMessage(promptNoSubscriptionsOrMisconfigured);
+
+                telemetry.recordEvent('Login.NoSubscriptions');
             }
         });
     });

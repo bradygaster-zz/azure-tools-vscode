@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var appEvents = require('./appEvents');
 var constants = require('./constants').Constants;
+var telemetry = require('./telemetry').Telemetry;
 
 // state used in the extension
 var state = {
@@ -40,6 +41,8 @@ var state = {
 };
 
 function activate(context) {
+    var start = Date.now();
+
     appEvents.setContext(context);
 
     var commandFilesPath = path.join(context.extensionPath, 'src', 'commands');
@@ -51,6 +54,10 @@ function activate(context) {
             console.log(path.basename(file, '.js') + ' command added');
         });
     });
+
+    var end = Date.now();
+    var diff = end - start;
+    telemetry.recordMetric('Activation', diff);
 
     console.log('azure tools loaded');
 }
