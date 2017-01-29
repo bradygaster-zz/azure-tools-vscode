@@ -29,9 +29,6 @@ exports.doNewOrExistingServerFarmWorkflow = function doNewOrExistingServerFarmWo
                                 if (!selectedServerFarm) return;
                                 state.selectedServerFarm = selectedServerFarm;
                                 callback();
-                            })
-                            .catch(function (err) {
-                                vscode.window.showErrorMessage(err);
                             });
                     }
                 });

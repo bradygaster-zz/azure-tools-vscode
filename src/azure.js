@@ -481,9 +481,16 @@ exports.checkStorageAccountNameAvailability = (state) => {
                     reject(err);
                 }
                 else {
-                    telemetry.recordEvent('Azure.CheckStorageAccountNameAvailability.Success', {
-                        subscriptionId: state.selectedSubscriptionId
-                    });
+                    if (!result.nameAvailable) {
+                        telemetry.recordEvent('Azure.CheckStorageAccountNameAvailability.NameNotAvailable', {
+                            subscriptionId: state.selectedSubscriptionId
+                        });
+                    }
+                    else {
+                        telemetry.recordEvent('Azure.CheckStorageAccountNameAvailability.NameAvailable', {
+                            subscriptionId: state.selectedSubscriptionId
+                        });
+                    }
                     resolve(result);
                 }
             });
@@ -559,10 +566,13 @@ function createAppService(state, kind) {
         // doc: "kind" is how we determine what type of app service we're creating
         if (kind) {
             config.kind = kind;
+        } else {
+            config.kind = "app";
         }
 
         telemetry.recordEvent('Azure.CreateAppService.Begin', {
-            subscriptionId: state.selectedSubscriptionId
+            subscriptionId: state.selectedSubscriptionId,
+            kind: kind
         });
 
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
@@ -572,13 +582,15 @@ function createAppService(state, kind) {
             function (err, result) {
                 if (err != null) {
                     telemetry.recordEvent('Azure.CreateAppService.Error', {
-                        subscriptionId: state.selectedSubscriptionId
+                        subscriptionId: state.selectedSubscriptionId,
+                        kind: kind
                     });
                     reject(err);
                 }
                 else {
                     telemetry.recordEvent('Azure.CreateAppService.Success', {
-                        subscriptionId: state.selectedSubscriptionId
+                        subscriptionId: state.selectedSubscriptionId,
+                        kind: kind
                     });
                     resolve(result);
                 }

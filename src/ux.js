@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var fsPath = require('fs-path');
 var menu = require('./menu').menu;
+var telemetry = require('./telemetry').Telemetry;
 
 // perform the export template feature
 exports.exportTemplate = function exportTemplate(state) {

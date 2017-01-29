@@ -2,15 +2,33 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-## New in v1.1.0
+## New in v1.2.0
+Here's a brief summary of the new features included in the 1.2.0 release.
 
-- **Azure Key Vault creation.**
+### Export Template
 
-    You can now use the Azure Tools for Visual Studio Code to create new Key Vault instances. Selecting the **Create Key Vault** command. Then you can create a new or select an existing resource group into which your new Key Vault will be created. 
+In 1.2.0 we've added support for exporting existing resource groups to ARM templates saved in your workspace. First, you invoke the `Export` command using the palette. 
 
-    ![Create Key Vault](media/docs/Screenshot_150.png)
+![Export command](media/docs/Screenshot_162.png)
+
+Then you select an existing resource group. 
+
+![Select a resource group](media/docs/Screenshot_163.png)
+
+A few seconds later, the resource group's contents are downloaded as an ARM template and stored into your current workspace's `arm-templates` folder. 
+
+![Export command](media/docs/Screenshot_164.png)
+
+> **Note:** As of the 1.2.0 release time frame there are a few kinks in the particular Azure API call we're using; certain details of your resources might not be persisted exactly right. You can use the great features contained in the [Azure Resource Manager Tools extension](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) (which bundled with this extension) to make tweaks. The API owners are working on making great improvements to this functionality so it'll improve in future releases of the back-end API.
+
+### Azure Batch account creation
+
+From within Visual Studio Code you can use the `Create Azure Batch` command from the palette, shown below, to create new Azure Batch accounts. Future releases may add support for scripting against your Batch account, creating Jobs, and so forth. Feel free to send the team requests for additional Batch features via our [GitHub Issues page](https://github.com/bradygaster/azure-tools-vscode/issues).
+
+![Create Key Vault](media/docs/Screenshot_161.png)
 
 ## Features
+- Azure Key Vault Creation
 - Search the [Azure QuickStart Templates](https://github.com/Azure/azure-quickstart-templates) GitHub repository
 - Download Azure Resource Manager (ARM) template and parameter files to workspace
 - Uses the [Azure Resource Manager Tools](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) extension to simplify the template-editing experience
@@ -30,8 +48,14 @@ Each of these commands is visible directly from commands visible in the command 
 
 ![Azure Tools Commands](media/docs/commands.png)
 
-## New Azure Resource Manager (ARM) Features
-**New in 1.0.0** - Now you can use keyword searches to find one of the numerous existing templates in the Azure QuickStart Templates repository, then download the templates you find and deploy them **all within Visual Studio Code**. 
+## Azure Key Vault creation
+
+You can now use the Azure Tools for Visual Studio Code to create new Key Vault instances. Selecting the **Create Key Vault** command. Then you can create a new or select an existing resource group into which your new Key Vault will be created. 
+
+![Create Key Vault](media/docs/Screenshot_150.png)
+
+## Azure Resource Manager (ARM) Features
+You can use keyword searches to find one of the numerous existing templates in the Azure QuickStart Templates repository, then download the templates you find and deploy them **all within Visual Studio Code**. 
 
 ### Search and Download from the Azure Template QuickStart Repository
 Templates in the QuickStart repository are easily searchable from within Visual Studio Code. 
