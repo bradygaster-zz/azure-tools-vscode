@@ -1,3 +1,6 @@
+## 1.2.1
+- Lowered the performance data and request data being sent to AppInsights. Way less now. 
+
 ## 1.2.0
 - [Azure Batch](https://docs.microsoft.com/en-us/azure/batch/) creation. Select the Create Batch Account command to create a new, empty batch account. Future features will enable consumption and scripting your Batch account.
 
