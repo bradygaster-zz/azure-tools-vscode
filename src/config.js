@@ -26,4 +26,5 @@ exports.wireUpServiceClientTelemetry = (serviceClient) => {
     var clientVersion = require('util').format('%s/%s', 
         package.name,
         package.version);
+    serviceClient.addUserAgentInfo(clientVersion);
 }
