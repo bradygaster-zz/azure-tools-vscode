@@ -308,7 +308,6 @@ exports.createWebApp = function createWebApp(state, callback) {
     azure
         .createWebApp(state)
         .then(function (result) {
-            console.log(result);
             vscode.window.setStatusBarMessage(promptWebAppCreated.replace('{0}', state.newWebAppName));
             if (callback != null)
                 callback();
@@ -328,7 +327,6 @@ exports.createFunction = function createFunction(state, callback) {
     azure
         .createFunction(state)
         .then(function (result) {
-            console.log(result);
             vscode.window.setStatusBarMessage(promptFunctionAppCreated.replace('{0}', state.newWebAppName));
             if (callback != null)
                 callback();

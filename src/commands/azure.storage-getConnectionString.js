@@ -18,18 +18,15 @@ exports.createCommand = function createCommand(state) {
 
                     if (matches.length > 0) {
                         state.resourceGroupToUse = matches[1];
-                        console.log(state.resourceGroupToUse);
 
                         ux.getStorageAccountKeys(state)
                             .then(() => {
-                                console.log(state.storageAccountKeyList[0]);
                                 var connectionString = templateStorageConnectionString.replace('{0}', selected);
                                 connectionString = connectionString.replace('{1}', state.storageAccountKeyList[0].value);
                                 cp.copy(connectionString);
                                 vscode.window.showInformationMessage(promptConnectionStringCopied.replace('{0}', selected));
                             })
                             .catch(() => {
-                                console.log('Storage_Key_Missing')
                             });
                     }
                 });
