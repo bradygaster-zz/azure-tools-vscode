@@ -51,15 +51,12 @@ function activate(context) {
             context.subscriptions.push(
                 require('./commands/' + path.basename(file, '.js')).createCommand(state)
             );
-            console.log(path.basename(file, '.js') + ' command added');
         });
     });
 
     var end = Date.now();
     var diff = end - start;
     telemetry.recordMetric('Activation', diff);
-
-    console.log('azure tools loaded');
 }
 
 exports.activate = activate;

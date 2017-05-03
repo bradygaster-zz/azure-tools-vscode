@@ -8,6 +8,7 @@ var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
 var telemetry = require('./telemetry').Telemetry;
+var config = require('./config');
 
 exports.exportTemplate = function exportTemplate(state) {
     return new Promise((resolve, reject) => {
@@ -16,6 +17,7 @@ exports.exportTemplate = function exportTemplate(state) {
         });
 
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         resourceClient.resourceGroups.exportTemplate(state.resourceGroupToUse, {
             resources: ["*"],
             options: "IncludeParameterDefaultValue"
@@ -54,6 +56,7 @@ exports.deployTemplate = function deployTemplate(state) {
             templateParameters = templateParameters.parameters;
 
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
 
         telemetry.recordEvent('Azure.DeployTemplate.Begin', {
             subscriptionId: state.selectedSubscriptionId,
@@ -106,6 +109,7 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
         });
 
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         resourceClient.resourceGroups.createOrUpdate(state.resourceGroupToUse, {
             location: state.selectedRegion // todo: enable user selection
         }, function (err, result) {
@@ -130,6 +134,7 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
 exports.createNewKeyVault = function createNewKeyVault(state) {
     return new Promise(function (resolve, reject) {
         var keyVaultClient = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(keyVaultClient);
         var keyVaultParameters = {
             location : state.selectedRegion,
             properties : {
@@ -169,6 +174,7 @@ exports.createNewKeyVault = function createNewKeyVault(state) {
 exports.createNewBatchAccount = function createNewBatchAccount(state) {
     return new Promise(function (resolve, reject) {
         var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(batchClient);
 
         var batchAccountParameters = {
             location: state.selectedRegion,
@@ -203,6 +209,7 @@ exports.checkBatchAccountNameAvailability = function checkBatchAccountNameAvaila
             subscriptionId: state.selectedSubscriptionId
         });
         var batchClient = new BatchManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(batchClient);
         batchClient.batchAccountOperations.get(state.resourceGroupToUse, state.batchAccountName, null,
             function (err, result) {
                 if (err !== null) {
@@ -232,6 +239,7 @@ exports.checkBatchAccountNameAvailability = function checkBatchAccountNameAvaila
 exports.createNewServerFarm = function createNewServerFarm(state) {
     return new Promise(function (resolve, reject) {
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(webSiteManagement);
         var planParameters = {
             serverFarmWithRichSkuName: state.selectedServerFarm,
             location: state.selectedRegion,
@@ -271,6 +279,7 @@ exports.createNewServerFarm = function createNewServerFarm(state) {
 exports.getServerFarms = function getServerFarms(state) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         telemetry.recordEvent('Azure.GetServerFarms.Begin', {
             subscriptionId: state.selectedSubscriptionId
         });
@@ -299,6 +308,7 @@ exports.getResourceGroups = function getResourceGroups(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         state.resourceGroupList = [];
         resourceClient.resourceGroups.list(function (err, result) {
             if (err != null) {
@@ -323,6 +333,7 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(webSiteManagement);
         webSiteManagement.global.checkNameAvailability({
             name: state.newWebAppName,
             type: 'Microsoft.Web/sites'
@@ -346,6 +357,7 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
 exports.checkKeyVaultNameAvailability = function checkKeyVaultNameAvailability(state) {
     return new Promise(function (resolve, reject) {
         var keyVaultManagement = new KeyVaultManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(keyVaultManagement);
         telemetry.recordEvent('Azure.CheckKeyVaultName.Begin', {
             subscriptionId: state.selectedSubscriptionId
         });
@@ -381,6 +393,7 @@ exports.getFullResourceList = function getFullResourceList(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         resourceClient.resources.list(function (err, result) {
             if (err != null) {
                 telemetry.recordEvent('Azure.GetAllResources.Error', {
@@ -405,6 +418,7 @@ exports.getFullResourceList = function getFullResourceList(state) {
 exports.getRegionsForResource = function getRegionsForResource(state, resourceProvider, resourceType) {
     return new Promise(function (resolve, reject) {
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(resourceClient);
         telemetry.recordEvent('Azure.GetRegionsForResource.Begin', {
             subscriptionId: state.selectedSubscriptionId,
             resourceProvider: resourceProvider
@@ -448,6 +462,7 @@ exports.getStorageAccounts = function getStorageAccounts(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(storageClient);
         storageClient.storageAccounts.list(function (err, result) {
             if (err) {
                 telemetry.recordEvent('Azure.GetStorageAccounts.Error', {
@@ -471,6 +486,7 @@ exports.checkStorageAccountNameAvailability = (state) => {
             subscriptionId: state.selectedSubscriptionId
         });
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(storageClient);
         storageClient.storageAccounts.checkNameAvailability(
             state.selectedStorageAccount,
             (err, result) => {
@@ -503,6 +519,7 @@ exports.createStorageAccount = function createStorageAccount(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(storageClient);
         var createParameters = {
             location: state.selectedRegion,
             sku: {
@@ -539,6 +556,7 @@ exports.getStorageAccountKeys = function getStorageAccountKeys(state) {
             subscriptionId: state.selectedSubscriptionId
         });
         var storageClient = new StorageManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(storageClient);
         storageClient.storageAccounts.listKeys(state.resourceGroupToUse, state.selectedStorageAccount, (err, result) => {
             if (err) {
                 telemetry.recordEvent('Azure.GetStorageAccountKeys.Error', {
@@ -576,6 +594,7 @@ function createAppService(state, kind) {
         });
 
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(webSiteManagement);
         webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
             state.newWebAppName,
             config,

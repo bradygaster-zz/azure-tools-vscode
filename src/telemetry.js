@@ -18,13 +18,11 @@ class Telemetry {
     recordEvent(eventName, properties, measures) {
         if (!config.isTelemetryEnabled()) return;
         this.telemetryClient.trackEvent(eventName, properties, measures);
-        console.log('Telemetry Event ' + eventName + ' recorded');
     }
 
     recordMetric(metricName, value) {
         if (!config.isTelemetryEnabled()) return;
         this.telemetryClient.trackMetric(metricName, value);
-        console.log('Telemetry Metric ' + metricName + ' recorded');
     }
 }
 

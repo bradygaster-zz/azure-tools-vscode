@@ -9,8 +9,6 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
 var appEvents = function () {
-    console.log('appEvents created');
-
     var self = this;
 
     this.setContext = function (context) {

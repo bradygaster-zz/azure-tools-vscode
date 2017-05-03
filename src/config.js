@@ -20,3 +20,11 @@ exports.isTelemetryEnabled = function isTelemetryEnabled() {
 
     return true;
 };
+
+exports.wireUpServiceClientTelemetry = (serviceClient) => {
+    var package = require('./../package.json');
+    var clientVersion = require('util').format('%s/%s', 
+        package.name,
+        package.version);
+    serviceClient.addUserAgentInfo(clientVersion);
+}
