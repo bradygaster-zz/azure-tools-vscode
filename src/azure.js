@@ -594,7 +594,7 @@ function createAppService(state, kind) {
         });
 
         var webSiteManagement = new WebSiteManagement(state.credentials, state.selectedSubscriptionId);
-        config.wireUpServiceClientTelemetry(webSiteManagement);
+        require('./config').wireUpServiceClientTelemetry(webSiteManagement);
         webSiteManagement.sites.createOrUpdateSite(state.resourceGroupToUse,
             state.newWebAppName,
             config,

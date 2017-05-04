@@ -7,6 +7,7 @@ var ux = require('../ux');
 var config = require('../config');
 var appEvents = require('../appEvents');
 var telemetry = require('../telemetry').Telemetry;
+var outputChannel = require('../outputChannel').createChannel();
 
 var commandName = 'azure.login';
 var loginButtonLabel = 'Sign In',
@@ -77,18 +78,26 @@ exports.createCommand = function createCommand(state) {
                         statusLoggedInAndSubscriptionSelected.replace('{0}', state.subscriptions[0].name));
                     appEvents.emit('loggedIn', state);
 
-                    telemetry.recordEvent('Login.Success', {
+                    telemetry.recordEvent('Azure.Login.Success', {
                         subscriptionCount: state.subscriptions.length,
-                        selectedSubscription: state.selectedSubscriptionId
+                        subscriptionId: state.selectedSubscriptionId
                     })
                 });
 
-                ux.getRegions(state);
+                outputChannel.appendLine('Getting the worldwide data center list.');
+
+                ux.getRegions(state)
+                    .then(() => {
+                        outputChannel.appendLine('Data center list retrieved.');
+                    })
+                    .catch(() => {
+                        outputChannel.appendLine('Error retrieving data center list.');
+                    });
             }
             else {
                 vscode.window.showErrorMessage(promptNoSubscriptionsOrMisconfigured);
 
-                telemetry.recordEvent('Login.NoSubscriptions');
+                telemetry.recordEvent('Azure.Login.NoSubscriptions');
             }
         });
     });
