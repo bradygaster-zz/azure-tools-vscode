@@ -1,3 +1,7 @@
+## 1.2.2
+- Added output window messages.
+- Optimized App Insights telemetry gathering. 
+
 ## 1.2.1
 - Lowered the performance data and request data being sent to AppInsights. Way less now. 
 

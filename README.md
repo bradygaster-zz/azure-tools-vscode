@@ -2,8 +2,15 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-## New in v1.2.0
-In addition to a doing some refactoring to ease extension contributions, we've added a ton of new features in this version. 
+## New in v1.2.2
+
+### Output window messages
+
+To address the perceived lack of action in the UX during execution we've added a custom **Debug Console** window that shows the progress of commands executed by the extension. The information in the output window will help customers have more information for error reporting. 
+
+![Export command](media/docs/output-window-updates.png)
+
+In this release the telemetry-reporting feature has been optimized for better performance and tighter collection.
 
 ### Export Template
 

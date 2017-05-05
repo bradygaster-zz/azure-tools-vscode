@@ -7,7 +7,7 @@ var BatchManagement = require('azure-arm-batch');
 var DocumentDd = require('documentdb');
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
-var telemetry = require('./telemetry').Telemetry;
+var telemetry = require('./telemetry').createClient();
 var config = require('./config');
 
 exports.exportTemplate = function exportTemplate(state) {

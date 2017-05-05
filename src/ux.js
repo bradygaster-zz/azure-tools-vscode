@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var fsPath = require('fs-path');
 var menu = require('./menu').menu;
-var telemetry = require('./telemetry').Telemetry;
+var telemetry = require('./telemetry').createClient();
 var outputChannel = require('./outputChannel').createChannel();
 
 // perform the export template feature

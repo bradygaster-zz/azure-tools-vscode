@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
   ],
   "icon": "media/azure-icon.png",
   "galleryBanner": {
-    "color": "#00abec",
-    "theme": "light"
+    "color": "#0072c6",
+    "theme": "dark"
   },
   "engines": {
     "vscode": "^1.4.0"

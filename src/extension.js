@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var appEvents = require('./appEvents');
 var constants = require('./constants').Constants;
-var telemetry = require('./telemetry').Telemetry;
+var telemetry = require('./telemetry').createClient();
 
 // state used in the extension
 var state = {

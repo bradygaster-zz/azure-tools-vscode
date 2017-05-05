@@ -1,7 +1,7 @@
 var vscode = require('vscode');
 var ux = require('../ux');
 var open = require('open');
-var telemetry = require('../telemetry').Telemetry;
+var telemetry = require('../telemetry').createClient();
 var commandName = 'azure.browse-resourceGroup';
 var templateResourceGroupUrl = 'https://portal.azure.com/#resource/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/overview';
 

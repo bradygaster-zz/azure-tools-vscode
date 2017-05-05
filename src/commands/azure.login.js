@@ -6,7 +6,7 @@ var vscode = require('vscode');
 var ux = require('../ux');
 var config = require('../config');
 var appEvents = require('../appEvents');
-var telemetry = require('../telemetry').Telemetry;
+var telemetry = require('../telemetry').createClient();
 var outputChannel = require('../outputChannel').createChannel();
 
 var commandName = 'azure.login';
