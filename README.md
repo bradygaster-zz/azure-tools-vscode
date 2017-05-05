@@ -2,7 +2,7 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
-## New in v1.2.2
+## New in v1.2.3
 
 ### Output window messages
 
@@ -10,7 +10,17 @@ To address the perceived lack of action in the UX during execution we've added a
 
 ![Export command](media/docs/output-window-updates.png)
 
+### Azure Functions Tools dependency
+
+This release also takes a dependency on the [Azure Functions Tools](https://raw.githubusercontent.com/johnpapa/vscode-azure-functions-tools/master/images/json-schema-function.gif) from [John Papa](http://twitter.com/John_Papa) that make it easy for you to develop Azure Functions with some handy snippets. 
+
+![Azure Functions](https://raw.githubusercontent.com/johnpapa/vscode-azure-functions-tools/master/images/json-schema-function.gif)
+
+### Misc.
+
 In this release the telemetry-reporting feature has been optimized for better performance and tighter collection.
+
+## Previously Released Features
 
 ### Export Template
 

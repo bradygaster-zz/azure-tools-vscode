@@ -1,3 +1,6 @@
+## 1.2.3
+- Updated to take a dependency on the [Azure Function Tools](https://marketplace.visualstudio.com/items?itemName=johnpapa.azure-functions-tools) extension to aid in Azure Functions development. 
+
 ## 1.2.2
 - Added output window messages.
 - Optimized App Insights telemetry gathering. 
