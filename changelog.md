@@ -1,3 +1,6 @@
+## 1.2.4 
+- Changed App Reporting instance id. 
+
 ## 1.2.3
 - Updated to take a dependency on the [Azure Function Tools](https://marketplace.visualstudio.com/items?itemName=johnpapa.azure-functions-tools) extension to aid in Azure Functions development. 
 
