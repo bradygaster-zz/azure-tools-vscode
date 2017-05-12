@@ -1,3 +1,6 @@
+## 1.2.6
+- Added telemetry App Insights telemetry to extension code but modified the collection technique so that telemetry can be captured in a more efficient and inexpensive manner. 
+
 ## 1.2.4 
 - Changed App Reporting instance id. 
 
