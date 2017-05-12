@@ -5,16 +5,24 @@ var constants = require('./constants').Constants;
 var telemetryClient = null;
 
 function newTelemetryClient() {
-    /*
     telemetryClient = appInsights
         .setup(constants.telemetryKey)
-        .setAutoCollectConsole(false)
-        .setAutoCollectExceptions(false)
-        .setAutoCollectPerformance(false)
+        .setAutoDependencyCorrelation(false)
         .setAutoCollectRequests(false)
+        .setAutoCollectPerformance(false)
+        .setAutoCollectExceptions(false)
+        .setAutoCollectDependencies(false)
+        .setAutoCollectConsole(false)
         .start()
         .client;
-    */
+
+    telemetryClient.addTelemetryProcessor((envelope, context) => {
+        if (envelope.iKey == constants.telemetryKey 
+            && envelope.data.baseType == "EventData") {
+            return true;
+        }
+        return false;
+    });
 }
 
 class Telemetry {
@@ -25,19 +33,9 @@ class Telemetry {
     }
 
     recordEvent(eventName, properties, measures) {
-        /*
         if (!config.isTelemetryEnabled) return;
         if (!config.isTelemetryEnabled()) return;
         telemetryClient.trackEvent(eventName, properties, measures);
-        */
-    }
-
-    recordMetric(metricName, value) {
-        /*
-        if (!config.isTelemetryEnabled) return;
-        if (!config.isTelemetryEnabled()) return;
-        telemetryClient.trackMetric(metricName, value);
-        */
     }
 }
 

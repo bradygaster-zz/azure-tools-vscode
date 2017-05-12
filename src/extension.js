@@ -41,8 +41,6 @@ var state = {
 };
 
 function activate(context) {
-    var start = Date.now();
-
     appEvents.setContext(context);
 
     var commandFilesPath = path.join(context.extensionPath, 'src', 'commands');
@@ -53,10 +51,6 @@ function activate(context) {
             );
         });
     });
-
-    var end = Date.now();
-    var diff = end - start;
-    telemetry.recordMetric('Activation', diff);
 }
 
 exports.activate = activate;

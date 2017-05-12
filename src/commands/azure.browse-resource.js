@@ -9,7 +9,7 @@ exports.createCommand = function createCommand(state) {
         ux.isLoggedIn(state)
             .then(() => {
                 
-                telemetry.recordEvent(commandName, {
+                telemetry.recordEvent('Azure.BrowseResources', {
                     subscriptionId: state.selectedSubscriptionId
                 });
 

@@ -27,7 +27,7 @@ exports.createCommand = function createCommand(state) {
             console.log('logged in');
         });
 
-        telemetry.recordEvent(commandName);
+        telemetry.recordEvent('Azure.Login.Begin');
 
         // handle the interactive user login message result
         var options = {};
