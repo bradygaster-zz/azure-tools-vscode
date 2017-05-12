@@ -1,6 +1,7 @@
 var appInsights = require('applicationinsights');
 var config = require('./config');
 var constants = require('./constants').Constants;
+var os = require('os');
 
 var telemetryClient = null;
 
@@ -17,7 +18,7 @@ function newTelemetryClient() {
         .client;
 
     telemetryClient.addTelemetryProcessor((envelope, context) => {
-        if (envelope.iKey == constants.telemetryKey 
+        if (envelope.iKey == constants.telemetryKey
             && envelope.data.baseType == "EventData") {
             return true;
         }
@@ -35,6 +36,15 @@ class Telemetry {
     recordEvent(eventName, properties, measures) {
         if (!config.isTelemetryEnabled) return;
         if (!config.isTelemetryEnabled()) return;
+
+        if (properties) {
+            properties.platform = os.type();
+        } 
+        else {
+            properties = {
+                "platform": os.type()
+            };
+        }
         telemetryClient.trackEvent(eventName, properties, measures);
     }
 }
