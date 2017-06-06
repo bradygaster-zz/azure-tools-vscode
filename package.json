@@ -2,7 +2,7 @@
   "name": "azuretoolsforvscode",
   "displayName": "Azure Tools for Visual Studio Code",
   "description": "Convenient features for Microsoft Azure developers.",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "publisher": "bradygaster",
   "repository": {
     "type": "git",

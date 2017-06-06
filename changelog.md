@@ -1,3 +1,6 @@
+## 1.2.7
+- Updated README.md to fix broken links
+
 ## 1.2.6
 - Added telemetry App Insights telemetry to extension code but modified the collection technique so that telemetry can be captured in a more efficient and inexpensive manner. 
 

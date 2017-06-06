@@ -12,7 +12,7 @@ To address the perceived lack of action in the UX during execution we've added a
 
 ### Azure Functions Tools dependency
 
-This release also takes a dependency on the [Azure Functions Tools](https://raw.githubusercontent.com/johnpapa/vscode-azure-functions-tools/master/images/json-schema-function.gif) from [John Papa](http://twitter.com/John_Papa) that make it easy for you to develop Azure Functions with some handy snippets. 
+This release also takes a dependency on the [Azure Functions Tools](https://marketplace.visualstudio.com/items?itemName=johnpapa.azure-functions-tools) from [John Papa](http://twitter.com/John_Papa) that make it easy for you to develop Azure Functions with some handy snippets. 
 
 ![Azure Functions](https://raw.githubusercontent.com/johnpapa/vscode-azure-functions-tools/master/images/json-schema-function.gif)
 
