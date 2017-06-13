@@ -127,6 +127,11 @@
         "command": "azure.batch-create",
         "title": "Create an Azure Batch Account",
         "category": "Azure"
+      },
+      {
+        "command": "azure.containerservice-create",
+        "title": "Create a Container Service",
+        "category": "Azure"
       }
     ]
   },
@@ -144,6 +149,7 @@
     "adal-node": "^0.1.17",
     "applicationinsights": "0.20.0",
     "azure-arm-batch": "0.3.0",
+    "azure-arm-compute": "^3.0.0-preview",
     "azure-arm-keyvault": "0.11.4",
     "azure-arm-resource": "1.5.1-preview",
     "azure-arm-storage": "^0.13.4-preview",

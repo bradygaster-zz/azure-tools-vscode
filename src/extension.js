@@ -27,6 +27,8 @@ var state = {
     batchAccountName: null,
     batchAccountRegions: [],
     newWebAppName: null,
+    ACSName:null,
+    ACSParameters: new Object(),
     regions: [],
     selectedRegion: 'West US',
     storageAccountList: [],

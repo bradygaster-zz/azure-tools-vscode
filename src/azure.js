@@ -5,6 +5,7 @@ var ResourceManagement = require('azure-arm-resource');
 var StorageManagement = require('azure-arm-storage');
 var BatchManagement = require('azure-arm-batch');
 var DocumentDd = require('documentdb');
+var ComputeManagement = require('azure-arm-compute')
 var SubscriptionClient = require('azure-arm-resource').SubscriptionClient;
 var fs = require('fs');
 var telemetry = require('./telemetry').createClient();
@@ -102,6 +103,49 @@ exports.createFunction = function createFunction(state) {
     return createAppService(state, 'functionapp');
 };
 
+exports.createNewAzureContainerService = function createNewAzureContainerService(state){
+    return new Promise(function(resolve, reject){
+        telemetry.recordEvent('Azure.CreateAzureContainerService.Begin', {
+            subscriptionId: state.selectedSubscriptionId
+        });
+
+        var computeClient = new ComputeManagement(state.credentials, state.selectedSubscriptionId);
+        computeteClient.resources.listByResourceGroup(state.resourceGroupName, function(err, result){
+            if(err != null){
+                    elemetry.recordEvent('Azure.CreateAzureContainerService.Error', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
+                    reject(err);
+                }
+                else{
+                    telemetry.recordEvent('Azure.CreateAzureContainerService.Success', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
+
+                    resolve(result);
+                }
+        });
+        /*var result = computeClient.containerServices.createOrUpdate(
+            state.resourceGroupName, 
+            state.ACSName,
+            state.ACSParameters,function(err, result){
+                if(err != null){
+                    elemetry.recordEvent('Azure.CreateAzureContainerService.Error', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
+                    reject(err);
+                }
+                else{
+                    telemetry.recordEvent('Azure.CreateAzureContainerService.Success', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
+
+                    resolve(result);
+                }
+        }); */
+    })
+};
+
 exports.createNewResourceGroup = function createNewResourceGroup(state) {
     return new Promise(function (resolve, reject) {
         telemetry.recordEvent('Azure.CreateResourceGroup.Begin', {
@@ -110,23 +154,24 @@ exports.createNewResourceGroup = function createNewResourceGroup(state) {
 
         var resourceClient = new ResourceManagement.ResourceManagementClient(state.credentials, state.selectedSubscriptionId);
         config.wireUpServiceClientTelemetry(resourceClient);
-        resourceClient.resourceGroups.createOrUpdate(state.resourceGroupToUse, {
-            location: state.selectedRegion // todo: enable user selection
-        }, function (err, result) {
-            if (err != null) {
-                telemetry.recordEvent('Azure.CreateResourceGroup.Error', {
-                    subscriptionId: state.selectedSubscriptionId
-                });
+        resourceClient.resourceGroups.createOrUpdate(
+            state.resourceGroupToUse, 
+            { location: state.selectedRegion }, // todo: enable user selection
+            function (err, result) {
+                if (err != null) {
+                    telemetry.recordEvent('Azure.CreateResourceGroup.Error', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
 
-                reject(err);
-            }
-            else {
-                telemetry.recordEvent('Azure.CreateResourceGroup.Success', {
-                    subscriptionId: state.selectedSubscriptionId
-                });
+                    reject(err);
+                }
+                else {
+                    telemetry.recordEvent('Azure.CreateResourceGroup.Success', {
+                        subscriptionId: state.selectedSubscriptionId
+                    });
 
-                resolve(result);
-            }
+                    resolve(result);
+                }
         });
     });
 };
@@ -349,6 +394,38 @@ exports.checkSiteNameAvailability = function checkSiteNameAvailability(state) {
                     subscriptionId: state.selectedSubscriptionId
                 });
                 resolve(result);
+            }
+        });
+    });
+};
+
+exports.checkACSNameAvailability = function checkACSNameAvailability(state) {
+    return new Promise(function (resolve, reject) {
+        telemetry.recordEvent('Azure.checkACSNameAvailability.Begin', {
+            subscriptionId: state.selectedSubscriptionId
+        });
+        var computeClient = new ComputeManagement(state.credentials, state.selectedSubscriptionId);
+        config.wireUpServiceClientTelemetry(computeClient);
+        var existingResources = computeClient.containerServices.listByResourceGroup(state.resourceGroupToUse, function (err, result) {
+            if (err != null) {
+                telemetry.recordEvent('Azure.checkACSNameAvailability.Error', {
+                    subscriptionId: state.selectedSubscriptionId
+                });
+                reject(err);
+            }
+            else {
+                if (result.filter(e => e.name === state.ACSName).length > 0) {
+                        telemetry.recordEvent('Azure.checkACSNameAvailability.Error', {
+                            subscriptionId: state.selectedSubscriptionId
+                        });
+                        resolve(false);
+                    }
+                    else {
+                        telemetry.recordEvent('Azure.checkACSNameAvailability.Success', {
+                            subscriptionId: state.selectedSubscriptionId
+                        });
+                        resolve(true);
+                    }
             }
         });
     });

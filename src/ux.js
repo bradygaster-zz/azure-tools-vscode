@@ -121,10 +121,9 @@ exports.getResourceGroups = function getResourceGroups(state) {
 // wrapper method for handling "new or existing resource group" workflows
 exports.showNewOrExistingResourceGroupMenu = function showNewOrExistingResourceGroupMenu(state) {
     return new Promise((resolve, reject) => {
-        vscode.window.showQuickPick([
-            constants.optionExistingRg,
-            constants.optionNewRg
-        ]).then(selected => {
+        vscode.window.showQuickPick(
+            [constants.optionExistingRg,constants.optionNewRg]
+        ).then(selected => {
             if (selected == constants.optionExistingRg) {
                 this.getResourceGroups(state)
                     .then(function () {
@@ -147,10 +146,51 @@ exports.showNewOrExistingResourceGroupMenu = function showNewOrExistingResourceG
                     state.resourceGroupToUse = newResourceGroupName;
                     azure.createNewResourceGroup(state).then(() => {
                         resolve();
-                    });
+                    })
+                   .catch(function(err){
+                       vscode.window.showErrorMessage(err);
+                   });
                 });
             }
         });
+    });
+};
+
+exports.createNewResourceGroupMenu = function createNewResourceGroupMenu(state){
+    return new Promise((resolve, reject) => {
+        vscode.window.showInputBox({
+            prompt: constants.promptNewRgName
+        }).then(function (newResourceGroupName) {
+            if (!newResourceGroupName || newResourceGroupName === "") reject();
+            state.resourceGroupToUse = newResourceGroupName;
+            azure.createNewResourceGroup(state).then(() => {
+                resolve();
+            })
+            .catch(function(err){
+                vscode.window.showErrorMessage(err);
+            });
+        });
+    })
+}
+
+exports.ifACSNameIsAvailable = function ifACSNameIsAvailable(state) {
+    var promptACSNameNotAvailable = 'The Azure Container Service name is not available.';
+
+    return new Promise(function (resolve, reject) {
+        outputChannel.appendLine(`Checking to see if '${state.ACSName}' is available.`);
+        azure
+            .checkACSNameAvailability(state)
+            .then(function (result) {
+                if (!result) {
+                    // name isn't available so we bail out'
+                    outputChannel.appendLine(promptACSNameNotAvailable);
+                    reject(promptACSNameNotAvailable);
+                }
+                else {
+                    outputChannel.appendLine(`${state.ACSName}  is available.`);
+                    resolve();
+                }
+            });
     });
 };
 
@@ -163,8 +203,7 @@ exports.ifWebSiteNameIsAvailable = function ifWebSiteNameIsAvailable(state) {
         azure
             .checkSiteNameAvailability(state)
             .then(function (result) {
-                if (!result.nameAvailable) {
-                    // name isn't available so we bail out'
+                if (!result) {
                     outputChannel.appendLine(promptWebSiteNameNotAvailable);
                     reject(promptWebSiteNameNotAvailable);
                 }
@@ -299,6 +338,27 @@ exports.createBatchAccount = function createBatchAccount(state, callback) {
         })
         .catch(function (err) {
             outputChannel.appendLine('Error during Batch account creation:');
+            outputChannel.appendLine(err);
+            vscode.window.showErrorMessage(err);
+        });
+}
+
+exports.createAzureContainerService = function createAzureContainerService(state, callback) {
+    var statusCreatingACS = 'Creating Azure Container Service {0}',
+        statusCreatedACS = 'Azure Container Service {0} created successfully';
+
+    vscode.window.setStatusBarMessage(statusCreatingACS.replace('{0}', state.ACSName));
+    outputChannel.appendLine(statusCreatingACS.replace('{0}', state.ACSName));
+    azure
+        .createNewAzureContainerService(state)
+        .then(function (result) {
+            outputChannel.appendLine(statusCreatedACS.replace('{0}', state.ACSName));
+            vscode.window.setStatusBarMessage(statusCreatedACS.replace('{0}', state.ACSName));
+            if (callback)
+                callback();
+        })
+        .catch(function (err) {
+            outputChannel.appendLine('Error during Azure Container Service creation:');
             outputChannel.appendLine(err);
             vscode.window.showErrorMessage(err);
         });
