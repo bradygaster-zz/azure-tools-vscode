@@ -6,7 +6,7 @@
   "publisher": "bradygaster",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bradygaster/azure-tools-vscode.git"
+    "url": "git+https://github.com/bradygaster/azure-tools-vscode.git"
   },
   "bugs": {
     "url": "https://github.com/bradygaster/azure-tools-vscode/issues"
@@ -44,6 +44,11 @@
           "type": "boolean",
           "default": true,
           "description": "To opt out of sending basic usage telemetry set this to false. Default is true."
+        },
+        "azure.startAutomatically": {
+          "type": "boolean",
+          "default": true,
+          "description": "Starts Azure Tools integrated console features automatically set this to true. Default is true."
         }
       }
     },
@@ -134,7 +139,7 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "devDependencies": {
-    "vscode": "^0.11.0"
+    "vscode": "^0.11.18"
   },
   "extensionDependencies": [
     "msazurermtools.azurerm-vscode-tools",
@@ -159,5 +164,11 @@
     "ms-rest-azure": "1.15.2",
     "octonode": "^0.7.7",
     "open": "0.0.5"
-  }
+  },
+  "homepage": "https://github.com/bradygaster/azure-tools-vscode#readme",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
 }

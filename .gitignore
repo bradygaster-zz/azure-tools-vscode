@@ -43,3 +43,5 @@ jspm_packages
 
 # git merge/diff files
 *.orig
+
+package-lock.json
