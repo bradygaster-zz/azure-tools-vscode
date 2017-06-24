@@ -21,9 +21,19 @@ exports.isTelemetryEnabled = function isTelemetryEnabled() {
     return true;
 };
 
+exports.isStartAutomatically = function isStartAutomatically() {
+    var f = vscode.workspace.getConfiguration('azure');
+    if (f != null)
+        if (f.startAutomatically != null)
+	   if (typeof (f.startAutomatically) === "boolean")
+                return f.startAutomatically
+
+    return true;
+};
+
 exports.wireUpServiceClientTelemetry = (serviceClient) => {
     var package = require('./../package.json');
-    var clientVersion = require('util').format('%s/%s', 
+    var clientVersion = require('util').format('%s/%s',
         package.name,
         package.version);
     serviceClient.addUserAgentInfo(clientVersion);
