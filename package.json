@@ -44,6 +44,11 @@
           "type": "boolean",
           "default": true,
           "description": "To opt out of sending basic usage telemetry set this to false. Default is true."
+        },
+        "azure.showToolsWindowOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "To prevent the Azure Tools panel showing on startup set this to false. Default is true"
         }
       }
     },

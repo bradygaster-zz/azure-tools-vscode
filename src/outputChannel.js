@@ -1,4 +1,6 @@
 var vscode = require('vscode');
+var config = require('./config');
+
 
 var channel = null;
 
@@ -6,7 +8,9 @@ function newChannel() {
     console.log('new channel');
 
     channel = vscode.window.createOutputChannel('Azure Tools');
-    channel.show();
+    if (config.showToolsWindowOnStartup()) {
+        channel.show();
+    }
     return channel;
 }
 
