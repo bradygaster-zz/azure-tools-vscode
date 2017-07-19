@@ -9,7 +9,10 @@ exports.createCommand = function createCommand(state) {
     vscode.commands.registerCommand('azure.template-export', function () {
         ux.isLoggedIn(state)
             .then(() => {
-                ux.exportTemplate(state);
+                ux.isFolderOpen()
+                    .then(() => {
+                        ux.exportTemplate(state);
+                    });
             });
     });
 };

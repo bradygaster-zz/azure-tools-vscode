@@ -65,6 +65,18 @@ exports.isLoggedIn = function isLoggedIn(state) {
         }
     });
 };
+exports.isFolderOpen = function isFolderOpen() {
+    var promptNoRootFolder = 'You do not currently have a folder open in the workspace. Please open a folder first.';
+
+    return new Promise((resolve, reject) => {
+        if (vscode.workspace.rootPath !== undefined) {
+            resolve();
+        }
+        else {
+            vscode.window.showErrorMessage(promptNoRootFolder);
+        }
+    });
+}
 
 // deploys arm template
 exports.deployTemplate = function deployTemplate(state) {
