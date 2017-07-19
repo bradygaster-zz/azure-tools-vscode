@@ -61,7 +61,7 @@ exports.createCommand = function createCommand(state) {
             state.credentials = credentials;
             state.subscriptions = subscriptions;
 
-            if (state.subscriptions.length > 0) {
+            if (state.subscriptions && state.subscriptions.length > 0) {
                 ux.showSubscriptionStatusBarButton();
                 ux.showSelectRegionStatusBarButton();
 

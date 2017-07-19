@@ -7,13 +7,16 @@ class Menu {
     }
 
     showButton(command, text, tooltip) {
-        var customStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
-        customStatusBarItem.color = 'white';
-        customStatusBarItem.command = command;
-        customStatusBarItem.text = text;
-        customStatusBarItem.tooltip = tooltip;
-        customStatusBarItem.show();
-        this.buttons.push(customStatusBarItem);
+        var filt = this.buttons.filter(x => x.text == text);
+        if (filt.length == 0) {
+            var customStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
+            customStatusBarItem.color = 'white';
+            customStatusBarItem.command = command;
+            customStatusBarItem.text = text;
+            customStatusBarItem.tooltip = tooltip;
+            customStatusBarItem.show();
+            this.buttons.push(customStatusBarItem);
+        }
     };
 
     updateButtonTooltip(command, tooltip) {
