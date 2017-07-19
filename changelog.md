@@ -1,3 +1,7 @@
+## 1.2.8
+- Add `azure.showToolsWindowOnStartup` setting. If you [update your settings](https://code.visualstudio.com/docs/getstarted/settings) to set this to false then the Azure Tools window won't automatically be shown when Visual Studio Code starts
+- Fix an issue that caused an unhandled error when attempting to export a Resource Manager template if you don't have a folder open in Visual Studio Code.
+
 ## 1.2.7
 - Updated README.md to fix broken links
 
