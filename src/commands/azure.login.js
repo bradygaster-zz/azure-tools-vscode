@@ -65,6 +65,9 @@ exports.createCommand = function createCommand(state) {
                 ux.showSubscriptionStatusBarButton();
                 ux.showSelectRegionStatusBarButton();
 
+                state.subscriptionIds = [];
+                state.subscriptionNames = [];
+
                 for (var i = 0; i < state.subscriptions.length; i++) {
                     state.subscriptionIds.push(state.subscriptions[i].id);
                     state.subscriptionNames.push(state.subscriptions[i].name + ' (' + state.subscriptions[i].id + ')');
