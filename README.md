@@ -166,7 +166,13 @@ Or to a resource group's portal page:
 
 ## Extension Settings
 
-`azure.tenantId` : The GUID specifier for the tenant you intend on authenticating against. This is *required* if you're attempting to log in using a Microsoft Account like @outlook.com, @hotmail.com, or @live.com. 
+
+|Setting|Description|
+|-|-|
+|`azure.tenantId`| The GUID specifier for the tenant you intend on authenticating against. This is *required* if you're attempting to log in using a Microsoft Account like @outlook.com, @hotmail.com, or @live.com. |
+|`azure.enableTelemetry`|To opt out of sending basic usage telemetry set this to false. Default is true.|
+|`azure.showToolsWindowOnStartup`|To prevent the Azure Tools panel showing on startup set this to false. Default is true|
+
 
 ## Requirements
 
