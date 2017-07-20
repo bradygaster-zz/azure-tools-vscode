@@ -2,6 +2,12 @@
 
 This extension for [Visual Studio Code](http://code.visualstudio.com) gives Azure developers some convenient commands for creating or accessing resources directly in the editor. 
 
+## New in v 1.2.9
+
+By default the Azure Tools output window is opened on startup. If you prefer that it isn't opened on startup then you can change the `azure.showToolsWindowOnStartup` setting to false:
+
+![Disable tools window on startup](media/docs/azure.showToolsWindowOnStartup.gif)
+
 ## New in v1.2.3
 
 ### Output window messages
